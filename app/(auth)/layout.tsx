@@ -1,4 +1,5 @@
 
+import Footer from '@/components/Footer';
 import React, { ReactNode } from 'react';
 
 
@@ -12,6 +13,7 @@ const layout = async ({ children }: { children: ReactNode}) => {
             {children}
 
         </div>
+        <Footer/>
         
 
     </div>

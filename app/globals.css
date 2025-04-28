@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@plugin "daisyui";
+
 
 :root {
   --background: #ffffff;
@@ -23,4 +25,20 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+
+.mytable table tbody tr:nth-child(odd) {
+  width: 100%;
+  background-color: #0000000D;
+  border-top: 1px solid #0000001A;
+  border-bottom: 1px solid #0000001A;
+}
+
+.btn:where(input:checked:not(.filter .btn)) {
+  background-color: #2F5318;
+  border: 1px solid #2F5318;
+  font-weight: 700;
+  color: white !important;  
+  align-items: center;
 }

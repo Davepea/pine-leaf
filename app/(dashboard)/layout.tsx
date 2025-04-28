@@ -1,20 +1,22 @@
 
+import Sidebar from '@/components/dashboard-components/Sidebar';
 import React, { ReactNode } from 'react';
-import Navbar from '@/components/Navbar';
-import Footer from '@/components/Footer';
+// import Navbar from '@/components/Navbar';
+// import Footer from '@/components/Footer';
 
 
-const layout = async ({ children }: { children: ReactNode}) => {
+const layout = async ({ children }: { children: ReactNode }) => {
 
   return <main className='root-container'>
-    <div className=' mx-auto max-w-7xl'>
+    <div className='w-full flex'>
 
-        <Navbar/>
-        <div className=''>
-            {children}
+      {/* <Navbar/> */}
+      <Sidebar />
+      <div className='w-full bg-[#E6FFF6F6]'>
+        {children}
 
-        </div>
-        <Footer/>
+      </div>
+      {/* <Footer/> */}
 
     </div>
   </main>

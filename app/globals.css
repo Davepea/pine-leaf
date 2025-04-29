@@ -1,5 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@plugin "daisyui";
+
 
 @custom-variant dark (&:is(.dark *));
 
@@ -266,4 +268,20 @@ h1,h2,h3,h4,h5,h6{
   .small-header{
     @apply text-[20px] font-roboto font-semibold text-[#000000CC]
   }
+}
+
+
+.mytable table tbody tr:nth-child(odd) {
+  width: 100%;
+  background-color: #0000000D;
+  border-top: 1px solid #0000001A;
+  border-bottom: 1px solid #0000001A;
+}
+
+.btn:where(input:checked:not(.filter .btn)) {
+  background-color: #2F5318;
+  border: 1px solid #2F5318;
+  font-weight: 700;
+  color: white !important;  
+  align-items: center;
 }

@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#2F5318] px-[] text-white px-6 py-10">
+    <footer className="bg-[#2F5318] px-[] text-white px-[6.2vw] py-10">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 sm:text-center gap-8 md:text-start text-center">
         {/* Left Section */}
         <div>
@@ -29,7 +29,7 @@ export default function Footer() {
             <input
               type="email"
               placeholder="Email Address"
-              className="p-2 flex-1 rounded-l-md text-black"
+              className="p-2 flex-1 !h-[42px]  rounded-l-md text-black"
             />
             <button className="bg-white text-green-900 font-bold px-4 rounded-r-md">
               Subscribe

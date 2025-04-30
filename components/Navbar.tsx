@@ -1,32 +1,172 @@
-'use client';
+"use client";
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
-import Link from 'next/link';
-import Image from 'next/image';
-
-export default function Navbar() {
-  return (
-    <nav className="flex items-center justify-between px-6 py-4  absolute right-0 left-0 md:px-29 z-50">
-      {/* Logo */}
-      <div className="flex items-center gap-2">
-        <Image src="/img/logo.png" alt="Logo" width={50} height={50} />
-      </div>
-
-      {/* Navigation Links */}
-      <div className="flex-1 flex justify-center">
-        <Link href="/" className="text-green-900 font-bold hover:underline">
-          Home
-        </Link>
-      </div>
-
-      {/* Register/Login */}
-      <div className="flex items-center gap-2 bg-[#000000CC]">
-        <Link href="/login" className="text-white font-medium">
-          Register/Login
-        </Link>
-        <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5.121 17.804A10.97 10.97 0 0112 15c2.485 0 4.779.815 6.879 2.17M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-      </div>
-    </nav>
-  );
+interface NavItem {
+  name: string;
+  href: string;
 }
+
+const Navbar: React.FC = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  const navItems: NavItem[] = [
+    { name: "Home", href: "/" },
+    { name: "About Us", href: "/about" },
+    { name: "Service", href: "/service" },
+    { name: "Property", href: "/property" },
+    { name: "Gallery", href: "/gallery" },
+    { name: "Contact Us", href: "/contact-us" },
+    { name: "Investment Plan", href: "/pprm" },
+  ];
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    // Initial check
+    handleResize();
+
+    // Add event listener
+    window.addEventListener("resize", handleResize);
+
+    // Clean up
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return (
+    <>
+    <div className="bg-[#E6FFF6] px-[6.1458vw] ">
+      <nav className="w-full">
+        <div className="max-w-7xl mx-auto  sm:px-6 ">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <div className="flex-shrink-0 flex items-center">
+              <Link href="/">
+                <Image
+                  src="/img/logo.png" 
+                  alt="Eagle Ventures Logo"
+                  width={40}
+                  height={40}
+                  className="h-10 w-auto"
+                />
+              </Link>
+            </div>
+
+            <div className="hidden md:flex md:items-center md:space-x-6">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-800 hover:text-green-600 px-3 py-2 text-sm font-medium transition duration-150 ease-in-out"
+                >
+                  {item.name}
+                </Link>
+              ))}
+              <Link 
+                href="/login" 
+                className="ml-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex items-center"
+              >
+                Register/Login
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </Link>
+            </div>
+
+          
+            <div className="md:hidden flex items-center">
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-green-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500"
+                aria-expanded="false"
+              >
+                <span className="sr-only">Open main menu</span>
+                {!isOpen ? (
+                  <svg
+                    className="block h-6 w-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M4 6h16M4 12h16M4 18h16"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="block h-6 w-6"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+
+    
+        {isOpen && (
+          <div className="md:hidden ">
+            <div className="flex justify-center pt-4 pb-3">
+              <Link href="/">
+                {/* <Image
+                  src="/img/logo.png"
+                  alt="Pine-leaf Logo"
+                  width={40}
+                  height={40}
+                  className="h-10 w-auto"
+                /> */}
+              </Link>
+            </div>
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {navItems.map((item) => (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-800 hover:text-green-600 block px-3 py-2 text-base font-medium text-center"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item.name}
+                </Link>
+              ))}
+              <div className="flex justify-center mt-4">
+                <Link
+                  href="/login"
+                  className="w-3/4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white  hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex justify-center items-center"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Register/Login
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+        )}
+      </nav>
+    </div>
+    </>
+  );
+};
+
+export default Navbar;

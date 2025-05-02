@@ -43,7 +43,7 @@ const InvestmentTable: React.FC = () => {
 
   return (
     <div className="min-h-screen   flex flex-col items-center justify-center">
-      <div className="max-w-4xl w-full">
+      <div className=" w-full">
        
         
         
@@ -52,39 +52,64 @@ const InvestmentTable: React.FC = () => {
           Our Investment Tiers
         </h2>
 
-        <div className="grid grid-cols-3 gap-x-4  mb-10">
-          {/* Table Headers */}
-          <div className="border border-[#2F5318] p-4 rounded-t-lg font-medium text-gray-800 text-center">
-            Investment
+        <div className="grid md:grid-cols-3 grid-cols-1 gap-8 w-full mb-10 border-b ">
+         
+          <div className=' border border-[#2F5318] rounded-lg '>
+              <div className=" p-4 rounded-t-lg font-medium  text-gray-800 text-center">
+                  Investment
+                </div>
+
+                {investmentTiers.map((tier, index) => (
+                <React.Fragment key={index}>
+                  
+                  <div className=" p-4 border border-[#2F5318] border-r-0 border-l-0 border-b-0 text-center">
+                    {tier.investment}
+                  </div>
+                  
+                </React.Fragment>
+            ))}
           </div>
-          <div className="border border-[#2F5318] p-4 rounded-t-lg font-medium text-gray-800 text-center">
-            ROI in 6 months
-          </div>
-          <div className="border border-[#2F5318] p-4 rounded-t-lg font-medium text-gray-800 text-center">
-            ROI in 12 months
+          <div className=' border border-[#2F5318] rounded-lg '>
+              <div className=" p-4 rounded-t-lg font-medium  text-gray-800 text-center">
+              ROI in 6 months
+                </div>
+
+                {investmentTiers.map((tier, index) => (
+                <React.Fragment key={index}>
+                  
+                  <div className=" p-4 border border-[#2F5318] border-r-0 border-l-0 border-b-0 text-center">
+                    {tier.roiSixMonths}
+                  </div>
+                  
+                </React.Fragment>
+            ))}
           </div>
           
-          {/* Table Data */}
-          {investmentTiers.map((tier, index) => (
-            <React.Fragment key={index}>
-              <div className=" p-4 border border-[#2F5318] text-center">
-                {tier.investment}
-              </div>
-              <div className=" p-4 border border-[#2F5318] text-center">
-                {tier.roiSixMonths}
-              </div>
-              <div className=" p-4 border border-[#2F5318] text-center">
-                {tier.roiTwelveMonths}
-              </div>
-            </React.Fragment>
-          ))}
+          <div className=' border border-[#2F5318] rounded-lg '>
+              <div className="p-4 rounded-t-lg font-medium text-gray-800 text-center">
+              ROI in 12 months
+                </div>
+
+                {investmentTiers.map((tier, index) => (
+                <React.Fragment key={index}>
+                  
+                  <div className="  p-4 border border-[#2F5318] border-r-0 border-l-0 border-b-0 text-center">
+                    {tier.roiTwelveMonths}
+                  </div>
+                  
+                </React.Fragment>
+            ))}
+          </div>
+          
+
+          
         </div>
         
         <div className="flex flex-col md:flex-row justify-center gap-4">
-          <button className="bg-white text-[#2F5318] border-2 border-[#2F5318] hover:bg-green-100 font-semibold py-3 px-6 rounded-md transition-colors duration-300">
+          <button className=" text-[#2F5318] border border-[#2F5318] hover:bg-green-100 font-semibold py-3 px-6 rounded-md transition-colors duration-300">
             Request Consultation
           </button>
-          <button className="bg-[#2F5318] text-white hover:bg-[#2F5318] font-semibold py-3 px-6 rounded-md flex items-center justify-center gap-2 transition-colors duration-300">
+          <button className="bg-[#2F5318] text-white hover:bg-[#2F5318] font-semibold py-3 px-8 rounded-md flex items-center justify-center gap-2 transition-colors duration-300">
             Download Investment Brochure
             <DownloadIcon size={20} />
           </button>

@@ -14,13 +14,13 @@ export default function RegistrationForm() {
       <div>
         <div className="flex justify-center space-x-6 mb-6 md:text-[32px]  text-lg font-semibold">
           <button
-            className={cn(role === "realtor" ? "text-green-700 border-b-2 border-green-700" : "text-gray-500")}
+            className={cn(role === "realtor" ? "text-[#2F5318] border-b-2 border-[#2F5318]" : "text-gray-500")}
             onClick={() => setRole("realtor")}
           >
             Register as a Realtor
           </button>
           <button
-            className={cn(role === "investor" ? "text-green-700 border-b-2 border-green-700" : "text-gray-500")}
+            className={cn(role === "investor" ? "text-[#2F5318] border-b-2 border-[#2F5318]" : "text-gray-500")}
             onClick={() => setRole("investor")}
           >
             Register as an Investor
@@ -71,7 +71,7 @@ export default function RegistrationForm() {
               I agree to the terms & Conditions
             </label>
           </div>
-          <Button type="submit" className="col-span-2 bg-green-700 hover:bg-green-800">
+          <Button type="submit" className="col-span-2 bg-[#2F5318] hover:bg-green-800">
             Register
           </Button>
         </form>
@@ -111,7 +111,7 @@ export default function RegistrationForm() {
               I agree to the terms & Conditions
             </label>
           </div>
-          <Button type="submit" className="col-span-2 bg-green-700 hover:bg-green-800">
+          <Button type="submit" className="col-span-2 bg-[#2F5318] hover:bg-green-800">
             Register
           </Button>
         </form>

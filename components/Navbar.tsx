@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-    <div className="bg-[#E6FFF6] px-[6.1458vw] ">
+    <div className="md:bg-[#E6FFF6] px-[6.1458vw] md:relative absolute z-50 right-0 left-0 md:top-0 top-5 ">
       <nav className="w-full">
         <div className="max-w-7xl mx-auto  sm:px-6 ">
           <div className="flex justify-between items-center h-16">
@@ -68,10 +68,10 @@ const Navbar: React.FC = () => {
               ))}
               <Link 
                 href="/login" 
-                className="ml-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-gray-800 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex items-center"
+                className="ml-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#000000CC]  hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex items-center"
               >
                 Register/Login
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </Link>
@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
             <div className="md:hidden flex items-center">
               <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-green-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500"
+                className="inline-flex items-center justify-center p-2 rounded-md bg-white text-gray-700 hover:text-green-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500"
                 aria-expanded="false"
               >
                 <span className="sr-only">Open main menu</span>
@@ -137,7 +137,7 @@ const Navbar: React.FC = () => {
                 /> */}
               </Link>
             </div>
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <div className="px-2 pt-2 pb-3 space-y-1 !z-50 relative bg-white sm:px-3">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
@@ -151,11 +151,11 @@ const Navbar: React.FC = () => {
               <div className="flex justify-center mt-4">
                 <Link
                   href="/login"
-                  className="w-3/4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white  hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex justify-center items-center"
+                  className="w-3/4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white  bg-[#000000CC] hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex justify-center items-center"
                   onClick={() => setIsOpen(false)}
                 >
                   Register/Login
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </Link>

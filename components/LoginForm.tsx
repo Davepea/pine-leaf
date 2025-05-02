@@ -1,70 +1,93 @@
 "use client"
-import Link from "next/link";
-import { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import React, { useState } from 'react';
+import Link from 'next/link';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
-export default function LoginForm() {
+interface LoginFormProps {
+  onSubmit: (emailOrPhone: string, password: string) => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [emailOrPhone, setEmailOrPhone] = useState('');
+  const [password, setPassword] = useState('');
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    onSubmit(emailOrPhone, password);
+  };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col items-center px-4 pt-20 pb-10 gap-[60px]">
-      <div className="text-center flex flex-col gap-[1.1vw] p-[6.9vw]">
-        <div className="flex items-center justify-center">
-          <h1 className="text-[#2F5318] font-lato border-b-2 border-[#2F5318] md:text-[32px] pb-[1vw]">
-          Login as a Realtor
-              </h1>
-        </div>
-        <p className=" text-[14px] font-roboto"> Log in to access your dashboard, track your progress, and stay connected with Pineleaf.</p>
-      </div>
-
-      <form className="bg-white w-full max-w-[996px] md:py-20 md:px-[69] rounded-lg shadow-md space-y-6 border-[1px] border-[#4D794F]">
+    <div className=" mx-auto bg-white rounded-lg shadow-md md:p-16 p-10 relative max-w-[996px]" style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)' }}>
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block mb-1 font-medium">Email / Phone number</label>
+          <label htmlFor="email-phone" className="block text-gray-700 mb-2">
+            Email / Phone number
+          </label>
           <input
+            id="email-phone"
             type="text"
-            placeholder="Enter your email or phone"
-            className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-green-700"
+            value={emailOrPhone}
+            onChange={(e) => setEmailOrPhone(e.target.value)}
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2F5318]"
             required
           />
         </div>
 
         <div>
-          <label className="block mb-1 font-medium">Password</label>
+          <label htmlFor="password" className="block text-gray-700 mb-2">
+            Password
+          </label>
           <div className="relative">
             <input
+              id="password"
               type={showPassword ? "text" : "password"}
-              placeholder="Enter your password"
-              className="w-full border border-gray-300 rounded-md p-2 pr-10 focus:outline-none focus:ring-2 focus:ring-[#2F5318]"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#2F5318]"
               required
             />
-            <span
-              className="absolute right-3 top-3 text-gray-500 cursor-pointer"
-              onClick={() => setShowPassword(!showPassword)}
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
             >
-              {showPassword ? <FaEyeSlash size={18} /> : <FaEye size={18} />}
-            </span>
+              {showPassword ? <FaEyeSlash /> : <FaEye />}
+            </button>
           </div>
-          <div className="text-sm text-right mt-1">
-            <a href="#" className="text-green-700 hover:underline">
-              Forgot Password?
-            </a>
+          <div className="flex justify-end mt-2">
+            <Link href="/forgot-password">
+              <span className="text-sm text-[#2F5318] hover:underline cursor-pointer">
+                Forgot Password?
+              </span>
+            </Link>
           </div>
         </div>
 
         <button
           type="submit"
-          className="w-full bg-[#2F5318] hover:bg-green-800 text-white font-semibold py-2 rounded-md"
+          className="w-full py-3 bg-[#2F5318] text-white font-medium rounded-md hover:bg-[#2F5318] transition duration-300"
         >
           Login
         </button>
+      </form>
 
-        <p className="text-center text-sm">
-          You&apos;re not a member?{" "}
-          <Link href="/register" className="text-[#2F5318] font-medium hover:underline">
-            Register
+      <div className="mt-6 ">
+        <p className="text-gray-600">
+          You&apos;re not a member?{' '}
+          <Link href="/register">
+            <span className="text-[#2F5318] font-medium hover:underline cursor-pointer">
+              Register
+            </span>
           </Link>
         </p>
-      </form>
+      </div>
     </div>
   );
-}
+};
+
+export default LoginForm;

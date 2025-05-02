@@ -5,14 +5,15 @@ import { SearchIcon } from 'lucide-react'
 const SearchLocation = () => {
   return (
     <>
-    <div className='flex bg-white max-w-[647px] items-center p-[12px] rounded-xl '>
-        <div className='grid grid-cols-5 size-14 grow items-center'>
-          <div className=' col-span-4'>
-          <input type="search" placeholder='Enter Location or City'  className='w-full'/>
+    <div className=' bg-white max-w-[647px]  p-[12px] rounded-xl h-full overflow-hidden'>
+      
+        <div className='grid grid-cols-1 md:grid-cols-5 gap-4 items-center'>
+          <div className=' md:col-span-3'>
+          <input type="search" placeholder='Enter Location or City'  className='w-full md:border-0 md:border-r-2 border-b-2  border-[#0000002B] !h-[44px]'/>
 
           </div>
-          <div className='col-span-1'>
-              <div>
+          <div className='md:col-span-2 flex gap-4 items-center justify-between'>
+              <div className=' flex md:flex-col items-center gap-2 '>
                   <span>Budget Range</span>
                   <div className='flex items-center'>
                     <small>
@@ -24,16 +25,15 @@ const SearchLocation = () => {
                  
                   </div>
               </div>
+              <div className='flex justify-center items-center h-full'>
+                <Button  className='text-white bg-[#2F5318]  h-full w-full md:!px-[20px] md:py-[15px]'>
+                  <SearchIcon/>
+                </Button>
+              </div>
           </div>
-          </div>
-          <div >
-
         </div>
-        <div className='size-14 flex-none flex justify-center items-center'>
-          <Button  className='text-white  h-full w-full'>
-            <SearchIcon/>
-          </Button>
-        </div>
+    
+       
     </div>
     </>
   )

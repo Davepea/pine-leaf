@@ -1,5 +1,6 @@
 'use client'; 
 import React from 'react';
+import Image from 'next/image';
 import EstateCard from '@/components/EstateCard';
 
 const mockEstates = [
@@ -7,6 +8,7 @@ const mockEstates = [
     location: 'Umuezeawala Awka South',
     title: 'Platinum Estate Awka',
     price: 3000000,
+    srcImage: "/img/property1.jpg",
     size: '464SQM',
     dryLand: '100% Dry Land',
     instantLocation: 'Instant Location',
@@ -16,6 +18,7 @@ const mockEstates = [
     location: 'Direct Opp Ebube Muonso School',
     title: 'Igbarian Phase 1',
     price: 8000000,
+    srcImage: "/img/property2.jpg",
     size: '464SQM',
     dryLand: '100% Dry Land',
     instantLocation: 'Instant Location',
@@ -25,6 +28,37 @@ const mockEstates = [
     location: 'OPP WhiteTech Aluminium Company Asaba',
     title: 'Luxury City Asaba',
     price: 5000000,
+    srcImage:"/img/property3.jpg",
+    size: '464SQM',
+    dryLand: '100% Dry Land',
+    instantLocation: 'Instant Location',
+    type: 'Buy & Build',
+  },
+  {
+    location: 'Umuezeawala Awka South',
+    title: 'Platinum Estate Awka',
+    price: 3000000,
+    srcImage: "/img/property1.jpg",
+    size: '464SQM',
+    dryLand: '100% Dry Land',
+    instantLocation: 'Instant Location',
+    type: 'Buy & Build',
+  },
+  {
+    location: 'Direct Opp Ebube Muonso School',
+    title: 'Igbarian Phase 1',
+    price: 8000000,
+    srcImage: "/img/property2.jpg",
+    size: '464SQM',
+    dryLand: '100% Dry Land',
+    instantLocation: 'Instant Location',
+    type: 'Buy & Build',
+  },
+  {
+    location: 'OPP WhiteTech Aluminium Company Asaba',
+    title: 'Luxury City Asaba',
+    price: 5000000,
+    srcImage:"/img/property3.jpg",
     size: '464SQM',
     dryLand: '100% Dry Land',
     instantLocation: 'Instant Location',
@@ -37,12 +71,29 @@ export default function PropertiesPage() {
   return (
     <section className="bg-white">
 
-      <div className="relative w-full h-96 bg-cover bg-center" style={{ backgroundImage: "url('/your-hero-image.jpg')" }}>
-        <div className="absolute inset-0 bg-black bg-opacity-40 flex flex-col justify-center items-center text-white text-center">
-          <h1 className="large-header">Properties</h1>
-          <p className="small-texts mt-2">Explore our available properties</p>
-        </div>
-      </div>
+
+
+       {/* Hero Section */}
+            <div className="relative h-64">
+              <div className="absolute inset-0">
+                <Image
+                  src="/img/properties-hero.png"
+                  alt="Model house"
+                  layout="fill"
+                  objectFit="cover"
+                  objectPosition="center"
+                  priority
+                />
+                <div className="absolute inset-0 bg-opacity-50"></div>
+              </div>
+              <div className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center">
+                <h1 className="text-4xl font-bold text-white sm:text-5xl">
+                Properties
+                </h1>
+                 <p className="small-texts mt-2 !text-white">Explore our available properties</p>
+
+              </div>
+            </div>
 
 
      <div className='px-[6.1458vw] pb-[6.2vw]'>
@@ -69,7 +120,7 @@ export default function PropertiesPage() {
       
       <div className="flex justify-center items-center space-x-2 py-8">
         <button className="text-sm text-gray-700">&lt;</button>
-        <button className="bg-green-700 text-white px-3 py-1 rounded">1</button>
+        <button className="bg-[#2F5318] text-white px-3 py-1 rounded">1</button>
         <button className="text-sm text-gray-700">2</button>
         <button className="text-sm text-gray-700">3</button>
         <button className="text-sm text-gray-700">...</button>

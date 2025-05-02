@@ -51,7 +51,7 @@ const ContactUs: NextPage = () => {
   
       <div className="relative h-64 md:h-80 bg-gray-300">
         <Image 
-          src="/hero-contact.jpg" 
+          src="/img/service.png" 
           alt="Contact Us Hero" 
           layout="fill"
           objectFit="cover"
@@ -60,7 +60,7 @@ const ContactUs: NextPage = () => {
         <div className="absolute inset-0 bg-black opacity-40"></div>
         <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center">
           <h1 className="large-header !text-white">Contact Us</h1>
-          <p className="text-white text-lg md:text-xl text-center max-w-2xl">
+          <p className="text-white md:text-[18px] text-[14px] md:text-xl text-center max-w-2xl">
             We&apos;re here to answer your questions, guide you through property investments, or simply have a chat.
           </p>
         </div>
@@ -79,17 +79,17 @@ const ContactUs: NextPage = () => {
               
               <div className="space-y-4">
                 <div className="flex items-start">
-                  <FaPhone className="text-green-700 mt-1 mr-3" />
+                  <FaPhone className="text-[#2F5318] mt-1 mr-3" />
                   <p className="text-gray-700">+234-4001-2001-022</p>
                 </div>
                 
                 <div className="flex items-start">
-                  <FaEnvelope className="text-green-700 mt-1 mr-3" />
+                  <FaEnvelope className="text-[#2F5318] mt-1 mr-3" />
                   <p className="text-gray-700">info@pineleafestates.com</p>
                 </div>
                 
                 <div className="flex items-start">
-                  <FaMapMarkerAlt className="text-green-700 mt-1 mr-3" />
+                  <FaMapMarkerAlt className="text-[#2F5318] mt-1 mr-3" />
                   <div>
                     <p className="text-gray-700">Suit F17 Garbs Mega Plaza</p>
                     <p className="text-gray-700">39 Awka Road Onitsha,</p>
@@ -108,7 +108,7 @@ const ContactUs: NextPage = () => {
                       type="text"
                       name="firstName"
                       placeholder="Firstname"
-                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#2F5318] focus:border-transparent"
                       required
                       value={formData.firstName}
                       onChange={handleChange}
@@ -119,7 +119,7 @@ const ContactUs: NextPage = () => {
                       type="text"
                       name="lastName"
                       placeholder="Lastname"
-                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#2F5318] focus:border-transparent"
                       required
                       value={formData.lastName}
                       onChange={handleChange}
@@ -133,7 +133,7 @@ const ContactUs: NextPage = () => {
                       type="tel"
                       name="phoneNumber"
                       placeholder="Phone Number"
-                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#2F5318] focus:border-transparent"
                       required
                       value={formData.phoneNumber}
                       onChange={handleChange}
@@ -144,7 +144,7 @@ const ContactUs: NextPage = () => {
                       type="email"
                       name="email"
                       placeholder="Email Address"
-                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
+                      className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#2F5318] focus:border-transparent"
                       required
                       value={formData.email}
                       onChange={handleChange}
@@ -156,7 +156,7 @@ const ContactUs: NextPage = () => {
                   <textarea
                     name="subject"
                     placeholder="&quot;I'm contacting you about&quot; (e.g. Property Purchase, Investment Plan, Realtor Program, General Inquiry...)"
-                    className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent h-32"
+                    className="w-full px-4 py-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[#2F5318] focus:border-transparent h-32"
                     required
                     value={formData.subject}
                     onChange={handleChange}
@@ -165,7 +165,7 @@ const ContactUs: NextPage = () => {
                 
                 <button
                   type="submit"
-                  className="bg-green-800 text-white font-medium py-3 px-6 rounded hover:bg-green-700 transition"
+                  className="bg-[#2F5318] text-white font-medium py-3 px-6 rounded hover:bg-[#2F5318] transition"
                 >
                   Submit
                 </button>

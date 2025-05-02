@@ -1,89 +1,105 @@
 import Image from 'next/image';
 import React from 'react';
 
-const team = [
-  {
-    name: 'Bishop Dr. Onyekpa Nzekwesi',
-    role: 'CEO PINELEAF ESTATE',
-    img: '/images/team/ceo.jpg',
-    bio: `With a bold vision to simplify land ownership and empower families across Nigeria, Bishop Dr. Onyekpa Nzekwesi founded Pineleaf Estates to deliver more than just real estate. He built a brand rooted in trust, transparency, and transformation.`
-  },
-];
-
 const directors = [
   {
     name: 'Director Bob Francis Nzekwesi',
     role: 'COO PINELEAF ESTATE',
-    img: '/images/team/bob.jpg',
+    img: '/img/team/bob.png',
   },
   {
     name: 'Director Tochukwu Nzekwesi',
     role: 'CFO PINELEAF ESTATE',
-    img: '/images/team/tochukwu.jpg',
+    img: '/img/team/tochukwu.jpg',
   },
 ];
 
 const management = [
-  { name: 'Mrs Chinasa Gimba', role: 'General Manager', img: '/images/team/chinasa.jpg' },
-  { name: 'Dr. Micheal Emeka Ugwu', role: 'Chief Marketing Officer', img: '/images/team/michael.jpg' },
-  { name: 'Mr Celestine Okonkwo', role: 'Marketing Secretary', img: '/images/team/celestine.jpg' },
-  { name: 'Mrs Sheila Arinluka Ngene', role: 'Marketing Manager', img: '/images/team/sheila.jpg' },
-  { name: 'Mr Ugochukwu Njoku', role: 'General Site Manager', img: '/images/team/ugochukwu.jpg' },
-  { name: 'Mr Ifeanyi Ajira', role: 'Admin/Financial Officer', img: '/images/team/ifeanyi.jpg' },
+  { name: 'Mrs Chinasa Gimba', role: 'General Manager', img: '/img/team/chinasa.jpg' },
+  { name: 'Dr. Micheal Emeka Ugwu', role: 'Chief Marketing Officer', img: '/img/team/micheal.jpg' },
+  { name: 'Mr Celestine Okonkwo', role: 'Marketing Secretary', img: '/img/team/celestine.jpg' },
+  { name: 'Mrs Sheila Arinluka Ngene', role: 'Marketing Manager', img: '/img/team/shiela.jpg' },
+  { name: 'Mr Ugochukwu Njoku', role: 'General Site Manager', img: '/img/team/ugochuwu.jpg' },
+  { name: 'Mr Ifeanyi Ajira', role: 'Admin/Financial Officer', img: '/img/team/ifeanyi.jpg' },
 ];
 
 export default function About() {
   return (
     <div className="bg-white text-gray-900">
       <div className="relative h-64 w-full">
-        <Image src="/images/about-hero.jpg" alt="About Us" layout="fill" objectFit="cover" />
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+        <Image src="/img/about.png" alt="About Us" layout="fill" objectFit="cover" />
+        <div className="absolute inset-0  bg-opacity-50 flex items-center justify-center">
           <h1 className="text-4xl font-bold text-white">About Us</h1>
         </div>
       </div>
 
       <div className="max-w-5xl mx-auto px-4 py-12">
-        <section className="text-center mb-12">
+        <section className="text-center mb-12 ">
           <h2 className="text-3xl font-semibold mb-2">Welcome to Pineleaf Estate</h2>
           <p className="italic">“Where every property is a smart investment”</p>
           <p className="mt-4 text-gray-700">
-            Pineleaf Estates began with a simple but powerful belief, that every family and investor deserves access to secure, verified land without stress or uncertainty...
+          Pineleaf Estates began with a simple but powerful belief, that every family and investor deserves access to secure, verified land without stress or uncertainty. What started as a small real estate initiative has grown into a trusted name in property development across South-South and South-East Nigeria.
+          From day one, our goal has been to make land ownership not just possible, but meaningful, giving people a chance to build homes, create wealth, and leave a legacy. We’ve stayed committed to transparency, integrity, and delivering real value to our clients, one property at a time.
           </p>
         </section>
 
-        <section className="grid md:grid-cols-2 gap-8 mb-12">
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Our Mission</h3>
-            <p>To provide verified, accessible, and affordable land to individuals, families, and investors while upholding integrity, customer satisfaction, and long term value.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold mb-2">Our Vision</h3>
-            <p>To become Africa’s most trusted real estate company through secure land investment and sustainable development.</p>
-          </div>
-        </section>
-
-        <section className="mb-12">
-          <h3 className="text-2xl font-semibold text-center mb-8">Meet the Team</h3>
-          {team.map((member, index) => (
-            <div key={index} className="flex flex-col md:flex-row gap-6 mb-6 items-center">
-              <Image src={member.img} alt={member.name} width={200} height={200} className="rounded-md" />
+        <section className='flex flex-col gap-8 pt-[100px]' >
+          <div className="grid md:grid-cols-2 gap-8 mb-12">
+            <div>
+              <h3 className="text-xl font-semibold mb-2">Our Mission</h3>
+              <p>To provide verified, accessible, and affordable land to individuals, families, and investors while upholding integrity, customer satisfaction, and long term value.</p>
+            </div>
+            <div>
               <div>
-                <h4 className="font-bold text-lg">{member.name}</h4>
-                <p className="text-sm text-gray-500 mb-2">{member.role}</p>
-                <p className="text-gray-700">{member.bio}</p>
+                <Image  src="/img/ab-short.png" alt="ll" width={500} height={500}/>
               </div>
             </div>
-          ))}
+          </div>
+          <div className='grid md:grid-cols-2 gap-8 mb-12'>
+            <div className='md:order-1 order-2'>
+              <div>
+                <Image  src="/img/ab-short2.png" alt="ll" width={500} height={500}/>
+              </div>
+            </div>
+            <div  className='md:order-2 order-1'>
+              <h3 className="text-xl font-semibold mb-2">Our Vision</h3>
+              <p>To become Africa’s most trusted real estate company through secure land investment and sustainable development.</p>
+            </div>
+          </div>
         </section>
 
-        <section className="mb-12">
+        <section className="mb-12 pt-[100px]">
+          <h3 className="text-2xl font-semibold text-center mb-8">Meet the Team</h3>
+          <div  className="grid grid-cols-1 md:grid-cols-2 gap-[36px] mb-6 ">
+              <div>
+              <Image src="/img/ceo.png" alt="ceo" width={612} height={517} className="rounded-md" />
+
+              </div>
+              <div>
+                <h4 className="font-bold text-lg">Bishop Dr. Onyeka Nzekwesi </h4>
+                <p className="text-sm text-gray-500 mb-5">CEO PINELEAF ESTATE</p>
+                <p className="text-gray-700">
+                With a bold vision to simplify land ownership and empower families across Nigeria, Bishop Dr. Onyeka Nzekwesi founded Pineleaf Estates to deliver more than just real estate, he built a brand rooted in trust, transparency, and transformation. <br />
+                Over the years, he has led the company with unmatched dedication, ensuring that every client feels seen, supported, and secure in their land ownership journey. His unique approach blends a deep understanding of people with smart real estate strategies that make land investment accessible to everyone, from first-time buyers to seasoned investors. <br />
+                Under his leadership, Pineleaf has grown into one of the most respected names in South-South and South-East Nigeria, known for verified lands, timely allocations, and a realtor reward system that uplifts hardworking agents nationwide. <br />
+
+                Bishop Dr. Onyeka Nzekwesi is not just building estates, he’s building legacies.
+                </p>
+              </div>
+            </div>
+        </section>
+
+        <section className="mb-12 pt-[100px]">
           <h3 className="text-2xl font-semibold text-center mb-8">Board of Directors</h3>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8 px-[6.2vw]">
             {directors.map((director, index) => (
-              <div key={index} className="text-center">
-                <Image src={director.img} alt={director.name} width={200} height={200} className="rounded-md mx-auto" />
-                <h4 className="font-bold mt-4">{director.name}</h4>
-                <p className="text-sm text-gray-500">{director.role}</p>
+              <div key={index} className="text-center  w-full h-[438px] overflow-hidden relative border border-[#2F531833] rounded-lg">
+                {/* <Image src={director.img} alt={director.name} width={200} height={200} className="rounded-md mx-auto" /> */}
+                <Image src={director.img} alt={director.name} width={384} height={438} className="rounded-md mx-auto w-full h-full object-cover" />
+               <div className='absolute z-10 h-[100px] bg-white bottom-0 right-0 left-0'>
+                  <p className="text-sm  text-[#2F5318] font-bold mt-4 ">{director.role}</p>
+                  <h4 className="font-bold  ">{director.name}</h4>
+                </div>
               </div>
             ))}
           </div>
@@ -93,10 +109,12 @@ export default function About() {
           <h3 className="text-2xl font-semibold text-center mb-8">Management Body</h3>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
             {management.map((person, index) => (
-              <div key={index} className="text-center">
-                <Image src={person.img} alt={person.name} width={200} height={200} className="rounded-md mx-auto" />
+              <div key={index} className="text-center w-full h-[438px] overflow-hidden relative border border-[#2F531833] rounded-lg">
+                <Image src={person.img} alt={person.name} width={384} height={438} className="rounded-md mx-auto w-full h-full object-cover" />
+                <div className='absolute z-10 h-[100px] bg-white bottom-0 right-0 left-0' >
                 <h4 className="font-bold mt-4">{person.name}</h4>
                 <p className="text-sm text-gray-500">{person.role}</p>
+                </div>
               </div>
             ))}
           </div>

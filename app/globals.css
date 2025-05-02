@@ -249,6 +249,9 @@
     body {
       @apply bg-background text-foreground;
     }
+    *::-webkit-scrollbar{
+      @apply hidden
+    }
     
   }
   @layer utilities{

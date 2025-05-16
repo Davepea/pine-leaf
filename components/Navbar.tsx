@@ -19,7 +19,7 @@ const Navbar: React.FC = () => {
     { name: "Property", href: "/property" },
     { name: "Gallery", href: "/gallery" },
     { name: "Contact Us", href: "/contact-us" },
-    { name: "Investment Plan", href: "/pprm" },
+    { name: "Investment Plan", href: "https://investment.pineleafestates.com/" },
   ];
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useRef, SetStateAction } from 'react';
+import { useState, useEffect, SetStateAction } from 'react';
 import Image from 'next/image';
 
 interface Testimonial {
@@ -106,15 +106,15 @@ const TestimonialCarousel: React.FC = () => {
   // Calculate visible testimonials
   const visibleTestimonials = isMobile 
     ? [testimonials[currentIndex]] 
-    : currentIndex + 6 <= testimonials.length 
-      ? testimonials.slice(currentIndex, currentIndex + 6) 
-      : [...testimonials.slice(currentIndex), ...testimonials.slice(0, 6 - (testimonials.length - currentIndex))];
+    : currentIndex + 2 <= testimonials.length 
+      ? testimonials.slice(currentIndex, currentIndex + 2) 
+      : [...testimonials.slice(currentIndex), ...testimonials.slice(0, 2 - (testimonials.length - currentIndex))];
 
   // Star rating component
   const StarRating: React.FC<StarRatingProps> = ({ rating }) => {
     return (
       <div className="flex">
-        {[...Array(5)].map((_, i) => (
+        {[...Array(2)].map((_, i) => (
           <span key={i} className="text-yellow-400 text-xl">
             {i < rating ? '★' : '☆'}
           </span>

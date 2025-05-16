@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -22,7 +22,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   };
 
   return (
-    <div className=" mx-auto bg-white rounded-lg shadow-md md:p-16 p-10 relative max-w-[996px]" style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)' }}>
+    <div className="mx-auto bg-white rounded-lg shadow-md md:p-16 p-10 relative max-w-[996px]" style={{ boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)' }}>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
           <label htmlFor="email-phone" className="block text-gray-700 mb-2">
@@ -70,13 +70,13 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
         <button
           type="submit"
-          className="w-full py-3 bg-[#2F5318] text-white font-medium rounded-md hover:bg-[#2F5318] transition duration-300"
+          className="w-full py-3 bg-[#2F5318] text-white font-medium rounded-md hover:bg-[#254015] transition duration-300"
         >
           Login
         </button>
       </form>
 
-      <div className="mt-6 ">
+      <div className="mt-6">
         <p className="text-gray-600">
           You&apos;re not a member?{' '}
           <Link href="/register">

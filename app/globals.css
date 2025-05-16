@@ -25,6 +25,28 @@
 
   */
 
+      /* GSAP Animation Styles */
+    body {
+      overflow-x: hidden;
+    }
+
+    /* Smooth scroll and prevent layout shifts during animations */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Optional: Add subtle initial state for animated elements */
+    .animate-section {
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .animate-section.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
   body {
     @apply font-roboto font-[400]
   }

@@ -46,16 +46,13 @@ const Home: NextPage = () => {
         <div className="container mx-auto px-4 py-12 pb-[100px]">
           <div className="flex flex-col md:flex-row justify-center mb-8">
             <a href="#" className="text-xl md:text-2xl px-6 py-2 text-gray-500 hover:text-gray-700 border-b-2 border-transparent text-center">
-              Register as a Realtor
-            </a>
-            <a href="#" className="text-xl md:text-2xl px-6 py-2 text-pineleaf-green border-b-2 border-pineleaf-green text-center">
-              Register as an Investor
+            Register as a Realtor
             </a>
           </div>
           
           <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">
-            free – for those interested in investing or buying property. Gain access to high-potential lands across South-South & South-East Nigeria. 
-            We&apos;ll guide you every step of the way.
+           With ₦50,000 one-time payment or upload proof of offline payment, Earn with every sale. Join our growing network
+          and access exclusive plots, marketing tools, and commissions.
           </p>
           
           <RegisterForm />

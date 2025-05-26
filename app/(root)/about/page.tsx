@@ -43,10 +43,10 @@ export default function About() {
           </p>
         </section>
 
-        <section className='flex flex-col gap-8 pt-[100px]' >
+        <section className='flex flex-col gap-8 pt-[100px] md:text-start text-center' >
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             <div>
-              <h3 className="text-xl font-semibold mb-2">Our Mission</h3>
+              <h3 className="text-4xl font-semibold mb-3 ">Our Mission</h3>
               <p>To provide verified, accessible, and affordable land to individuals, families, and investors while upholding integrity, customer satisfaction, and long term value.</p>
             </div>
             <div>
@@ -62,7 +62,7 @@ export default function About() {
               </div>
             </div>
             <div  className='md:order-2 order-1'>
-              <h3 className="text-xl font-semibold mb-2">Our Vision</h3>
+              <h3 className="text-4xl font-semibold mb-3">Our Vision</h3>
               <p>To become Africa’s most trusted real estate company through secure land investment and sustainable development.</p>
             </div>
           </div>

@@ -7,7 +7,7 @@ import Footer from '@/components/Footer';
 const layout = async ({ children }: { children: ReactNode}) => {
 
   return <main className='root-container'>
-    <div className=' mx-auto max-w-7xl'>
+    <div className=' mx-auto '>
 
         <Navbar/>
         <div className=''>

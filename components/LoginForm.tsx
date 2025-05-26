@@ -76,10 +76,10 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         </button>
       </form>
 
-      <div className="mt-6">
+       <div className="mt-6">
         <p className="text-gray-600">
           You&apos;re not a member?{' '}
-          <Link href="/register">
+          <Link href="/login">
             <span className="text-[#2F5318] font-medium hover:underline cursor-pointer">
               Register
             </span>
@@ -91,3 +91,5 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 };
 
 export default LoginForm;
+
+

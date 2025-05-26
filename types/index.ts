@@ -76,3 +76,56 @@ export interface PropertySearchParams {
 }
 
 
+export interface PaymentVerificationResponse {
+  success: boolean;
+  message?: string;
+  data?: {
+    status: string;
+    reference: string;
+    amount: number;
+  };
+}
+
+export interface RegistrationResponse {
+  success: boolean;
+  message?: string;
+  data?: {
+    userId: string;
+    email: string;
+  };
+}
+
+export interface PaystackResponse {
+  reference: string;
+  status: string;
+  message: string;
+  trans: string;
+  transaction: string;
+  trxref: string;
+}
+
+export interface PaystackOptions {
+  key: string;
+  email: string;
+  amount: number;
+  currency: string;
+  ref: string;
+  metadata: {
+    fullName: string;
+    phone: string;
+    username: string;
+    referralCode: string;
+  };
+  callback: (response: PaystackResponse) => void;
+  onClose: () => void;
+}
+
+export interface RegisterFormData {
+  fullName: string;
+  email: string;
+  phone: string;
+  referralCode: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+}

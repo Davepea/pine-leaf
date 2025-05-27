@@ -113,8 +113,8 @@ const TestimonialCarousel: React.FC = () => {
   // Star rating component
   const StarRating: React.FC<StarRatingProps> = ({ rating }) => {
     return (
-      <div className="flex">
-        {[...Array(2)].map((_, i) => (
+      <div className="flex gap-[8px]">
+        {[...Array(5)].map((_, i) => (
           <span key={i} className="text-yellow-400 text-xl">
             {i < rating ? '★' : '☆'}
           </span>
@@ -127,7 +127,7 @@ const TestimonialCarousel: React.FC = () => {
   const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
     return (
       <div className="flex flex-col items-center p-10  rounded-lg mx-2 my-4 h-full pb-4 relative">
-        <div className='absolute bottom-0 top-25 right-0 left-0 bg-white rounded-lg shadow-2xl'></div>
+        <div className='absolute bottom-0 top-25 right-0 left-0 bg-white rounded-lg shadow-2xl shadow-gray-200'></div>
         <div className="mb-2 rounded-full overflow-hidden w-[113px] h-[113px] relative">
           <Image 
             src={testimonial.image} 
@@ -139,9 +139,9 @@ const TestimonialCarousel: React.FC = () => {
           />
         </div>
       <div className='relative flex flex-col items-center'>
-      <h3 className="font-medium text-center ">{testimonial.name}</h3>
-        <p className="text-sm text-gray-600 text-center mb-2">{testimonial.location}</p>
-        <p className="text-center text-sm my-2">{testimonial.testimonial}</p>
+        <h3 className="font-medium text-center mt-9 text-[20px]">{testimonial.name}</h3>
+        <p className="text-sm text-gray-600 text-center">{testimonial.location}</p>
+        <p className="text-center text-[16px] my-5 pb-3">{testimonial.testimonial}</p>
         <StarRating rating={testimonial.rating} />
       </div>
       </div>

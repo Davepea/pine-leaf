@@ -46,7 +46,8 @@ interface ApiResponse {
 
 const DashboardTable = () => {
     const [users, setUsers] = useState<User[]>([])
-    const [pagination, setPagination] = useState<any>(null)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(1)
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const router = useRouter()
@@ -56,7 +57,7 @@ const DashboardTable = () => {
                 const token = getToken()
 
                 if (!token) {
-                    router.push('/login')
+                    router.push('/dashboard')
                     return
                 }
 
@@ -67,7 +68,10 @@ const DashboardTable = () => {
                             'Authorization': `Bearer ${token}`,
                             'Accept': 'application/json'
                         },
-                        timeout: 10000
+                        timeout: 10000,
+                        params: {
+                            page: currentPage
+                        }
                     }
                 )
 
@@ -77,13 +81,7 @@ const DashboardTable = () => {
 
                 const { data } = response.data
                 setUsers(data.data)
-                setPagination({
-                    currentPage: data.current_page,
-                    lastPage: data.last_page,
-                    links: data.links,
-                    nextPageUrl: data.next_page_url,
-                    prevPageUrl: data.prev_page_url
-                })
+                setTotalPages(data.last_page)
             } catch (err: any) {
                 console.error('Error fetching users:', err)
                 setError(err.response?.data?.message || 'Failed to load users')
@@ -98,7 +96,11 @@ const DashboardTable = () => {
         }
 
         fetchUsers()
-    }, [router])
+    }, [currentPage, router])
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page)
+    }
 
     if (loading) {
         return (
@@ -189,40 +191,43 @@ const DashboardTable = () => {
                     </table>
                 </div>
                 <div className="join mt-5 w-full justify-center">
-                    {pagination.prevPageUrl ? (
-                        <Link href={pagination.prevPageUrl} className="size-[35px] flex items-center justify-center text-black/80 hover:bg-gray-100 rounded">
-                            <MdArrowBackIos size={16} />
-                        </Link>
-                    ) : (
-                        <div className="size-[35px] flex items-center justify-center text-black/30 rounded">
-                            <MdArrowBackIos size={16} />
-                        </div>
-                    )}
+                    <button
+                        className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
+                        disabled={currentPage === 1}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                    >
+                        <MdArrowBackIos size={16} />
+                    </button>
 
-                    {pagination.links.slice(1, -1).map((link, index) => (
-                        link.url ? (
-                            <Link
-                                key={index}
-                                href={link.url}
-                                className={`join-item btn items-end border-none shadow shadow-white text-lg font-normal rounded-[10px] size-[35px] ${link.active
+                    {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
+                        const page = i + 1
+                        return (
+                            <button
+                                key={page}
+                                className={`join-item btn items-end border-none shadow shadow-white text-lg font-normal rounded-[10px] size-[35px] ${currentPage === page
                                     ? 'bg-[#2F5318] text-white'
                                     : 'bg-transparent text-black/80 hover:bg-gray-100'
                                     }`}
+                                onClick={() => handlePageChange(page)}
                             >
-                                {link.label}
-                            </Link>
-                        ) : null
-                    ))}
+                                {page}
+                            </button>
+                        )
+                    })}
 
-                    {pagination.nextPageUrl ? (
-                        <Link href={pagination.nextPageUrl} className="size-[35px] flex items-center justify-center text-black/80 hover:bg-gray-100 rounded">
-                            <MdArrowForwardIos size={16} />
-                        </Link>
-                    ) : (
-                        <div className="size-[35px] flex items-center justify-center text-black/30 rounded">
-                            <MdArrowForwardIos size={16} />
-                        </div>
+                    {totalPages > 3 && (
+                        <button className="join-item btn btn-disabled items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]">
+                            ...
+                        </button>
                     )}
+
+                    <button
+                        className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
+                        disabled={currentPage === totalPages}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                    >
+                        <MdArrowForwardIos size={16} />
+                    </button>
                 </div>
             </div>
         </div>

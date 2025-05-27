@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
-export default function Loader({ onComplete }: { onComplete: () => void }) {
+export default function Loader({ onComplete }: { onComplete?: () => void }) {
   const loaderRef = useRef<HTMLDivElement>(null);
   const circleRef = useRef<SVGSVGElement>(null);
 

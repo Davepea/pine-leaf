@@ -7,6 +7,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import LoginForm from '@/components/LoginForm';
 import axios from 'axios';
+import { setToken } from '@/lib/auth'
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
@@ -25,12 +26,12 @@ const LoginPage: React.FC = () => {
       );
 
       if (response.data?.data?.token) {
+        setToken(response.data.data.token)
         localStorage.setItem('token', response.data.data.token);
       }
 
       alert('Login successful!');
-      router.push('/dashboard'); // Change this route to your dashboard
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      router.push('/admin/dashboard');
     } catch (error: any) {
       alert(error.response?.data?.message || 'Login failed. Please try again.');
     }

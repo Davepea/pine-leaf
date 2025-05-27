@@ -37,7 +37,7 @@ export default function About() {
         <section className="text-center mb-12 ">
           <h2 className="text-3xl font-semibold mb-2">Welcome to Pineleaf Estate</h2>
           <p className="italic">“Where every property is a smart investment”</p>
-          <p className="mt-4 text-gray-700">
+          <p className="mt-4 text-gray-700 text-[16px]">
           Pineleaf Estates began with a simple but powerful belief, that every family and investor deserves access to secure, verified land without stress or uncertainty. What started as a small real estate initiative has grown into a trusted name in property development across South-South and South-East Nigeria.
           From day one, our goal has been to make land ownership not just possible, but meaningful, giving people a chance to build homes, create wealth, and leave a legacy. We’ve stayed committed to transparency, integrity, and delivering real value to our clients, one property at a time.
           </p>
@@ -47,7 +47,7 @@ export default function About() {
           <div className="grid md:grid-cols-2 gap-8 mb-12">
             <div>
               <h3 className="text-4xl font-semibold mb-3 ">Our Mission</h3>
-              <p>To provide verified, accessible, and affordable land to individuals, families, and investors while upholding integrity, customer satisfaction, and long term value.</p>
+              <p>To provide verified, accessible, and affordable land to individuals, families, and investors while upholding integrity, customer satisfaction, and long-term value in every transaction.</p>
             </div>
             <div>
               <div>
@@ -61,9 +61,9 @@ export default function About() {
                 <Image  src="/img/ab-short2.png" alt="ll" width={500} height={500}/>
               </div>
             </div>
-            <div  className='md:order-2 order-1'>
+            <div  className='md:order-2 order-1 md:pl-20 pl-0'>
               <h3 className="text-4xl font-semibold mb-3">Our Vision</h3>
-              <p>To become Africa’s most trusted real estate company through secure land investment and sustainable development.</p>
+              <p>To become Africa’s most trusted real estate company, empowering individuals and communities through secure land investment and sustainable development.</p>
             </div>
           </div>
         </section>
@@ -97,8 +97,8 @@ export default function About() {
                 {/* <Image src={director.img} alt={director.name} width={200} height={200} className="rounded-md mx-auto" /> */}
                 <Image src={director.img} alt={director.name} width={384} height={438} className="rounded-md mx-auto w-full h-full object-cover" />
                <div className='absolute z-10 h-[100px] bg-white bottom-0 right-0 left-0'>
-                  <p className="text-sm  text-[#2F5318] font-bold mt-4 ">{director.role}</p>
-                  <h4 className="font-bold  ">{director.name}</h4>
+                  <p className="text-[16px]  text-[#2F5318] font-bold mt-4 ">{director.role}</p>
+                  <h4 className="font-bold text-lg ">{director.name}</h4>
                 </div>
               </div>
             ))}
@@ -107,13 +107,13 @@ export default function About() {
 
         <section>
           <h3 className="text-2xl font-semibold text-center mb-8">Management Body</h3>
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-[24px]">
             {management.map((person, index) => (
               <div key={index} className="text-center w-full h-[438px] overflow-hidden relative border border-[#2F531833] rounded-lg">
-                <Image src={person.img} alt={person.name} width={384} height={438} className="rounded-md mx-auto w-full h-full object-cover" />
-                <div className='absolute z-10 h-[100px] bg-white bottom-0 right-0 left-0' >
-                <h4 className="font-bold mt-4">{person.name}</h4>
-                <p className="text-sm text-gray-500">{person.role}</p>
+                <Image src={person.img} alt={person.name} width={384} height={438} className="rounded-md mx-auto w-full h-full object-cover " />
+                <div className='absolute z-10 h-[100px] bg-white bottom-0 right-0 left-0 py-[10px] flex flex-col gap-[5px] justify-center ' >
+                <p className=" text-[16px] font-[700] text-[#2F5318]">{person.role}</p>
+                <h4 className="font-bold text-lg">{person.name}</h4>
                 </div>
               </div>
             ))}

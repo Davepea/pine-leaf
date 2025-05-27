@@ -243,15 +243,16 @@ const Hero = () => {
                   desc: 'Invest in verified, high-value lands across South-South and South-East Nigeria, with expert guidance from purchase to development.',
                   img: '/img/service-1.png',
                 },
-                {
-                  title: 'Title Verification & Documentation',
-                  desc: 'We assist in verifying land titles, documentation, and ensuring all paperwork is authentic before any transaction.',
-                  img: '/img/service-2.png',
-                },
+                
                 {
                   title: 'Land Banking Investments',
                   desc: 'Multiply your wealth over time by investing in fast-appreciating lands through our carefully selected land banking schemes.',
                   img: '/img/service-3.png',
+                },
+                {
+                  title: 'Title Verification & Documentation',
+                  desc: 'We assist in verifying land titles, documentation, and ensuring all paperwork is authentic before any transaction.',
+                  img: '/img/service-2.png',
                 },
               ].map((service, idx) => (
                 <div key={idx} className="flex flex-col gap-7 text-center border h-[413px] border-[#2F531833] p-[27px] rounded-[10px]">

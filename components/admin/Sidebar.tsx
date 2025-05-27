@@ -6,7 +6,7 @@ import { usePathname } from 'next/navigation'
 import React from 'react'
 import { FiUpload } from 'react-icons/fi'
 import { LiaHomeSolid } from 'react-icons/lia'
-import { MdLogout, MdOutlineAccountBalanceWallet, MdOutlineAllInbox, MdOutlineConnectWithoutContact, MdOutlineDashboard, MdOutlineGroupWork, MdOutlinePayments, MdOutlinePeopleAlt } from 'react-icons/md'
+import { MdOutlineAccountBalanceWallet, MdOutlineAllInbox, MdOutlineConnectWithoutContact, MdOutlineDashboard, MdOutlineGroupWork, MdOutlinePayments, MdOutlinePeopleAlt } from 'react-icons/md'
 
 const contents = [
     {
@@ -178,14 +178,13 @@ const contents = [
 const Sidebar = () => {
     const pathname = usePathname()
 
-    // Function to check if a link is active
     const isActive = (path: string) => {
         return pathname.startsWith(path)
     }
 
     return (
         <div className='md:block hidden'>
-            <div className="w-[300px] h-screen flex flex-col justify-between bg-[#2F5318] text-white p-[30px]">
+            <div className="w-[300px] h-screen flex flex-col justify-between bg-[#2F5318] text-white px-[30px] py-5">
                 <div className="flex items-center gap-3">
                     <Image src='/images/logo-icon.png' width={78} height={78} alt='logo' className='size-[78px]' />
                     <div className="flex flex-col gap-0 text-white">
@@ -210,13 +209,13 @@ const Sidebar = () => {
                     ))}
                 </ul>
 
-                <Link
+                {/* <Link
                     href={'/'}
                     className='w-full rounded-[10px] px-5 h-[50px] flex items-center gap-3 text-white font-medium text-xl hover:bg-white hover:text-[#2F5318] hover:bg-opacity-10'
                 >
                     <span className='size-[22px] flex items-center justify-center'><MdLogout size={22} /></span>
                     Logout
-                </Link>
+                </Link> */}
             </div>
         </div>
     )

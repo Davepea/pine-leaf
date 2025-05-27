@@ -121,29 +121,31 @@ const Sidebar = () => {
     return (
         <div className='md:block hidden'>
             <div className="w-[300px] h-screen flex flex-col justify-between bg-[#2F5318] text-white p-[30px]">
-                <div className="flex items-center gap-3">
-                    <Image src='/images/logo-icon.png' width={78} height={78} alt='logo' className='size-[78px]' />
-                    <div className="flex flex-col gap-0 text-white">
-                        <h2 className='font-bold text-[32px] leading-9'>PINELEAF</h2>
-                        <h3 className='font-normal text-2xl leading-6'>ESTATE</h3>
+                <div className="flex flex-col gap-10">
+                    <div className="flex items-center gap-3">
+                        <Image src='/images/logo-icon.png' width={78} height={78} alt='logo' className='size-[78px]' />
+                        <div className="flex flex-col gap-0 text-white">
+                            <h2 className='font-bold text-[32px] leading-9'>PINELEAF</h2>
+                            <h3 className='font-normal text-2xl leading-6'>ESTATE</h3>
+                        </div>
                     </div>
+                    <ul className='flex flex-col gap-[10px]'>
+                        {contents.map(content => (
+                            <li key={content.id}>
+                                <Link
+                                    href={content.url}
+                                    className={`w-full rounded-[10px] px-5 h-[50px] flex items-center gap-3 font-medium text-xl ${isActive(content.url)
+                                        ? 'bg-[#DFF7EE] text-[#000000]/80 fill-[#000000]/80'
+                                        : 'text-white hover:bg-[#DFF7EE] hover:text-[#000000]/80 hover:bg-opacity-10 fill-[#000000]/80'
+                                        }`}
+                                >
+                                    <span className={`size-[22px] flex items-center justify-center ${isActive(content.url) ? 'text-[#000000]/80' : ''}`}>{content.icon}</span>
+                                    {content.name}
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
-                <ul className='flex flex-col gap-[10px]'>
-                    {contents.map(content => (
-                        <li key={content.id}>
-                            <Link
-                                href={content.url}
-                                className={`w-full rounded-[10px] px-5 h-[50px] flex items-center gap-3 font-medium text-xl ${isActive(content.url)
-                                    ? 'bg-[#DFF7EE] text-[#000000]/80 fill-[#000000]/80'
-                                    : 'text-white hover:bg-[#DFF7EE] hover:text-[#000000]/80 hover:bg-opacity-10 fill-[#000000]/80'
-                                    }`}
-                            >
-                                <span className={`size-[22px] flex items-center justify-center ${isActive(content.url) ? 'text-[#000000]/80' : ''}`}>{content.icon}</span>
-                                {content.name}
-                            </Link>
-                        </li>
-                    ))}
-                </ul>
 
                 <Link
                     href={'/'}

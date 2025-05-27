@@ -37,9 +37,13 @@ const Header = () => {
     return (
         <div>
             <div className="w-full flex justify-between items-center text-[#000000]/80 py-6">
-                <div className="flex items-center gap-2">
-                    <div className="size-[40px] flex justify-center items-center border border-black/20 rounded-[10px] md:hidden">
-                        <VscListFlat size={24} />
+                <div className="drawer flex items-center gap-2">
+                    <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+                    <div className="drawer-content size-[40px] flex justify-center items-center border border-black/20 rounded-[10px] md:hidden">
+                        {/* <VscListFlat size={24} /> */}
+
+
+                        <label htmlFor="my-drawer" className="btn btn-primary drawer-button"><VscListFlat size={24} /></label>
                     </div>
                     <h2 className='md:text-[32px] text-2xl font-bold capitalize'>{getPageTitle()}</h2>
                 </div>

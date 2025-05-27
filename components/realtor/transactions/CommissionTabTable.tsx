@@ -1,61 +1,49 @@
 // import Image from 'next/image'
-import Image from 'next/image'
-import Link from 'next/link'
-import { MdArrowBackIos, MdArrowForwardIos, MdDeleteOutline, MdOutlineRemoveRedEye } from 'react-icons/md'
+import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md'
 
-const RealtorRegTable = () => {
+const CommissionTabTable = () => {
     return (
-        <div className='bg-white rounded-[10px] pb-6 w-full overflow-x-auto'>
+        <div className='bg-white rounded-[10px] py-6 w-full overflow-x-auto'>
             <div className="w-full mytable">
-                <div className="overflow-x-auto w-full py-2">
+                <div className="overflow-x-auto w-full">
                     <table className="table">
                         {/* head */}
                         <thead className='text-lg text-[#000000]/80 font-medium'>
                             <tr>
                                 <th>ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Image</th>
-                                <th>Total <br />Transaction</th>
-                                <th>Actions</th>
+                                <th>Referral <br />Email</th>
+                                <th>Commission</th>
+                                <th>Generation</th>
+                                <th>Status</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody className='text-base text-[#000000]/80'>
                             {/* row 1 */}
                             <tr>
-                                <td>001</td>
-                                <td>vincent okagbue</td>
-                                <td>vincentokagbue@gmail.com</td>
-                                <td>
-                                    <Image src='/images/dashboard/profile.png' width={27} height={27} alt='logo' objectFit='cover' objectPosition='center' className='size-[27px] rounded-full border border-[#2F5318]' />
-                                </td>
+                                <td>002</td>
+                                <td>vincentokagbue <br />@gmail.com</td>
                                 <td>N3,000,000</td>
+                                <td className='text-[#2F5318] font-bold'>1st Gen</td>
                                 <td>
-                                    <div className="flex items-center gap-5 text-[#2F5318]">
-                                        <Link href={''}><MdOutlineRemoveRedEye size={20} /></Link>
-                                        <Link href={''}><MdDeleteOutline size={20} /></Link>
-                                    </div>
+                                    <button className='border border-[#2F5318]/15 text-[#2F5318] bg-[#DFF7EE]/80 h-[35px] px-[18px] rounded-[10px]'>Confirmed</button>
                                 </td>
+                                <td className='text-[#2F5318] font-bold'>21/04/25 <br />07:39:20 am</td>
                             </tr>
                             <tr>
                                 <td>001</td>
-                                <td>vincent okagbue</td>
-                                <td>vincentokagbue@gmail.com</td>
-                                <td>
-                                    <Image src='/images/dashboard/profile.png' width={27} height={27} alt='logo' objectFit='cover' objectPosition='center' className='size-[27px] rounded-full border border-[#2F5318]' />
-                                </td>
+                                <td></td>
                                 <td>N3,000,000</td>
+                                <td className='text-[#2F5318] font-bold'>Direct</td>
                                 <td>
-                                    <div className="flex items-center gap-5 text-[#2F5318]">
-                                        <Link href={''}><MdOutlineRemoveRedEye size={20} /></Link>
-                                        <Link href={''}><MdDeleteOutline size={20} /></Link>
-                                    </div>
+                                    <button className='border border-[#CD2B2E]/15 text-[#CD2B2E] bg-[#CD2B2E]/20 h-[35px] px-[18px] rounded-[10px]'>Pending</button>
                                 </td>
+                                <td className='text-[#2F5318] font-bold'>21/04/25 <br />07:39:20 am</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div className="join mt-3 w-full justify-center">
+                <div className="join mt-5 w-full justify-center">
                     <div className="size-[35px] flex items-center justify-center text-black/80">
                         <MdArrowBackIos size={16} />
                     </div>
@@ -78,4 +66,4 @@ const RealtorRegTable = () => {
     )
 }
 
-export default RealtorRegTable
+export default CommissionTabTable

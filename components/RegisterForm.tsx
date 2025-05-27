@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -9,34 +9,6 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 
 import { registerUser } from "@/services/registerService";
-
-declare global {
-  interface Window {
-    PaystackPop: {
-      setup: (options: PaystackOptions) => {
-        openIframe: () => void;
-      };
-    };
-  }
-}
-
-interface PaystackOptions {
-  key: string;
-  email: string;
-  amount: number;
-  ref?: string;
-  currency?: string;
-  metadata?: {
-    fullName: string;
-    phone: string;
-    username: string;
-    referralCode: string;
-  };
-  callback?: (response: { reference: string }) => void;
-  onClose?: () => void;
-}
-
-
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -48,25 +20,13 @@ const RegisterForm = () => {
     password: "",
     confirmPassword: "",
     agreeTerms: true,
+    paymentMethod: 'paystack',
+    amount: 50000,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
-  const [paymentVerified, setPaymentVerified] = useState(false);
-  const [paymentLoading, setPaymentLoading] = useState(false);
-  const [paystackReady, setPaystackReady] = useState(false);
-
-  useEffect(() => {
-    if (!window.PaystackPop) {
-      const script = document.createElement("script");
-      script.src = "https://js.paystack.co/v1/inline.js";
-      script.async = true;
-      script.onload = () => setPaystackReady(true);
-      document.body.appendChild(script);
-    } else {
-      setPaystackReady(true);
-    }
-  }, []);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -113,64 +73,31 @@ const RegisterForm = () => {
     return newErrors;
   };
 
-  const handlePayment = () => {
+  const isFormValid = () => {
     const formErrors = validateForm();
-    if (Object.keys(formErrors).length > 0) {
-      setErrors(formErrors);
-      return;
-    }
-
-    if (!window.PaystackPop || !paystackReady) {
-      alert("Payment system not loaded. Refresh and try again.");
-      return;
-    }
-
-    setPaymentLoading(true);
-
-    const handler = window.PaystackPop.setup({
-      key: "pk_test_ade0c8518809b5eccc9002beb2dd0e79b9b4169c",
-      email: formData.email,
-      amount: 5000000, // 50,000 NGN in kobo
-      currency: "NGN",
-      ref: `reg_${Date.now()}_${Math.floor(Math.random() * 1000)}`,
-      metadata: {
-        fullName: formData.fullName,
-        phone: formData.phone,
-        username: formData.username,
-        referralCode: formData.referralCode || "none",
-      },
-      callback: function () {
-        // Directly trust Paystack callback as verification
-        setPaymentVerified(true);
-        setPaymentLoading(false);
-        alert("Payment successful! You can now register.");
-      },
-      onClose: function () {
-        setPaymentLoading(false);
-        alert("Payment cancelled.");
-      },
-    });
-
-    handler.openIframe();
+    return Object.keys(formErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!paymentVerified) {
-      alert("Please complete payment before registering.");
-      return;
-    }
-
     const formErrors = validateForm();
     if (Object.keys(formErrors).length > 0) {
       setErrors(formErrors);
       return;
     }
 
+    setIsLoading(true);
+
     try {
       const result = await registerUser(formData);
-      if (result.success) {
+      
+      // Check if registration was successful and has payment URL
+      if (result.status === "pending_payment" && result.payment_url) {
+        // Redirect to payment URL immediately
+        window.location.href = `${result.payment_url}`;
+      } else if (result.success) {
+        // Fallback for other success responses
         alert("Registration successful!");
         window.location.href = "/login";
       } else {
@@ -179,6 +106,8 @@ const RegisterForm = () => {
     } catch (error) {
       alert("Registration failed. Try again.");
       console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -355,34 +284,17 @@ const RegisterForm = () => {
           <p className="text-sm text-red-500">{errors.agreeTerms}</p>
         )}
 
-        {/* Paystack Payment Button */}
-        <Button
-          type="button"
-          onClick={handlePayment}
-          disabled={paymentLoading || !paystackReady}
-          className="w-full py-4 h-[50px] bg-[#2F5318]"
-        >
-          {paymentLoading ? "Processing Payment..." : "Pay 50,000 naira"}
-        </Button>
-
-        <div className="flex items-center gap-2 text-gray-500 text-sm">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9-3.75h.008v.008H12V8.25z" />
-          </svg>
-          A one-time payment is required before you can register.
-        </div>
-
         {/* Register Button */}
         <Button
           type="submit"
-          disabled={!paymentVerified}
+          disabled={!isFormValid() || isLoading}
           className="w-full py-4 h-[50px] bg-[#2F5318]"
         >
-          Register
+          {isLoading ? "Registering..." : "Register"}
         </Button>
       </form>
 
-      <div className="mt-6 text-center text-gray-600">
+      <div className="mt-6 text-start text-gray-600">
         Already a member?{" "}
         <Link href="/login" className="text-[#2F5318] underline">
           Login

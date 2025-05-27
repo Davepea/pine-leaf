@@ -79,7 +79,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
        <div className="mt-6">
         <p className="text-gray-600">
           You&apos;re not a member?{' '}
-          <Link href="/login">
+          <Link href="/register">
             <span className="text-[#2F5318] font-medium hover:underline cursor-pointer">
               Register
             </span>

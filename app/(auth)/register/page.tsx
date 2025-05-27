@@ -45,9 +45,9 @@ const Home: NextPage = () => {
         {/* Registration Options and Form */}
         <div className="container mx-auto px-4 py-12 pb-[100px]">
           <div className="flex flex-col md:flex-row justify-center mb-8">
-            <a href="#" className="text-xl md:text-2xl px-6 py-2 text-gray-500 hover:text-gray-700 border-b-2 border-transparent text-center">
+           <h2 className="text-4xl font-bold text-center text-[#2F5318] ">
             Register as a Realtor
-            </a>
+            </h2>
           </div>
           
           <p className="text-center text-gray-600 max-w-2xl mx-auto mb-12">

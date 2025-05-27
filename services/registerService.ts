@@ -4,6 +4,8 @@ export interface PaymentVerificationResponse {
 }
 
 export interface RegistrationResponse {
+  status: string;
+  payment_url: boolean;
   success: boolean;
   message?: string;
   data?: unknown;
@@ -17,20 +19,25 @@ export async function registerUser(formData: {
   username: string;
   password: string;
   confirmPassword: string;
+  paymentMethod: string;
+  amount: number;
 }): Promise<RegistrationResponse> {
   const res = await fetch("https://pineleaflaravel.sunmence.com.ng/public/api/realtor/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Accept": "application/json",
     },
     body: JSON.stringify({
-      full_name: formData.fullName,
+      fullName: formData.fullName,
       email: formData.email,
-      phone: formData.phone,
+      number: formData.phone,
       referral_code: formData.referralCode,
       username: formData.username,
       password: formData.password,
       password_confirmation: formData.confirmPassword,
+      payment_method: formData.paymentMethod,
+      amount: formData.amount,
     }),
   });
 

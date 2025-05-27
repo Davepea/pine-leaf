@@ -109,7 +109,7 @@ const Hero = () => {
               <div className='flex flex-col gap-[30px]'>
                 <h1 
                   ref={heroTextRef}
-                  className='md:text-[#2F5318] md:leading-[66px] text-white md:text-[56px] text-[40px]'
+                  className='md:text-[#000000CC] text-white md:text-[56px] text-[40px]'
                 >
                   Building Legacies, <span className='md:text-[#2F5318] text-[#F5DD00]'>one Property</span> at a Time
                 </h1>
@@ -132,8 +132,8 @@ const Hero = () => {
         <div className='absolute right-0 top-0 !bottom-0 overflow-hidden '>
           <Image
             src='/img/hero.png'
-            width={900}
-            height={800}
+            width={1000}
+            height={1000}
             alt='hero-image'
             className='w-full h-full'
           />
@@ -198,7 +198,7 @@ const Hero = () => {
       ref={statsRef}
       className='grid md:grid-cols-3 sm:grid-cols-1 px-[6.25vw] py-[4.1vw] text-center bg-[#E6FFF6] gap-[24px]'
     >
-      <div>
+      <div className='md:border-r p-4'>
         <h1 className='large-header'>1,819
         +</h1>
         <p className=' small-header'>
@@ -208,7 +208,7 @@ const Hero = () => {
         Clients who have successfully secured their land through Pineleaf Estates.
         </span>
       </div>
-      <div>
+      <div className=' md:border-r p-4'>
         <h1 className='large-header'>100
         +</h1>
         <p className=' small-header'>
@@ -218,7 +218,7 @@ const Hero = () => {
         An average of 71 lands sold every month across various locations
         </span>
       </div>
-      <div>
+      <div className=' p-4'>
         <h1 className='large-header'>5,678
         +
         </h1>
@@ -243,25 +243,26 @@ const Hero = () => {
                   desc: 'Invest in verified, high-value lands across South-South and South-East Nigeria, with expert guidance from purchase to development.',
                   img: '/img/service-1.png',
                 },
-                {
-                  title: 'Title Verification & Documentation',
-                  desc: 'We assist in verifying land titles, documentation, and ensuring all paperwork is authentic before any transaction.',
-                  img: '/img/service-2.png',
-                },
+                
                 {
                   title: 'Land Banking Investments',
                   desc: 'Multiply your wealth over time by investing in fast-appreciating lands through our carefully selected land banking schemes.',
                   img: '/img/service-3.png',
                 },
+                {
+                  title: 'Title Verification & Documentation',
+                  desc: 'We assist in verifying land titles, documentation, and ensuring all paperwork is authentic before any transaction.',
+                  img: '/img/service-2.png',
+                },
               ].map((service, idx) => (
-                <div key={idx} className="flex flex-col gap-7 text-center border border-[#2F531833] p-[27px] rounded-[10px]">
+                <div key={idx} className="flex flex-col gap-7 text-center border h-[413px] border-[#2F531833] p-[27px] rounded-[10px]">
                   <div className='grid place-content-center'>
-                    <div className='w-[96px] h-[96px]'>
+                    <div className='md:w-[96px] md:h-[96px] w-[50px] h-[50px]'>
                     <Image src={service.img} alt={service.title} width={96} height={96} className="rounded-lg w-full h-auto" />
                     </div>
                   </div>
                   <div>
-                    <h2 className="small-header pb-[20px]">{service.title}</h2>
+                    <h2 className="small-header !font-[700] pb-[20px]">{service.title}</h2>
                     <p className="detail-text">{service.desc}</p>
                   </div>
                   <div className='flex justify-center'>
@@ -293,7 +294,7 @@ const Hero = () => {
           <div className="flex flex-col gap-6 md:order-1 order-2">
             <div>
               <h2 className="small-header">Sound Land Solutions Tailored To You</h2>
-              <small className='small-texts text-[#2F5318B2]'>
+              <small className='small-texts !text-[#2F5318B2]'>
               We match your dreams with the right property.
               </small>
             </div>
@@ -311,7 +312,7 @@ const Hero = () => {
           <div className="flex flex-col gap-6">
             <div>
               <h2 className="small-header">Prime Locations You Can Trust</h2>
-              <small className='small-texts text-[#2F5318B2]'>
+              <small className='small-texts !text-[#2F5318B2]'>
               We offer tabled, dry lands in areas with real growth potential.
               </small>
             </div>
@@ -323,7 +324,7 @@ const Hero = () => {
           <div className="flex flex-col gap-6 md:order-1 order-2">
             <div>
               <h2 className="small-header">Secure & Transparent Purchase</h2>
-              <small className='small-texts text-[#2F5318B2]'>
+              <small className='small-texts !text-[#2F5318B2]'>
               We prioritize your peace of mind with every transaction.
               </small>
             </div>
@@ -341,17 +342,17 @@ const Hero = () => {
       className="bg-[#2F5318] py-[100px] px-6 sm:px-12"
     >
       <div className="max-w-7xl mx-auto text-center text-white">
-        <h1 className="large-header !text-white mb-6">
+        <h1 className="large-header !text-white mb-[20px]">
           PRRM (The Pineleaf Realtor Reward Model)
         </h1>
-        <p className="detail-text !text-[#ffffffcc] max-w-5xl mx-auto">
+        <p className="text-lg font-[400] !text-[#ffffffcc] max-w-6xl mx-auto pb-[69px]">
           At Pineleaf Estates, we believe success should be shared. That&apos;s why we created the PRRM: 
           a simple, rewarding system designed to help you earn as you grow. Whether you&apos;re a student, 
           full-time worker, or aspiring realtor, PRRM gives you a platform to build income, gain real estate experience, 
           and earn commissions with ease.
         </p>
 
-        <div className="mt-12 flex flex-col lg:flex-row gap-14 px-[2vw] ">
+        <div className=" flex flex-col lg:flex-row gap-14 px-[2vw] ">
           <div className="w-full lg:w-1/2">
             <div className="rounded-lg overflow-hidden shadow-lg">
               <Image
@@ -366,53 +367,56 @@ const Hero = () => {
 
           <div className="w-full lg:w-1/2 text-left">
             <div className="rounded-lg !text-white ">
-              <h2 className="small-header mb-4 !text-white">How It Works</h2>
-              <p className="small-texts mb-6 !text-white">
+              <h2 className="text-[24px] mb-4 !text-white">How It Works</h2>
+              <p className="detail-text font-[400] mb-6 !text-white">
                 Become a PRRM Member by registering with a one-time fee of ₦50,000.
               </p>
 
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-start">
+              <b className='text-[#E6FFF6] '>
+                Once registered:
+              </b>
+              <ul className="space-y-4 mb-8 mt-[20px] grid md:grid-cols-2 grid-cols-1 gap-x-[30px] gap-y-[11px]">
+                <li className="flex gap-[12px] items-center">
                   <FaCheck className="mt-1 text-white mr-3 flex-shrink-0" />
-                  <span className="detail-text !text-white">Earn 10% commission on every land sale you close.</span>
+                  <span className="detail-text !text-white ">Earn 10% commission on every land sale you close.</span>
                 </li>
-                <li className="flex items-start">
+                <li className="flex gap-[12px] items-center">
                   <FaCheck className="mt-1 text-white mr-3 flex-shrink-0" />
                   <span className="detail-text !text-white">Grow your network and watch your earnings multiply, it&apos;s that simple.</span>
                 </li>
-                <li className="flex items-start">
+                <li className="flex gap-[12px] items-center">
                   <FaCheck className="mt-1 text-white mr-3 flex-shrink-0" />
                   <span className="detail-text !text-white">Refer other realtors and earn 4% from their successful sales.</span>
                 </li>
               </ul>
 
-              <hr className='border-gray-500 my-4'/>
+              <hr className='border-gray-500 my-6'/>
 
               <h2 className="small-header mb-4 !text-white">Why Join the PRRM Scheme?</h2>
 
               <ul className="space-y-4 mb-8 flex flex-col md:grid md:grid-cols-2 gap-[30px]">
-                <li className="flex items-start">
+                <li className="flex gap-[12px] items-start">
                   <FaCheck className="mt-1 text-white mr-3 flex-shrink-0" />
                   <span className="detail-text !text-white detail-text">
                     <b className='!text-[#E6FFF6] !font-bold detail-text'>No prior experience needed —</b> <br className='md:block hidden'/>
                      anyone can join and start learning.
                     </span>
                 </li>
-                <li className="flex items-start">
+                <li className="flex gap-[12px] items-start">
                   <FaCheck className="mt-1 text-white mr-3 flex-shrink-0" />
                   <span className="detail-text !text-white detsil-text">
                     <b className='text-[#E6FFF6]'>Community support —</b> <br className='md:block hidden'/>
                      mentorship, updates, and guidance from the Pineleaf team.
                     </span>
                 </li>
-                <li className="flex items-start">
+                <li className="flex gap-[12px] items-start">
                   <FaCheck className="mt-1 text-white mr-3 flex-shrink-0" />
                   <span className="detail-text !text-white">
                     <b className='text-[#E6FFF6]'>Transparent structure —</b> <br className='md:block hidden'/>
                      commissions are clear, fair, and consistent.
                     </span>
                 </li>
-                <li className="flex items-start">
+                <li className="flex gap-[12px] items-start">
                   <FaCheck className="mt-1 text-white mr-3 flex-shrink-0" />
                   <span className="detail-text !text-white">
                     <b className='text-[#E6FFF6]'> 
@@ -422,15 +426,17 @@ const Hero = () => {
                 </li>
               </ul>
 
-              <div className="flex gap-4">
+              <div className="flex gap-8">
                 <Link href='/pprm'>
-                  <button className="bg-[#2F5318] border text-white px-6 py-3 rounded-lg text-sm hover:bg-[#1e3610] transition">
+                  <button className="bg-[#2F5318] border text-white px-6 py-3 rounded-lg text-[20px] hover:bg-[#1e3610] transition font-[700] ">
                   Get more Info
                 </button>
                 </Link>
-                <button className="bg-white border border-[#2F5318] text-[#2F5318] px-6 py-3 rounded-lg text-sm hover:bg-gray-100 transition">
+                <Link href='/register'>
+                <button className="bg-white border border-[#2F5318] text-[#2F5318] px-6 py-3 rounded-lg text-[20px] hover:bg-gray-100 transition font-[700]">
                   Register Now
                 </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -448,10 +454,10 @@ const Hero = () => {
       </div>
     </section>
 
-    <section className="px-[6.1458vw] py-[100px] bg-[#E6FFF6] flex flex-col gap-10">
+    <section className="px-[6.1458vw] py-[100px] bg-[#E6FFF6] flex flex-col gap-15">
       <div>
         <h1 className="semi-header text-center">Invest Smart. Watch Your Wealth Grow</h1>
-        <p className="text-[#2f5318] detail-text text-center">
+        <p className="text-[#2f5318] text-lg max-w-[1199px] m-auto text-center">
           Whether you&apos;re investing N200,000 0r N50 million, our structured plans offer guaranteed ROI over 6 or 12 months. It&apos;s real estate with real returns - safe, simple, and secure.
         </p>
       </div>
@@ -473,10 +479,10 @@ const Hero = () => {
           "Can I pay for lands in installments?",
           "Where are your estates located?"
         ].map((faq, idx) => (
-          <details key={idx} className="border-2 border-[#2F531833] rounded-lg p-4 md:py-9 py-7 md:px-5 px-4 h-100px] cursor-pointer group md:text-[20px] text-[16px]">
+          <details key={idx} className="border-2 border-[#2F531833] rounded-lg p-4 md:py-9 py-7 md:px-5 px-4 h-[100px] cursor-pointer group md:text-[20px] text-[16px]">
             <summary className="font-semibold flex justify-between items-center list-none">
               {faq}
-              <ChevronDown className="h-5 w-5 transition-transform group-open:rotate-180" />
+              <ChevronDown className="h-4 w-5 transition-transform group-open:rotate-180" />
             </summary>
             <p className="text-gray-600 pt-4 pl-4">
               Answer to &quot;{faq}&quot; goes here.

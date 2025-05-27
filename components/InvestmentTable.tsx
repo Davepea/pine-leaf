@@ -42,7 +42,7 @@ const InvestmentTable: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen   flex flex-col items-center justify-center">
+    <div className="   flex flex-col items-center justify-center">
       <div className=" w-full">
        
         
@@ -106,10 +106,10 @@ const InvestmentTable: React.FC = () => {
         </div>
         
         <div className="flex flex-col md:flex-row justify-center gap-4">
-          <button className=" text-[#2F5318] border border-[#2F5318] hover:bg-green-100 font-semibold py-3 px-6 rounded-md transition-colors duration-300">
+          <button className=" text-[#2F5318] border border-[#2F5318] text-[20px] font-[700] hover:bg-green-100 py-3 px-6 rounded-[10px] transition-colors duration-300">
             Request Consultation
           </button>
-          <button className="bg-[#2F5318] text-white hover:bg-[#2F5318] font-semibold py-3 px-8 rounded-md flex items-center justify-center gap-2 transition-colors duration-300">
+          <button className="bg-[#2F5318] text-white hover:bg-[#2F5318] text-[20px] font-[700] py-3 px-8 rounded-[10px] flex items-center justify-center gap-2 transition-colors duration-300">
             Download Investment Brochure
             <DownloadIcon size={20} />
           </button>

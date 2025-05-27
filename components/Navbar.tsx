@@ -10,7 +10,7 @@ interface NavItem {
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [, setIsMobile] = useState<boolean>(false);
 
   const navItems: NavItem[] = [
     { name: "Home", href: "/" },
@@ -35,9 +35,9 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <div className="md:bg-[#E6FFF6] px-[6.1458vw] md:relative absolute z-50 right-0 left-0 md:top-0 top-5 ">
+      <div className="md:bg-[#E6FFF6] px-[6.1458vw] py-3 md:relative absolute z-50 right-0 left-0 md:top-0 top-5 ">
         <nav className="w-full">
-          <div className="max-w-7xl mx-auto  sm:px-6 ">
+          <div className="max-w-8xl mx-auto  sm:px-6 ">
             <div className="flex justify-between items-center h-16">
               {/* Logo */}
               <div className="flex-shrink-0 flex items-center">
@@ -45,11 +45,13 @@ const Navbar: React.FC = () => {
                   <Image
                     src="/img/logo.png"
                     alt="Eagle Ventures Logo"
-                    width={40}
-                    height={40}
-                    className="h-10 w-auto"
+                    width={78}
+                    height={78}
+                    className="h-[78px] w-auto"
                   />
                 </Link>
+              
+
               </div>
 
               <div className="hidden md:flex md:items-center md:space-x-6">
@@ -57,17 +59,17 @@ const Navbar: React.FC = () => {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-gray-800 hover:text-green-600 px-3 py-2 text-sm font-medium transition duration-150 ease-in-out"
+                    className="text-gray-800 hover:text-green-600 px-3 py-2 md:text-lg font-[400] text-xs transition duration-150 ease-in-out"
                   >
                     {item.name}
                   </Link>
                 ))}
                 <Link
                   href="/login"
-                  className="ml-4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#000000CC]  hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex items-center"
+                  className="ml-4 px-4 py-2 border border-transparent md:text-lg text-sm  font-medium rounded-md text-white bg-[#000000CC]  hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex items-center"
                 >
                   Register/Login
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
                 </Link>

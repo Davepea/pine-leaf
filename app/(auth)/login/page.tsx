@@ -55,7 +55,7 @@ const LoginPage: React.FC = () => {
           />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-white\ bg-opacity-30">
             <h1 className="text-4xl font-bold mb-6 large-header !text-white">Welcome back</h1>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 text-white">
               <Link href="/"><span className="hover:underline cursor-pointer">Home</span></Link>
               <span>←</span>
               <Link href="/register"><span className="hover:underline cursor-pointer">Register</span></Link>
@@ -67,7 +67,7 @@ const LoginPage: React.FC = () => {
       </div>
 
       <div className="max-w-screen-xl mx-auto px-4 py-16">
-        <h2 className="text-2xl font-bold text-center text-[#2F5318] mb-4">Login as a Realtor</h2>
+        <h2 className="text-4xl font-bold text-center text-[#2F5318] mb-4">Login as a Realtor</h2>
         <p className="text-center text-gray-600 mb-8">
           Log in to access your dashboard, track your progress, and stay connected with Pineleaf.
         </p>

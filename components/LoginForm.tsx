@@ -76,7 +76,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         </button>
       </form>
 
-      <div className="mt-6">
+       <div className="mt-6">
         <p className="text-gray-600">
           You&apos;re not a member?{' '}
           <Link href="/register">
@@ -91,3 +91,5 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 };
 
 export default LoginForm;
+
+

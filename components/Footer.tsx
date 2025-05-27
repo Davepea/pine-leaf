@@ -59,8 +59,8 @@ export default function Footer() {
           <ul className="flex flex-col gap-[12px] text-sm font-roboto font-light ">
             <li><Link href="/">Home</Link></li>
             <li><Link href="/about">About us</Link></li>
-            <li><Link href="/services">Services</Link></li>
-            <li><Link href="/properties">Properties</Link></li>
+            <li><Link href="/service">Services</Link></li>
+            <li><Link href="/property">Properties</Link></li>
             <li><Link href="/gallery">Gallery</Link></li>
           </ul>
         </div>

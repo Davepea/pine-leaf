@@ -15,29 +15,35 @@ import PropertyListing from '@/components/PropertyListing'
 gsap.registerPlugin(ScrollTrigger)
 
 const Hero = () => {
-  const heroTextRef = useRef(null)
-  const heroSubtextRef = useRef(null)
-  const servicesRef = useRef(null)
-  const statsRef = useRef(null)
-  const propertyListingRef = useRef(null)
-  const guidesPrinciplesRef = useRef(null)
-  const prrmRef = useRef(null)
-  const testimonialsRef = useRef(null)
-  const faqRef = useRef(null)
+ // Properly type your refs
+  const heroTextRef = useRef<HTMLHeadingElement>(null)
+  const heroSubtextRef = useRef<HTMLParagraphElement>(null)
+  const servicesRef = useRef<HTMLElement>(null)
+  const statsRef = useRef<HTMLElement>(null)
+  const propertyListingRef = useRef<HTMLDivElement>(null)
+  const guidesPrinciplesRef = useRef<HTMLElement>(null)
+  const prrmRef = useRef<HTMLElement>(null)
+  const testimonialsRef = useRef<HTMLElement>(null)
+  const faqRef = useRef<HTMLElement>(null)
 
   useEffect(() => {
     // Hero Section Animations
     const heroTimeline = gsap.timeline()
-    heroTimeline
-      .fromTo(heroTextRef.current, 
+    
+    if (heroTextRef.current) {
+      heroTimeline.fromTo(heroTextRef.current, 
         { opacity: 0, y: 50 }, 
         { opacity: 1, y: 0, duration: 1, ease: 'power3.out' }
       )
-      .fromTo(heroSubtextRef.current, 
+    }
+    
+    if (heroSubtextRef.current) {
+      heroTimeline.fromTo(heroSubtextRef.current, 
         { opacity: 0, y: 50 }, 
         { opacity: 1, y: 0, duration: 1, ease: 'power3.out' },
         '-=0.5'
       )
+    }
 
     // Scroll-triggered animations for sections
     const sections = [
@@ -46,34 +52,46 @@ const Hero = () => {
       { ref: propertyListingRef, start: 'top 80%', end: 'bottom 20%' },
       { ref: guidesPrinciplesRef, start: 'top 80%', end: 'bottom 20%' },
       { ref: prrmRef, start: 'top 80%', end: 'bottom 20%' },
-      { ref: testimonialsRef, start: '0% 80%', end: 'bottom 20%' },
+      { ref: testimonialsRef, start: 'top 80%', end: 'bottom 20%' },
       { ref: faqRef, start: 'top 80%', end: 'bottom 20%' }
     ]
 
     sections.forEach(({ ref, start, end }) => {
-      if (ref.current) {
-        gsap.fromTo(
-          ref.current.children,
-          { 
-            opacity: 0, 
-            y: 50,
-            scale: 0.9
-          },
-          {
-            opacity: 1, 
-            y: 0,
-            scale: 1,
-            duration: 1,
-            stagger: 0.2,
-            ease: 'power3.out',
-            scrollTrigger: {
-              trigger: ref.current,
-              start: start,
-              end: end,
-              toggleActions: 'play none none reverse'
-            }
+      const element = ref.current
+      if (element && element.children) {
+        // Get all child elements and convert to array
+        const childElements: HTMLElement[] = []
+        for (let i = 0; i < element.children.length; i++) {
+          const child = element.children[i]
+          if (child instanceof HTMLElement) {
+            childElements.push(child)
           }
-        )
+        }
+        
+        if (childElements.length > 0) {
+          gsap.fromTo(
+            childElements,
+            { 
+              opacity: 0, 
+              y: 50,
+              scale: 0.9
+            },
+            {
+              opacity: 1, 
+              y: 0,
+              scale: 1,
+              duration: 1,
+              stagger: 0.2,
+              ease: 'power3.out',
+              scrollTrigger: {
+                trigger: element,
+                start: start,
+                end: end,
+                toggleActions: 'play none none reverse'
+              }
+            }
+          )
+        }
       }
     })
 
@@ -82,7 +100,6 @@ const Hero = () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill())
     }
   }, [])
-
   return (
     <>
     <section className='md:pt-[8.2vw] pt-[170px]  bg-[#E6FFF6] px-[6.1458vw] grid items-end relative md:h-full pb-[90px]'>

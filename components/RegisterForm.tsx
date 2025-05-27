@@ -43,20 +43,20 @@ const RegisterForm = () => {
     }
   };
 
-  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      agreeTerms: e.target.checked,
-    }));
+  // const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     agreeTerms: e.target.checked,
+  //   }));
 
-    if (errors.agreeTerms) {
-      setErrors((prev) => {
-        const copy = { ...prev };
-        delete copy.agreeTerms;
-        return copy;
-      });
-    }
-  };
+  //   if (errors.agreeTerms) {
+  //     setErrors((prev) => {
+  //       const copy = { ...prev };
+  //       delete copy.agreeTerms;
+  //       return copy;
+  //     });
+  //   }
+  // };
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -266,7 +266,7 @@ const RegisterForm = () => {
           <Checkbox
             id="agreeTerms"
             checked={formData.agreeTerms}
-            onChange={handleCheckboxChange}
+            // onChange={handleCheckboxChange}
           />
           <Label htmlFor="agreeTerms" className="text-sm">
             I agree to the{" "}

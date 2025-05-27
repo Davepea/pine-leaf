@@ -82,7 +82,7 @@ const Services: NextPage = () => {
                 <span>Transparent & professional service</span>
               </li>
             </ul>
-            <Link href="/contact">
+            <Link href="/contact-us">
               <span className="inline-block bg-white border border-[#2F5318] text-[#2F5318] px-6 py-2 rounded-md hover:bg-[#2F5318] hover:text-white transition duration-300">
                 Book for Consultation
               </span>
@@ -188,7 +188,7 @@ const Services: NextPage = () => {
                 <span>Your investment remains protected for the future.</span>
               </li>
             </ul>
-            <Link href="/contact">
+            <Link href="/contact-us">
               <span className="inline-block bg-white border border-[#2F5318] text-[#2F5318] px-6 py-2 rounded-md hover:bg-[#2F5318] hover:text-white transition duration-300">
                 Verify Your Land Title
               </span>
@@ -232,7 +232,7 @@ const Services: NextPage = () => {
                 <span>Earn up to 10% commission through our PRRM program.</span>
               </li>
             </ul>
-            <Link href="/contact">
+            <Link href="/contact-us">
               <span className="inline-block bg-white border border-[#2F5318] text-[#2F5318] px-6 py-2 rounded-md hover:bg-[#2F5318] hover:text-white transition duration-300">
                 Book for Consultation
               </span>

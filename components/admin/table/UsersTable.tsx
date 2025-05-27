@@ -122,31 +122,6 @@ const UsersTable = () => {
                                     </tr>
                                 )
                             })}
-                            {/* <tr>
-                                <th>
-                                    <label>
-                                        <input type="checkbox" className="size-[15px] border bg-white text-white border-[#000000]/80 flex items-center" />
-                                    </label>
-                                </th>
-                                <td>002</td>
-                                <td>Cynthia <br />Jideofor</td>
-                                <td>cythina005 <br />@gmail.com</td>
-                                <td>N0.00</td>
-                                <td>N0.00</td>
-                                <td className='text-[#2F5318] font-bold'>Uploaded <br />Receipt</td>
-                                <td>
-                                    <button className='border border-[#CD2B2E]/15 text-[#CD2B2E] bg-[#CD2B2E]/20 h-[35px] px-[18px] rounded-[10px]'>Pending</button>
-                                </td>
-                                <td className='text-[#2F5318] font-bold'>19/04/25 <br />10:40:15 pm</td>
-                                <td>
-                                    <div className="flex items-center gap-5 text-[#2F5318]">
-                                        <Link href={''}><MdOutlineRemoveRedEye size={20} /></Link>
-                                        <Link href={''}><MdOutlineModeEditOutline size={20} /></Link>
-                                        <Link href={''}><MdDeleteOutline size={20} /></Link>
-                                    </div>
-                                </td>
-                            </tr> */}
-
                         </tbody>
                     </table>
                 </div>

@@ -14,7 +14,7 @@ export default function Footer() {
 
           </div>
           <p className="mt-2 text-sm pb-[40px]">...Land Banking is a Must</p>
-          <div className='max-w-[244px] pb-[20px] md:text-start text-center'>
+          <div className='md:max-w-[244px] pb-[20px] md:text-start text-center'>
             <p className=" text-sm">
             <span className="font-bold text-[#A5D6A7]">Head Office:</span> Suit F17 Garbs Mega Plaza <br/>
             39 Awka Road Onitsha, Anambra State

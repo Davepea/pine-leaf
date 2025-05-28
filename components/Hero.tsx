@@ -479,7 +479,7 @@ const Hero = () => {
           "Can I pay for lands in installments?",
           "Where are your estates located?"
         ].map((faq, idx) => (
-          <details key={idx} className="border-2 border-[#2F531833] rounded-lg p-4 md:py-9 py-7 md:px-5 px-4 h-[100px] cursor-pointer group md:text-[20px] text-[16px]">
+          <details key={idx} className="border-2 border-[#2F531833] rounded-lg p-4 md:py-9 py-7 md:px-5 px-4 h-full cursor-pointer group md:text-[20px] text-[16px]">
             <summary className="font-semibold flex justify-between items-center list-none">
               {faq}
               <ChevronDown className="h-4 w-5 transition-transform group-open:rotate-180" />

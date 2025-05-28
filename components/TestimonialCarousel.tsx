@@ -116,7 +116,7 @@ const TestimonialCarousel: React.FC = () => {
       <div className="flex gap-[8px]">
         {[...Array(5)].map((_, i) => (
           <span key={i} className="text-yellow-400 text-xl">
-            {i < rating ? '★' : '☆'}
+            {i < rating ? '⭐' : '☆'}
           </span>
         ))}
       </div>

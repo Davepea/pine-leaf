@@ -7,6 +7,7 @@ import React, { useState, useRef } from 'react'
 import { MdOutlineImage, MdAdd, MdClose } from 'react-icons/md'
 import { useFormik } from 'formik'
 import Image from 'next/image'
+import axios from 'axios'
 
 const Page = () => {
     const [loading, setLoading] = useState(false)
@@ -54,7 +55,15 @@ const Page = () => {
                     formData.append('images[]', image)
                 })
 
-                const response = await createProperty(formData)
+                const response = await axios.post(
+                    'https://pineleaflaravel.sunmence.com.ng/public/api/properties/create', (formData),
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Accept': 'application/json'
+                        }
+                    }
+                )
                 console.log(response.data)
             } catch (error) {
                 console.error(error)
@@ -126,7 +135,7 @@ const Page = () => {
         { label: 'Location', name: 'location', type: 'text' },
         { label: 'Price', name: 'price', type: 'number' },
         { label: 'Total Plots', name: 'total_units', type: 'number' },
-        { label: 'Driving duration', name: 'duration', type: 'text' },
+        // { label: 'Driving duration', name: 'duration', type: 'text' },
         // { label: 'Plot Size', name: 'size', type: 'text' },
         { label: 'Land Condition', name: 'land_condition', type: 'text' },
         { label: 'Title Document', name: 'document_title', type: 'text' },

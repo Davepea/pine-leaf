@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
+import NewsletterSubscription from '@/components/NewsLetter';
 
 export default function Footer() {
   return (
@@ -25,19 +26,7 @@ export default function Footer() {
 
         <div className=' md:col-span-3 pt-16'>
           <div className='max-w-[450px]'>
-            <h3 className="text-lg font-bold mb-5">Our Newsletter</h3>
-          <p className="font-roboto font-light text-sm mb-8">Your Gateway to a World of Real Estate: Explore, Engage, and Empower with our Exclusive Newsletter Subscription!</p>
-          <div className="flex bg-[#4b6b4c] backdrop-blur-2xl bg-gradient-to-r rounded-xl overflow-hidden">
-            <input
-              type="email"
-              placeholder="Email Address"
-              className="p-2 flex-1 !h-[42px]  rounded-l-md text-black "
-            />
-            <button className="bg-[#E6FFF6] text-green-900 font-bold px-4 rounded-r-md">
-              Subscribe
-            </button>
-          </div>
-
+            <NewsletterSubscription/>
           <h3 className="text-lg font-bold mt-8 mb-2">Follow Us</h3>
           <div className="flex gap-4 md:justify-start justify-center">
             <Link href="#" className="text-white">
@@ -56,7 +45,7 @@ export default function Footer() {
         {/* Right Section */}
         <div className=' md:col-span-1 pt-16'>
           <h3 className="text-lg font-bold mb-5">Quick Links</h3>
-          <ul className="flex flex-col gap-[12px] text-sm font-roboto font-light ">
+          <ul className="flex md:flex-col flex-row md:justify-start justify-center gap-[12px] text-sm font-roboto font-light ">
             <li><Link href="/">Home</Link></li>
             <li><Link href="/about">About us</Link></li>
             <li><Link href="/service">Services</Link></li>
@@ -66,10 +55,14 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-[#FFFFFF33] mt-10 py-10 flex justify-between text-xs">
-        <p>Pineleafestate©2025 All rights Reserved</p>
-        <p>Built by sunmence</p>
-        <Link href="/privacy-policy" className="font-bold">Privacy Policy</Link>
+      <div className="border-t border-[#FFFFFF33] mt-10 py-10 grid md:grid-cols-3 grid-cols-1 text-center">
+        <div className=' col-span-2 flex md:justify-between md:flex-row flex-col items-center justify-center md:order-1 order-2'>
+          <p>Pineleafestate©2025 All rights Reserved</p>
+        <Link href="https://sunmence.com.ng/">
+          <p>Built by sunmence</p>
+        </Link>
+        </div>
+        <Link href="/privacy-policy" className="font-bold md:order-2 order-1 md:text-end text-center">Privacy Policy</Link>
       </div>
     </footer>
   );

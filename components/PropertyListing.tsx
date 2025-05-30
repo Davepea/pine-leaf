@@ -107,6 +107,9 @@ const PropertyListing: React.FC = () => {
             dryLand={property.land_condition === 'dry' ? '100% Dry Land' : 'Check Land Status'}
             instantLocation="Instant Location"
             type={property.type}
+            land_condition={property.land_condition}
+            property_features={property.property_features}
+            purpose={property.purpose}
           />
         ))}
       </div>

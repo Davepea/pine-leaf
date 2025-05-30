@@ -3,6 +3,7 @@ import React from 'react';
 import { MapPin } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { MdArrowOutward } from 'react-icons/md';
 
 type EstateCardProps = {
   id?: number;
@@ -56,6 +57,11 @@ const EstateCard: React.FC<EstateCardProps> = ({
   const displayTitle = name || estate_name || title || 'Property';
   const numericPrice = typeof price === 'number' ? price : parseFloat(price);
   const displayPrice = isNaN(numericPrice) ? 'N/A' : numericPrice.toLocaleString();
+  const displaySize = size || 'size';
+  const displayLocationCon = land_condition || 'land-condition'
+  
+
+  console.log(land_condition);
   
   // Handle location display - API returns location as "1", need to map or use landmark
   const displayLocation = landmark && landmark.length > 0 
@@ -66,10 +72,10 @@ const EstateCard: React.FC<EstateCardProps> = ({
     
 
   const additionalDetails = [
-    size || '464 SQM',
-    land_condition || dryLand || '100% Dry Land',
-    property_features?.[0] || instantLocation || 'Instant Allocation',
-    `${type || 'Land'} - ${purpose || 'Residential'}`
+    size || 'size',
+    land_condition || dryLand || 'land-cond',
+    property_features?.[1] || instantLocation || 'prop-feat',
+    `${type || 'Land'} - ${purpose || 'Res'}`
   ];
 
   return (
@@ -89,7 +95,7 @@ const EstateCard: React.FC<EstateCardProps> = ({
       </div>
 
       {/* Content */}
-      <div className="p-4">
+      <div className="p-3">
         <div className="flex items-center text-gray-500 text-sm mb-2">
           <MapPin className="w-4 h-4 mr-1" />
           <span className="truncate">{displayLocation}</span>
@@ -97,36 +103,39 @@ const EstateCard: React.FC<EstateCardProps> = ({
 
         <div className="flex items-center justify-between mb-2">
           <h3 className="font-semibold text-lg text-gray-800 truncate mr-2">{displayTitle}</h3>
-          <span className="font-bold text-green-600 whitespace-nowrap">₦{displayPrice}</span>
+          <span className="font-bold text-[#000000CC] whitespace-nowrap">₦{displayPrice}</span>
         </div>
 
         {/* Description snippet */}
         {description && (
-          <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+          <p className="text-gray-600 text-sm mb-2 line-clamp-2">
             {description.length > 100 ? `${description.substring(0, 100)}...` : description}
           </p>
         )}
 
-        <div className="flex flex-wrap gap-1 text-xs text-gray-600 my-3 border-t border-b py-2">
+        <div className="flex items-center gap-1 text-xs text-gray-600 my-3 border-t-2 border-b-2 py-2 border-[#2f53183f]  ">
           {additionalDetails.map((detail, index) => (
             <React.Fragment key={index}>
-              {index > 0 && <span className="px-1">|</span>}
-              <span className="lg:text-xs md:text-[10px]">{detail}</span>
+              {index > 0 && <span className="px-1 text-xl text-gray-300">|</span>}
+              <span className="lg:text-sm md:text-[14px] truncate">{detail}</span>
             </React.Fragment>
           ))}
+         
         </div>
 
         {/* Navigation Link */}
         {id ? (
           <Link 
             href={`/property/${id}`} 
-            className="text-green-700 text-sm font-semibold hover:underline block cursor-pointer transition-colors hover:text-green-800"
+            className="text-[#2F5318] text-[16px] flex font-[700] hover:underline text-center  justify-center items-center gap-[6.5px] cursor-pointer transition-colors hover:text-[#2e3928] py-[10px]"
           >
-            View Details →
+            More Details 
+            <MdArrowOutward/>
           </Link>
         ) : (
-          <span className="text-gray-400 text-sm font-semibold cursor-not-allowed">
-            View Details →
+          <span className="text-gray-400 text-[16px] font-[700] gap-[6.5px] cursor-not-allowed text-center flex justify-center items-center">
+            More Details 
+            <MdArrowOutward/>
           </span>
         )}
       </div>

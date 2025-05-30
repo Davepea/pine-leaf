@@ -244,19 +244,20 @@ const Hero = () => {
                   desc: 'Invest in verified, high-value lands across South-South and South-East Nigeria, with expert guidance from purchase to development.',
                   img: '/img/service-1.png',
                 },
-                
                 {
-                  title: 'Land Banking Investments',
-                  desc: 'Multiply your wealth over time by investing in fast-appreciating lands through our carefully selected land banking schemes.',
-                  img: '/img/service-3.png',
-                },
-                {
-                  title: 'Title Verification & Documentation',
-                  desc: 'We assist in verifying land titles, documentation, and ensuring all paperwork is authentic before any transaction.',
+                  title: 'Title Verification & Documentation Assistance',
+                  desc: 'We help you secure your land with title verification, survey plan assistance, and support in processing key legal documents.',
                   img: '/img/service-2.png',
                 },
+                
+                {
+                  title: 'Land Banking & Investment Consultation',
+                  desc: 'Acquire land in fast-developing areas, benefit from property appreciation, and receive expert consultation for long-term ROI.',
+                  img: '/img/service-3.png',
+                },
+                
               ].map((service, idx) => (
-                <div key={idx} className="flex flex-col gap-7 text-center border h-[413px] border-[#2F531833] p-[27px] rounded-[10px]">
+                <div key={idx} className="flex flex-col gap-7 text-center border md:h-[413px] border-[#2F531833] p-[27px] rounded-[10px]">
                   <div className='grid place-content-center'>
                     <div className='md:w-[96px] md:h-[96px] w-[50px] h-[50px]'>
                     <Image src={service.img} alt={service.title} width={96} height={96} className="rounded-lg w-full h-auto" />
@@ -267,7 +268,7 @@ const Hero = () => {
                     <p className="detail-text">{service.desc}</p>
                   </div>
                   <div className='flex justify-center'>
-                  <Link href="#">
+                  <Link href="/service">
                     <button className="flex items-center gap-[8px] text-[#2F5318] font-semibold">
                       Learn more
                       <ChevronDown size={16} />

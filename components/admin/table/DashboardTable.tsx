@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 import { getToken } from '@/lib/auth'
 
 interface User {
-    id: number
+    id: string
     fullName: string
     email: string
     role: string
@@ -51,6 +51,43 @@ const DashboardTable = () => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState('')
     const router = useRouter()
+
+    const handleDeleteUser = async (userId: number) => {
+        if (!confirm('Are you sure you want to delete this user?')) {
+            return
+        }
+
+        try {
+            const token = getToken()
+            if (!token) {
+                router.push('/dashboard')
+                return
+            }
+
+            await axios.delete(
+                `https://pineleaflaravel.sunmence.com.ng/public/api/admin/deleteuser/${userId}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json'
+                    },
+                    timeout: 10000
+                }
+            )
+
+            // Refresh the user list after deletion
+            setUsers(users.filter(user => user.id !== userId))
+
+        } catch (err: any) {
+            console.error('Error deleting user:', err)
+            alert(err.response?.data?.message || 'Failed to delete user')
+
+            if (err.response?.status === 401) {
+                router.push('/login')
+            }
+        }
+    }
+
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -127,17 +164,18 @@ const DashboardTable = () => {
     if (!users || users.length === 0) {
         return (
             <div className='bg-white rounded-[10px] p-6 w-full'>
-                <p className='text-yellow-600'>No users found</p>
+                <p className='text-[#2F5318]'>No sales report</p>
             </div>
         )
     }
+
     return (
         <div className='bg-white rounded-[10px] pb-6 w-full overflow-x-auto'>
             <div className="w-full relative z-0">
                 <div className="overflow-x-auto w-full mytable py-2">
                     <table className="table">
                         {/* head */}
-                        <thead className='text-lg text-[#000000]/80 font-medium'>
+                        <thead className='md:text-base text-sm text-[#000000]/80 font-medium'>
                             <tr>
                                 <th>User</th>
                                 <th>Name</th>
@@ -149,7 +187,7 @@ const DashboardTable = () => {
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody className='text-base text-[#000000]/80'>
+                        <tbody className='md:text-base text-sm text-[#000000]/80'>
                             {users.map((user) => (
                                 <tr key={user.id}>
                                     <td>
@@ -177,13 +215,13 @@ const DashboardTable = () => {
                                             {user.enabled ? 'Active' : 'Inactive'}
                                         </button>
                                     </td>
-                                    <td>
-                                        <Link
-                                            className="font-bold text-[#2F5318]"
-                                            href={`/users/edit/${user.id}`}
+                                    <td className="flex gap-2">
+                                        <button
+                                            onClick={() => handleDeleteUser(user.id)}
+                                            className="border-none bg-transparent"
                                         >
-                                            Edit
-                                        </Link>
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                             ))}

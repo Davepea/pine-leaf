@@ -13,7 +13,7 @@ export const propertyService = {
           }
         }
       );
-      return response.data; // Return full pagination data, not just .data
+      return response.data; 
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<ApiErrorResponse>;

@@ -1,3 +1,4 @@
+'use client';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -5,6 +6,15 @@ import Link from 'next/link';
 import { FaCheck} from 'react-icons/fa';
 
 const Services: NextPage = () => {
+    const handleDownload = () => {
+    const link = document.createElement('a');
+      link.href = '/img/invest-plan.jpg'; 
+      link.download = 'investment-brochure.jpg';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
   return (
     <div className="min-h-screen bg-white">
       <Head>
@@ -82,7 +92,7 @@ const Services: NextPage = () => {
                 <span>Transparent & professional service</span>
               </li>
             </ul>
-            <Link href="/contact">
+            <Link href="/book-consultation">
               <span className="inline-block bg-white border border-[#2F5318] text-[#2F5318] px-6 py-2 rounded-md hover:bg-[#2F5318] hover:text-white transition duration-300">
                 Book for Consultation
               </span>
@@ -126,11 +136,13 @@ const Services: NextPage = () => {
                 <span>Guidance from expert real estate consultants.</span>
               </li>
             </ul>
-            <Link href="/investment-plan">
-              <span className="inline-block bg-white border border-[#2F5318] text-[#2F5318] px-6 py-2 rounded-md hover:bg-[#2F5318] hover:text-white transition duration-300">
+            
+              <button className="inline-block bg-white border border-[#2F5318] text-[#2F5318] px-6 py-2 rounded-md hover:bg-[#2F5318] hover:text-white transition duration-300"
+              onClick={handleDownload}
+              >
                 Download Investment Plan
-              </span>
-            </Link>
+              </button>
+            
           </div>
           <div className="order-1 md:order-2 rounded-lg overflow-hidden">
             <Image
@@ -188,7 +200,7 @@ const Services: NextPage = () => {
                 <span>Your investment remains protected for the future.</span>
               </li>
             </ul>
-            <Link href="/contact">
+            <Link href="/verify-land-title">
               <span className="inline-block bg-white border border-[#2F5318] text-[#2F5318] px-6 py-2 rounded-md hover:bg-[#2F5318] hover:text-white transition duration-300">
                 Verify Your Land Title
               </span>
@@ -232,7 +244,7 @@ const Services: NextPage = () => {
                 <span>Earn up to 10% commission through our PRRM program.</span>
               </li>
             </ul>
-            <Link href="/contact">
+            <Link href="/book-consultation">
               <span className="inline-block bg-white border border-[#2F5318] text-[#2F5318] px-6 py-2 rounded-md hover:bg-[#2F5318] hover:text-white transition duration-300">
                 Book for Consultation
               </span>

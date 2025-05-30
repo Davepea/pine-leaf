@@ -140,7 +140,22 @@ export default function PropertiesPage() {
         {/* Properties Grid */}
         <section className="px-4 sm:px-8 py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties.map((property) => (
-            <EstateCard key={property.id} {...property} />
+            <EstateCard key={property.id}
+            id={property.id}
+
+            location={property.location}
+            title={property.estate_name}
+            srcImage={property.images[0] || '/img/default-property.jpg'}
+            price={parseFloat(property.price)}
+            size={property.size}
+            dryLand={property.land_condition === 'dry' ? '100% Dry Land' : 'Check Land Status'}
+            instantLocation="Instant Location"
+            type={property.type} 
+            land_condition={property.land_condition}
+            property_features={property.property_features}
+            purpose={property.purpose}
+            />
+            
           ))}
         </section>
         

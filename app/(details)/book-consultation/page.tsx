@@ -1,7 +1,7 @@
 "use client"
 // pages/book-consultation.tsx
-import { useState, useEffect, useRef } from 'react';
-import { gsap } from 'gsap';
+import { useState } from 'react';
+
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -43,38 +43,9 @@ const BookConsultation: React.FC = () => {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const footerRef = useRef<HTMLDivElement>(null);
+ 
 
-  useEffect(() => {
-    const tl = gsap.timeline();
-    
-    // Hero animation
-    tl.from(heroRef.current, {
-      opacity: 0,
-      y: 50,
-      duration: 1,
-      ease: "power3.out"
-    })
-    
-    // Footer animation
-    .from(footerRef.current, {
-      opacity: 0,
-      y: 50,
-      duration: 0.8,
-      ease: "power3.out"
-    }, "-=0.3");
-
-    // Form field animations
-    gsap.from('.form-field', {
-      opacity: 0,
-      y: 30,
-      duration: 0.6,
-      stagger: 0.1,
-      ease: "power3.out",
-      delay: 0.5
-    });
-  }, []);
+  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -116,15 +87,7 @@ const BookConsultation: React.FC = () => {
     
     setIsSubmitting(true);
 
-    // Add submit animation
-    gsap.to('.submit-btn', {
-      scale: 0.95,
-      duration: 0.1,
-      yoyo: true,
-      repeat: 1,
-      ease: "power2.inOut"
-    });
-
+  
     try {
       // Transform form data to API format
       const apiData: ApiConsultationData = {
@@ -158,15 +121,7 @@ const BookConsultation: React.FC = () => {
         additionalNotes: ''
       });
 
-      // Success animation
-      gsap.to('.form-container', {
-        scale: 1.02,
-        duration: 0.3,
-        yoyo: true,
-        repeat: 1,
-        ease: "power2.inOut"
-      });
-
+      
     } catch (error) {
       // Error toast
       toast.error('Failed to Book Consultation', {
@@ -187,7 +142,7 @@ const BookConsultation: React.FC = () => {
 
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
-        <div ref={heroRef} className="relative bg-pineleaf-green text-white">
+        <div  className="relative bg-pineleaf-green text-white">
           <div className="absolute inset-0 z-0">
             <Image 
               src="/img/pine-1.png" 

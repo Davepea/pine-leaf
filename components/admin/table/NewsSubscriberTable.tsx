@@ -5,27 +5,22 @@ import axios from 'axios'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { MdArrowBackIos, MdArrowForwardIos, MdDeleteOutline, MdOutlineModeEditOutline, MdOutlineRemoveRedEye } from 'react-icons/md'
+import { MdArrowBackIos, MdArrowForwardIos, MdDeleteOutline, MdOutlineModeEditOutline } from 'react-icons/md'
 
-export interface Users {
+export interface Subscriber {
     id: number,
-    fullName: string,
     email: string,
-    balance: number,
-    referral_bonus: number,
-    proof: string,
-    enabled: number,
-    created_at: string
+    created_at: string,
 }
-const UsersTable = () => {
-    const [allUsers, setAllUsers] = useState<Users[]>([])
+const NewsSubscriberTable = () => {
+    const [allSubscriber, setAllSubscriber] = useState<Subscriber[]>([])
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
 
     const router = useRouter()
     useEffect(() => {
-        const fetchUsers = async () => {
+        const fetchSubscriber = async () => {
             try {
                 const token = getToken()
                 if (!token) {
@@ -34,7 +29,7 @@ const UsersTable = () => {
                 }
 
                 const response = await axios.get(
-                    'https://pineleaflaravel.sunmence.com.ng/public/api/admin/allusers',
+                    'https://pineleaflaravel.sunmence.com.ng/public/api/subscribers',
                     {
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -45,8 +40,13 @@ const UsersTable = () => {
                         }
                     }
                 )
-                setAllUsers(response.data.data.data)
-                setTotalPages(response.data.data.last_page)
+                if (response.data?.data && Array.isArray(response.data.data.data)) {
+                    setAllSubscriber(response.data.data.data)
+                    setTotalPages(response.data.data.last_page)
+                    // console.log(response.data.data.data);
+                } else {
+                    throw new Error('Invalid data structure received from API')
+                }
             }
             catch (err) {
                 console.error('Error fetching properties:', err)
@@ -54,7 +54,7 @@ const UsersTable = () => {
                 setLoading(false)
             }
         }
-        fetchUsers()
+        fetchSubscriber()
     }, [currentPage, router])
     const handlePageChange = (page: number) => {
         setCurrentPage(page)
@@ -63,7 +63,7 @@ const UsersTable = () => {
     if (loading) {
         return (
             <div className='bg-white rounded-[10px] p-6 w-full text-center'>
-                <p>Loading users...</p>
+                <p>Loading...</p>
             </div>
         )
     }
@@ -75,52 +75,23 @@ const UsersTable = () => {
                         {/* head */}
                         <thead className='text-sm text-[#000000]/80 font-medium'>
                             <tr>
-                                <th></th>
                                 <th>ID</th>
-                                <th>Name</th>
                                 <th>Email</th>
-                                <th>Account <br />Balance</th>
-                                <th>Referral <br />Bonus</th>
-                                <th>Proof of <br />Payment</th>
-                                <th>Payment <br />Status</th>
                                 <th>Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody className='text-sm text-[#000000]/80'>
-                            {allUsers.map((user) => {
-                                const isConfirmed = user.enabled ? 1 : 0
+                            {allSubscriber.map((subscriber) => {
                                 return (
-                                    <tr key={user.id}>
-                                        <th>
-                                            <label>
-                                                <input type="checkbox" className="size-[15px] border bg-white text-white border-[#000000]/80 flex items-center" />
-                                            </label>
-                                        </th>
-                                        <td>{user.id}</td>
-                                        <td>{user.fullName}</td>
-                                        <td>
-                                            <span>{user.email.split('@')[0]}</span>
-                                            <br />
-                                            <span>@{user.email.split('@')[1]}</span>
-                                        </td>
-                                        <td>N{user.balance}</td>
-                                        <td>N{user.referral_bonus}</td>
-                                        <td className='text-[#2F5318] font-bold'>Paid Online</td>
-                                        <td>
-                                            <button className={`border h-[35px] px-[18px] rounded-[10px] ${isConfirmed
-                                                ? 'border-[#2F5318]/15 text-[#2F5318] bg-[#DFF7EE]/80'
-                                                : 'border-[#CD2B2E]/15 text-[#CD2B2E] bg-[#CD2B2E]/20'
-                                                }`}>
-                                                {isConfirmed ? 'Confirmed' : 'Pending'}
-                                            </button>
-                                        </td>
-                                        <td className='text-[#2F5318] font-bold'>{user.created_at.split('.')[0]}</td>
+                                    <tr key={subscriber.id}>
+                                        <td>{subscriber.id}</td>
+                                        <td>{subscriber.email}</td>
+                                        <td>{subscriber.created_at.split('.')[0]}</td>
                                         <td>
                                             <div className="flex items-center md:gap-4 gap-2 text-[#2F5318]">
-                                                <Link href={`/users/view/${user.id}`}><MdOutlineRemoveRedEye size={20} /></Link>
-                                                <Link href={`/users/edit/${user.id}`}><MdOutlineModeEditOutline size={20} /></Link>
-                                                <Link href={`/users/delete/${user.id}`}><MdDeleteOutline size={20} /></Link>
+                                                <Link href={`/news-subscribers/edit/${subscriber.id}`}><MdOutlineModeEditOutline size={20} /></Link>
+                                                <Link href={`/news-subscribers/delete/${subscriber.id}`}><MdDeleteOutline size={20} /></Link>
                                             </div>
                                         </td>
                                     </tr>
@@ -173,4 +144,4 @@ const UsersTable = () => {
     )
 }
 
-export default UsersTable
+export default NewsSubscriberTable

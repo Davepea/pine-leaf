@@ -312,3 +312,6 @@
     color: white !important;  
     align-items: center;
   }
+  .overflow-y-auto::-webkit-scrollbar {
+    display: none !important;
+  }

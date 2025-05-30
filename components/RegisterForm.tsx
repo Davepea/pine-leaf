@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Eye, EyeOff } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -20,13 +20,44 @@ const RegisterForm = () => {
     password: "",
     confirmPassword: "",
     agreeTerms: true,
-    paymentMethod: 'paystack',
+    paymentMethod: "paystack",
     amount: 50000,
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
+
+  // Modal state and payment URL
+  const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // Track if user has copied the link (required to close modal)
+  const [hasCopied, setHasCopied] = useState(false);
+
+  // On mount, check if modal open state + payment URL saved in localStorage
+  useEffect(() => {
+    const savedUrl = localStorage.getItem("paymentUrl");
+    const modalOpen = localStorage.getItem("isModalOpen") === "true";
+    const copied = localStorage.getItem("hasCopied") === "true";
+    if (modalOpen && savedUrl) {
+      setPaymentUrl(savedUrl);
+      setIsModalOpen(true);
+      setHasCopied(copied);
+    }
+  }, []);
+
+  // When modal opens or paymentUrl changes, save to localStorage
+  useEffect(() => {
+    if (isModalOpen && paymentUrl) {
+      localStorage.setItem("paymentUrl", paymentUrl);
+      localStorage.setItem("isModalOpen", "true");
+      localStorage.setItem("hasCopied", hasCopied ? "true" : "false");
+    } else {
+      localStorage.removeItem("paymentUrl");
+      localStorage.removeItem("isModalOpen");
+      localStorage.removeItem("hasCopied");
+    }
+  }, [isModalOpen, paymentUrl, hasCopied]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -43,32 +74,21 @@ const RegisterForm = () => {
     }
   };
 
-  // const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     agreeTerms: e.target.checked,
-  //   }));
-
-  //   if (errors.agreeTerms) {
-  //     setErrors((prev) => {
-  //       const copy = { ...prev };
-  //       delete copy.agreeTerms;
-  //       return copy;
-  //     });
-  //   }
-  // };
-
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
     if (!formData.fullName.trim()) newErrors.fullName = "Full name is required";
     if (!formData.email.trim()) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Email is invalid";
     if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
     if (!formData.username.trim()) newErrors.username = "Username is required";
     if (!formData.password) newErrors.password = "Password is required";
-    else if (formData.password.length < 6) newErrors.password = "Password must be at least 6 characters";
-    if (!formData.confirmPassword) newErrors.confirmPassword = "Please confirm your password";
-    else if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "Passwords do not match";
+    else if (formData.password.length < 6)
+      newErrors.password = "Password must be at least 6 characters";
+    if (!formData.confirmPassword)
+      newErrors.confirmPassword = "Please confirm your password";
+    else if (formData.password !== formData.confirmPassword)
+      newErrors.confirmPassword = "Passwords do not match";
     if (!formData.agreeTerms) newErrors.agreeTerms = "You must agree to terms";
     return newErrors;
   };
@@ -76,6 +96,28 @@ const RegisterForm = () => {
   const isFormValid = () => {
     const formErrors = validateForm();
     return Object.keys(formErrors).length === 0;
+  };
+
+  const handleCopy = () => {
+    if (!paymentUrl) return;
+    navigator.clipboard.writeText(paymentUrl).then(() => {
+      setHasCopied(true);
+      localStorage.setItem("hasCopied", "true");
+      alert("Link copied! You can now close the modal.");
+    });
+  };
+
+  const handleCloseModal = () => {
+    if (!hasCopied) {
+      alert("Please copy the payment link before closing this window.");
+      return;
+    }
+    setIsModalOpen(false);
+    setPaymentUrl(null);
+    setHasCopied(false);
+    localStorage.removeItem("paymentUrl");
+    localStorage.removeItem("isModalOpen");
+    localStorage.removeItem("hasCopied");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -91,13 +133,17 @@ const RegisterForm = () => {
 
     try {
       const result = await registerUser(formData);
-      
-      // Check if registration was successful and has payment URL
-      if (result.status === "pending_payment" && result.payment_url) {
-        // Redirect to payment URL immediately
-        window.location.href = `${result.payment_url}`;
+
+      if (
+        result.status === "pending_payment" &&
+        typeof result.payment_url === "string"
+      ) {
+        // Show modal with payment link instead of redirect
+        setPaymentUrl(result.payment_url);
+        setIsModalOpen(true);
+        setHasCopied(false);
+        // Save modal open state handled by useEffect
       } else if (result.success) {
-        // Fallback for other success responses
         alert("Registration successful!");
         window.location.href = "/login";
       } else {
@@ -114,7 +160,7 @@ const RegisterForm = () => {
   return (
     <div className="max-w-[996px] mx-auto bg-white rounded-2xl shadow-lg p-8">
       <form onSubmit={handleSubmit} className="space-y-6">
-         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Full Name */}
           <div className="space-y-2">
             <Label htmlFor="fullName">
@@ -261,20 +307,13 @@ const RegisterForm = () => {
             )}
           </div>
         </div>
+
         {/* Agree to Terms */}
         <div className="flex items-center space-x-2">
-          <Checkbox
-            id="agreeTerms"
-            checked={formData.agreeTerms}
-            // onChange={handleCheckboxChange}
-          />
+          <Checkbox id="agreeTerms" checked={formData.agreeTerms} />
           <Label htmlFor="agreeTerms" className="text-sm">
             I agree to the{" "}
-            <Link
-              href="/terms"
-              target="_blank"
-              className="underline text-primary"
-            >
+            <Link href="/terms" target="_blank" className="underline text-primary">
               terms and conditions
             </Link>
             .
@@ -300,6 +339,47 @@ const RegisterForm = () => {
           Login
         </Link>
       </div>
+
+      {/* Modal for payment link */}
+      {isModalOpen && paymentUrl && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+          // Prevent closing modal by clicking backdrop
+          onClick={() => {
+            alert("Please copy the payment link before closing this window.");
+          }}
+        >
+          <div
+            className="bg-white p-6 rounded-lg max-w-md w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-lg font-bold mb-4">Complete Payment</h2>
+            <p className="mb-4">
+              Please complete your payment by visiting the link below:
+            </p>
+            <input
+              type="text"
+              readOnly
+              value={paymentUrl}
+              className="w-full p-2 border border-gray-300 rounded mb-4 select-all"
+              onClick={(e) => (e.currentTarget as HTMLInputElement).select()}
+            />
+            <div className="flex space-x-4">
+              <Button onClick={handleCopy} className="flex-1">
+                {hasCopied ? "Copied!" : "Copy Link"}
+              </Button>
+              <Button
+                onClick={handleCloseModal}
+                disabled={!hasCopied}
+                variant="secondary"
+                className="flex-1"
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

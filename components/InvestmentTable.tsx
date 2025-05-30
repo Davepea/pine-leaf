@@ -9,6 +9,17 @@ interface InvestmentTier {
 }
 
 const InvestmentTable: React.FC = () => {
+
+  const handleDownload = () => {
+    const link = document.createElement('a');
+      link.href = '/img/invest-plan.jpg'; 
+      link.download = 'investment-brochure.jpg';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+
+
   const investmentTiers: InvestmentTier[] = [
     {
       investment: 'N200,000',
@@ -107,15 +118,19 @@ const InvestmentTable: React.FC = () => {
         </div>
         
         <div className="flex flex-col md:flex-row justify-center gap-4">
-          <Link href='/contact-us'>
+          <Link href='/book-consultation'>
              <button className=" text-[#2F5318] border border-[#2F5318] text-[20px] font-[700] hover:bg-green-100 py-3 px-6 rounded-[10px] transition-colors duration-300">
             Request Consultation
           </button>
           </Link>
-          <button className="bg-[#2F5318] text-white hover:bg-[#2F5318] text-[20px] font-[700] py-3 px-8 rounded-[10px] flex items-center justify-center gap-2 transition-colors duration-300">
+          <button className="bg-[#2F5318] text-white hover:bg-[#2F5318] text-[20px] font-[700] py-3 px-8 rounded-[10px] flex items-center justify-center gap-2 transition-colors duration-300"
+          onClick={handleDownload}
+          >
             Download Investment Brochure
             <DownloadIcon size={20} />
           </button>
+        
+
         </div>
       </div>
     </div>

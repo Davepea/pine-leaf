@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import LoginForm from '@/components/LoginForm';
 import axios from 'axios';
 import { setToken } from '@/lib/auth'
+import { toast } from 'sonner';
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
@@ -25,15 +26,32 @@ const LoginPage: React.FC = () => {
         }
       );
 
-      if (response.data?.data?.token) {
+      const token = response.data?.data?.token
+      const role = response.data?.user?.role;
+
+      console.log('Role:', role);
+
+
+      if (token) {
         setToken(response.data.data.token)
         localStorage.setItem('token', response.data.data.token);
       }
 
-      alert('Login successful!');
+      toast.success('Login successful!');
+
+      if(role === "admin"){
       router.push('/admin/dashboard');
-    } catch (error: any) {
-      alert(error.response?.data?.message || 'Login failed. Please try again.');
+      console.log(role);
+      
+
+      }
+      else if(role === "user"){
+      router.push('/dashboard');
+
+      }
+    } catch (error) {
+     
+      toast.error(error.response?.data?.message || 'Login failed. Please try again.')
     }
   };
 

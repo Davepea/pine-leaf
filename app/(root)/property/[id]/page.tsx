@@ -1,448 +1,351 @@
+'use client'; // Only needed if using App Router
+
+import React, { useState, useEffect } from 'react';
+// import { useRouter } from 'next/router'; // For Pages Router
+import { useRouter, useParams } from 'next/navigation'; 
 import Image from 'next/image';
+import {  ArrowLeft, Clock, MapPin as LocationIcon, Home, Download, Phone, Mail } from 'lucide-react';
 import Link from 'next/link';
-import { Metadata } from 'next';
 import EstateCard from '@/components/EstateCard';
-import { notFound } from 'next/navigation';
 
-// Types
-interface PropertyFeature {
-  icon: string;
-  name: string;
-}
-
-interface PropertyDetail {
-  id: string;
-  name: string;
-  estate: string;
-  location: string;
-  description: string;
-  landmarks: {
-    location: string;
-    proximities: string[];
-  };
-  overview: {
-    size: string;
-    landCondition: string;
-    titleDocument: string;
-  };
-  features: PropertyFeature[];
-  images: string[];
-  price: string;
-  size: string;
-  landCondition: string;
-}
-
-interface SimilarProperty {
-  id: string;
-  title: string;
-  location: string;
-  price: string;
-  size: string;
-  landCondition: string;
-  tags: string[];
-  image: string;
-}
-
-interface ApiProperty {
+type PropertyDetail = {
   id: number;
-  title: string;
-  slug: string;
-  description: string;
-  price: number;
-  size: string;
   location: string;
-  estate_name: string;
-  land_condition: string;
-  title_document: string;
-  images: Array<{
-    id: number;
-    image_url: string;
-    alt_text?: string;
-  }>;
-  features: Array<{
-    id: number;
-    name: string;
-    icon?: string;
-  }>;
-  landmarks: Array<{
-    id: number;
-    name: string;
-    type: string;
-    distance?: string;
-  }>;
-  proximities: Array<{
-    id: number;
-    name: string;
-    distance?: string;
-  }>;
-}
-
-interface ApiResponse {
-  success: boolean;
-  data: ApiProperty;
-  message?: string;
-}
-
-
-// Mock estates for similar properties (fallback)
-const mockEstates = [
-  {
-    location: 'Umuezeawala Awka South',
-    title: 'Platinum Estate Awka',
-    price: 3000000,
-    srcImage: "/img/property1.jpg",
-    size: '464SQM',
-    dryLand: '100% Dry Land',
-    instantLocation: 'Instant Location',
-    type: 'Buy & Build',
-  },
-  {
-    location: 'Direct Opp Ebube Muonso School',
-    title: 'Igbarian Phase 1',
-    price: 8000000,
-    srcImage: "/img/property2.jpg",
-    size: '464SQM',
-    dryLand: '100% Dry Land',
-    instantLocation: 'Instant Location',
-    type: 'Buy & Build',
-  },
-  {
-    location: 'OPP WhiteTech Aluminium Company Asaba',
-    title: 'Luxury City Asaba',
-    price: 5000000,
-    srcImage: "/img/property3.jpg",
-    size: '464SQM',
-    dryLand: '100% Dry Land',
-    instantLocation: 'Instant Location',
-    type: 'Buy & Build',
-  },
-];
-
-// API Service
-const propertyService = {
-  async getPropertyById(id: string): Promise<PropertyDetail> {
-    try {
-      const response = await fetch(
-        `https://pineleaflaravel.sunmence.com.ng/public/api/properties/${id}`,
-        {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          next: { revalidate: 3600 }, // Cache for 1 hour
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const apiResponse: ApiResponse = await response.json();
-      
-      if (!apiResponse.success) {
-        throw new Error(apiResponse.message || 'Failed to fetch property');
-      }
-
-      return this.transformApiProperty(apiResponse.data);
-    } catch (error) {
-      console.error('Error fetching property:', error);
-      throw error;
-    }
-  },
-
-  async getSimilarProperties(id: string): Promise<SimilarProperty[]> {
-    try {
-      const response = await fetch(
-        `https://pineleaflaravel.sunmence.com.ng/public/api/properties/similar/${id}`,
-        {
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          next: { revalidate: 3600 },
-        }
-      );
-
-      if (!response.ok) {
-        return []; // Return empty array if not found
-      }
-
-      const apiResponse = await response.json();
-      
-      if (!apiResponse.success || !apiResponse.data) {
-        return [];
-      }
-
-      return apiResponse.data.map((property: ApiProperty) => ({
-        id: property.id.toString(),
-        title: property.title,
-        location: property.location,
-        price: this.formatPrice(property.price),
-        size: property.size,
-        landCondition: property.land_condition,
-        tags: ['Buy & Build', 'Instant Location', '100% Dry Land'],
-        image: property.images[0]?.image_url || '/img/property1.jpg',
-      }));
-    } catch (error) {
-      console.error('Error fetching similar properties:', error);
-      return [];
-    }
-  },
-
-  transformApiProperty(apiProperty: ApiProperty): PropertyDetail {
-    return {
-      id: apiProperty.id.toString(),
-      name: apiProperty.title,
-      estate: apiProperty.estate_name || apiProperty.title,
-      location: apiProperty.location,
-      description: apiProperty.description,
-      landmarks: {
-        location: apiProperty.location,
-        proximities: [
-          ...apiProperty.landmarks.map(l => `${l.name}${l.distance ? ` (${l.distance})` : ''}`),
-          ...apiProperty.proximities.map(p => `${p.name}${p.distance ? ` (${p.distance})` : ''}`)
-        ]
-      },
-      overview: {
-        size: apiProperty.size,
-        landCondition: apiProperty.land_condition,
-        titleDocument: apiProperty.title_document,
-      },
-      features: apiProperty.features.map(f => ({
-        icon: f.icon || 'check',
-        name: f.name,
-      })),
-      images: apiProperty.images.map(img => img.image_url),
-      price: this.formatPrice(apiProperty.price),
-      size: apiProperty.size,
-      landCondition: apiProperty.land_condition,
-    };
-  },
-
-  formatPrice(price: number): string {
-    if (price >= 1000000) {
-      return `₦${(price / 1000000).toFixed(1)}M`;
-    } else if (price >= 1000) {
-      return `₦${(price / 1000).toFixed(0)}K`;
-    }
-    return `₦${price.toLocaleString()}`;
-  },
+  title?: string;
+  name?: string;
+  price: number | string;
+  size?: string;
+  dryLand?: string;
+  land_condition?: string;
+  instantLocation?: string;
+  type?: string;
+  purpose?: string;
+  srcImage?: string;
+  images?: string[];
+  property_features?: string[];
+  description?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  year_built?: string;
+  contact_phone?: string;
+  contact_email?: string;
+  amenities?: string[];
+  title_document?: string;
+  landmarks?: {
+    location?: string;
+    drive_to_cbn?: string;
+    drive_to_ukwu?: string;
+  };
 };
 
-// Generate metadata for the page
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: { id: string } 
-}): Promise<Metadata> {
-  const id = params.id;
+const PropertyDetailPage: React.FC = () => {
+  // For Pages Router
+  // const router = useRouter();
+  // const { id } = router.query;
   
-  try {
-    const property = await propertyService.getPropertyById(id);
-    
-    return {
-      title: `${property.name} | ${property.estate}`,
-      description: property.description.substring(0, 160),
-      openGraph: {
-        title: `${property.name} | ${property.estate}`,
-        description: property.description.substring(0, 160),
-        images: property.images.slice(0, 1),
-      },
-    };
-  } catch {
-    return {
-      title: 'Property Details',
-      description: 'View details about this property',
-    };
-  }
-}
-
-export default async function PropertyDetailPage({ 
-  params 
-}: { 
-  params: { id: string } 
-}) {
+  // For App Router (uncomment if using App Router)
+  const params = useParams();
   const id = params.id;
-  
-  try {
-    const [property] = await Promise.all([
-      propertyService.getPropertyById(id),
-      propertyService.getSimilarProperties(id).catch(() => [])
-    ]);
 
-    // Use similar properties from API if available, otherwise fallback to mock data
-    // const displayProperties = similarProperties.length > 0 ? similarProperties : mockEstates;
+  const [property, setProperty] = useState<PropertyDetail | null>(null);
+  const [similarProperties, setSimilarProperties] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [similarLoading, setSimilarLoading] = useState(true);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
+  useEffect(() => {
+    if (id) {
+      fetchPropertyDetail(id as string);
+      fetchSimilarProperties(id as string);
+    }
+  }, [id]);
+
+  const fetchPropertyDetail = async (propertyId: string) => {
+    try {
+      setLoading(true);
+      const response = await fetch(`https://pineleaflaravel.sunmence.com.ng/public/api/properties/search/${propertyId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setProperty(data);
+      } else {
+        console.error('Failed to fetch property details');
+        // Handle error state
+        setProperty(null);
+      }
+    } catch (error) {
+      console.error('Error fetching property:', error);
+      setProperty(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchSimilarProperties = async (propertyId: string) => {
+    try {
+      setSimilarLoading(true);
+      const response = await fetch(`https://pineleaflaravel.sunmence.com.ng/public/api/properties/similar/${propertyId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setSimilarProperties(data);
+      } else {
+        console.error('Failed to fetch similar properties');
+        setSimilarProperties([]);
+      }
+    } catch (error) {
+      console.error('Error fetching similar properties:', error);
+      setSimilarProperties([]);
+    } finally {
+      setSimilarLoading(false);
+    }
+  };
+
+  // Loading state
+  if (loading) {
     return (
-      <>
-        {/* Hero Banner */}
-        <div className="relative h-64 md:h-80 w-full">
-          <div className="absolute inset-0 bg-black/30 z-10">
-            <div className="container mx-auto px-4 h-full flex flex-col justify-center items-center">
-              <h1 className="text-3xl md:text-4xl font-bold text-white text-center">
-                {property.estate}
-              </h1>
-              <div className="mt-4 flex items-center text-white space-x-2">
-                <Link href="/">
-                  <span className="hover:underline cursor-pointer">Home</span>
-                </Link>
-                <span>&rarr;</span>
-                <Link href="/properties">
-                  <span className="hover:underline cursor-pointer">Properties</span>
-                </Link>
-                <span>&rarr;</span>
-                <span className="text-gray-200">Property detail</span>
-              </div>
-            </div>
-          </div>
-          <Image 
-            src={property.images[0] || '/img/prod-details.png'} 
-            alt={property.name}
-            fill
-            priority
-            className="object-cover z-0"
-          />
-        </div>
-
-        {/* Main Content */}
-        <div className="container mx-auto px-[6.2vw] py-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Property Images */}
-            <div className="md:col-span-1 flex flex-col gap-[25px]">
-              {property.images.slice(0, 3).map((image, index) => (
-                <div key={index} className="bg-white rounded-lg overflow-hidden shadow-md">
-                  <Image 
-                    src={image} 
-                    alt={`${property.name} - Image ${index + 1}`}
-                    width={600}
-                    height={500}
-                    className="w-full h-auto"
-                    onError={(e) => {
-                      const target = e.target as HTMLImageElement;
-                      target.src = '/img/property1.jpg'; // Fallback image
-                    }}
-                  />
-                </div>
-              ))}
-              {/* If less than 3 images, show fallback images */}
-              {property.images.length < 3 && Array.from({ length: 3 - property.images.length }).map((_, index) => (
-                <div key={`fallback-${index}`} className="bg-white rounded-lg overflow-hidden shadow-md">
-                  <Image 
-                    src={`/img/property${index + 1}.jpg`} 
-                    alt={`${property.name} - Fallback Image ${index + 1}`}
-                    width={600}
-                    height={500}
-                    className="w-full h-auto"
-                  />
-                </div>
-              ))}
-            </div>
-
-            {/* Property Details */}
-            <div className="md:col-span-2">
-              <div className="bg-white rounded-lg p-6 flex flex-col gap-[30px]">
-                <div>
-                  <h2 className="text-2xl font-semibold text-[#2F5318]">{property.name}</h2>
-                  <h3 className="text-xl font-medium mt-1">{property.estate}</h3>
-                </div>
-                
-                <p className="mt-4 text-gray-600">
-                  {property.description}
-                </p>
-
-                <div>
-                  {/* Landmarks */}
-                  <div className="mt-6">
-                    <h4 className="text-lg font-semibold mb-3">Landmarks</h4>
-                    <div className="space-y-2">
-                      <div className="flex items-start space-x-2">
-                        <span className="text-green-600 mt-1">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                          </svg>
-                        </span>
-                        <span><strong>Location:</strong> {property.landmarks.location}</span>
-                      </div>
-                      {property.landmarks.proximities.map((proximity, index) => (
-                        <div key={index} className="flex items-start space-x-2">
-                          <span className="text-green-600 mt-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                            </svg>
-                          </span>
-                          <span>{proximity}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Property Overview */}
-                  <div className="mt-6">
-                    <h4 className="text-lg font-semibold mb-3">Property Overview</h4>
-                    <div className="border-t border-gray-200 pt-2">
-                      <div className="flex py-2 border-b border-gray-100">
-                        <span className="font-medium">Size:</span>
-                        <span className="text-[#2F5318] ml-auto">{property.overview.size}</span>
-                      </div>
-                      <div className="flex py-2 border-b border-gray-100">
-                        <span className="font-medium">Land Condition:</span>
-                        <span className="text-[#2F5318] ml-auto">{property.overview.landCondition}</span>
-                      </div>
-                      <div className="flex py-2 border-b border-gray-100">
-                        <span className="font-medium">Title Document:</span>
-                        <span className="text-[#2F5318] ml-auto">{property.overview.titleDocument}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Property Features */}
-                <div className="mt-6">
-                  <h4 className="text-lg font-semibold mb-3">Property Features</h4>
-                  <div className="space-y-2">
-                    {property.features.map((feature, index) => (
-                      <div key={index} className="flex items-start space-x-2">
-                        <span className="text-green-600 mt-1">
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                          </svg>
-                        </span>
-                        <span>{feature.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* CTA Buttons */}
-                <div className="mt-8 flex flex-wrap gap-4">
-                  <button className="inline-flex items-center px-4 py-2 border border-[#2F5318] text-[#2F5318] bg-white rounded hover:bg-green-50 transition">
-                    Book Site Inspection
-                  </button>
-                  <button className="inline-flex items-center px-4 py-2 border border-[#2F5318] text-[#2F5318] bg-white rounded hover:bg-green-50 transition">
-                    Request More Info
-                  </button>
-                  <button className="inline-flex items-center px-4 py-2 border border-[#2F5318] text-[#2F5318] bg-white rounded hover:bg-green-50 transition">
-                    Download Flyer
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Similar Properties */}
-          <div className="mt-12">
-            <h2 className="text-2xl font-semibold mb-6">Similar Properties</h2>
-            <section className="py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-               {mockEstates.map((estate, idx) => (
-                  <EstateCard key={idx} {...estate} />
-                ))}
-            </section>
-          </div>
-        </div>
-      </>
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-green-600"></div>
+      </div>
     );
-  } catch (error) {
-    console.error('Error loading property:', error);
-    notFound();
   }
-}
+
+  // Property not found state
+  if (!property) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Property Not Found</h2>
+          <Link href="/" className="text-green-600 hover:underline">
+            ← Back to Properties
+          </Link>
+        </div>
+      </div>
+    );
+  }
+
+  const displayTitle = property.name || property.title || 'Platinum Estate Awka';
+  const numericPrice = typeof property.price === 'number' ? property.price : parseFloat(property.price);
+  const displayPrice = isNaN(numericPrice) ? 'N/A' : numericPrice.toLocaleString();
+  
+  // Process images
+  const allImages = property.images && property.images.length > 0 
+    ? property.images.map(img => `https://pineleaflaravel.sunmence.com.ng/public${img}`)
+    : property.srcImage 
+    ? [`https://pineleaflaravel.sunmence.com.ng/public${property.srcImage}`]
+    : ['/img/placeholder-property.jpg'];
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section with Background Image */}
+      <div 
+        className="relative h-64 bg-cover bg-center bg-gray-900"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${allImages[0]})`
+        }}
+      >
+        <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">{displayTitle}</h1>
+          
+          {/* Breadcrumb */}
+          <div className="flex items-center space-x-2 text-sm">
+            <Link href="/" className="text-yellow-400 hover:text-yellow-300">Home</Link>
+            <ArrowLeft className="w-4 h-4 rotate-180" />
+            <Link href="/properties" className="text-yellow-400 hover:text-yellow-300">Properties</Link>
+            <ArrowLeft className="w-4 h-4 rotate-180" />
+            <span className="text-yellow-400">Property detail</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            
+            {/* Property Header */}
+            <div className="bg-white rounded-lg p-6 shadow-sm">
+              <div className="flex justify-between items-start mb-4">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-2">Pineleaf</h2>
+                  <h3 className="text-xl text-gray-700">{displayTitle}</h3>
+                </div>
+              </div>
+              
+              <p className="text-gray-600 leading-relaxed mb-6">
+                {property.description || 
+                "Pineleaf Platinum Estate is strategically located in a prime area of Awka South, Anambra State, offering easy access to key landmarks. It has a 5-minute drive from CBN Quarters and Oranwezkuiku Pineleaf Estate Awka, and only 3 minutes from Ukwu Oji, making it an ideal location for residential and commercial development. The estate is easily accessible with a well-connected road network, ensuring seamless movement to and from the city's major hubs."}
+              </p>
+
+              {/* Landmarks */}
+              <div className="mb-6">
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">Landmarks</h4>
+                <div className="space-y-2">
+                  <div className="flex items-center text-gray-600">
+                    <LocationIcon className="w-4 h-4 mr-2" />
+                    <span><strong>Location:</strong> {property.landmarks?.location || "Umuawulu, Awka South, Anambra State"}</span>
+                  </div>
+                  <div className="flex items-center text-gray-600">
+                    <Home className="w-4 h-4 mr-2" />
+                    <span>{property.landmarks?.drive_to_cbn || "5 mins drive from CBN Quarters and Oranwezkuiku Pineleaf Estate Awka"}</span>
+                  </div>
+                  <div className="flex items-center text-gray-600">
+                    <Clock className="w-4 h-4 mr-2" />
+                    <span>{property.landmarks?.drive_to_ukwu || "3 minutes drive from ukwu oji"}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Property Overview */}
+              <div className="mb-6">
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">Property Overview</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-600">
+                  <div>
+                    <strong>Size:</strong> {property.size || "464 sqm per plot"}
+                  </div>
+                  <div>
+                    <strong>Land Condition:</strong> {property.land_condition || "100% dry land"}
+                  </div>
+                  <div className="md:col-span-2">
+                    <strong>Title Document:</strong> {property.title_document || "Deed of Assignment & Registered Survey"}
+                  </div>
+                </div>
+              </div>
+
+              {/* Property Features */}
+              <div>
+                <h4 className="text-lg font-semibold text-gray-900 mb-3">Property Features</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {(property.property_features || ["Good Road Network", "24/7 Security", "Play Area", "Shopping Mall"]).map((feature, index) => (
+                    <div key={index} className="flex items-center text-gray-600">
+                      <div className="w-2 h-2 bg-green-600 rounded-full mr-3"></div>
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Image Gallery */}
+            <div className="bg-white rounded-lg p-6 shadow-sm">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {allImages.slice(0, 4).map((image, index) => (
+                  <div key={index} className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
+                    <Image
+                      src={image}
+                      alt={`${displayTitle} - Image ${index + 1}`}
+                      width={400}
+                      height={300}
+                      className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        e.currentTarget.src = '/img/placeholder-property.jpg';
+                      }}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Sidebar - Action Buttons */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-lg p-6 shadow-sm sticky top-4">
+              <div className="space-y-4">
+                <button className="w-full bg-green-600 text-white py-3 px-4 rounded-lg hover:bg-green-700 transition-colors font-semibold">
+                  Book Site Inspection
+                </button>
+                
+                <button className="w-full border-2 border-green-600 text-green-600 py-3 px-4 rounded-lg hover:bg-green-50 transition-colors font-semibold">
+                  Request More Info
+                </button>
+                
+                <button className="w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-200 transition-colors font-semibold flex items-center justify-center">
+                  <Download className="w-4 h-4 mr-2" />
+                  Download Flyer
+                </button>
+              </div>
+
+              {/* Contact Info */}
+              <div className="mt-6 pt-6 border-t border-gray-200">
+                <h4 className="font-semibold text-gray-900 mb-3">Contact Information</h4>
+                <div className="space-y-3">
+                  {property.contact_phone && (
+                    <a
+                      href={`tel:${property.contact_phone}`}
+                      className="flex items-center text-gray-600 hover:text-green-600"
+                    >
+                      <Phone className="w-4 h-4 mr-2" />
+                      {property.contact_phone}
+                    </a>
+                  )}
+                  
+                  {property.contact_email && (
+                    <a
+                      href={`mailto:${property.contact_email}`}
+                      className="flex items-center text-gray-600 hover:text-green-600"
+                    >
+                      <Mail className="w-4 h-4 mr-2" />
+                      {property.contact_email}
+                    </a>
+                  )}
+                </div>
+              </div>
+
+              {/* Price Display */}
+              <div className="mt-6 pt-6 border-t border-gray-200 text-center">
+                <div className="text-2xl font-bold text-green-600">₦{displayPrice}</div>
+                <div className="text-gray-600 text-sm mt-1">Price per plot</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Similar Properties Section */}
+        <div className="mt-12">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Similar Properties</h2>
+          
+          {similarLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {[1, 2, 3].map((i) => (
+                <div key={i} className="bg-white rounded-xl border-2 border-gray-200 overflow-hidden animate-pulse">
+                  <div className="h-48 bg-gray-300"></div>
+                  <div className="p-4 space-y-3">
+                    <div className="h-4 bg-gray-300 rounded w-3/4"></div>
+                    <div className="h-4 bg-gray-300 rounded w-1/2"></div>
+                    <div className="h-4 bg-gray-300 rounded w-full"></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : similarProperties.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {similarProperties.map((similarProperty) => (
+                <EstateCard
+                  key={similarProperty.id}
+                  id={similarProperty.id}
+                  location={similarProperty.location}
+                  name={similarProperty.name}
+                  title={similarProperty.title}
+                  price={similarProperty.price}
+                  size={similarProperty.size}
+                  dryLand={similarProperty.dryLand}
+                  land_condition={similarProperty.land_condition}
+                  instantLocation={similarProperty.instantLocation}
+                  type={similarProperty.type}
+                  purpose={similarProperty.purpose}
+                  srcImage={similarProperty.srcImage}
+                  images={similarProperty.images}
+                  property_features={similarProperty.property_features}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center text-gray-600 py-8">
+              <p>No similar properties found at the moment.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PropertyDetailPage;

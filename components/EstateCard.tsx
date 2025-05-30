@@ -6,54 +6,70 @@ import Link from 'next/link';
 
 type EstateCardProps = {
   id?: number;
-  location: string;
-  title?: string;
   name?: string;
+  estate_name?: string;
+  location?: string;
   price: number | string;
   size?: string;
-  dryLand?: string;
   land_condition?: string;
-  instantLocation?: string;
   type?: string;
   purpose?: string;
-  srcImage?: string;
   images?: string[];
   property_features?: string[];
+  landmark?: string[];
+  description?: string;
+  // Legacy props for backward compatibility
+  title?: string;
+  dryLand?: string;
+  instantLocation?: string;
+  srcImage?: string;
 };
 
 const EstateCard: React.FC<EstateCardProps> = ({
   id,
-  location,
   name,
-  title,
+  estate_name,
+  location,
   price,
   size,
-  dryLand,
   land_condition,
-  instantLocation,
   type,
   purpose,
-  srcImage,
   images,
-  property_features
+  property_features,
+  landmark,
+  description,
+  // Legacy props
+  title,
+  dryLand,
+  instantLocation,
+  srcImage
 }) => {
   // Determine image source
   const imageSrc = 
     (images && images.length > 0) 
-      ? `https://pineleaflaravel.sunmence.com.ng${images[0]}` 
+      ? `https://pineleaflaravel.sunmence.com.ng/public${images[0]}`
       : srcImage 
-      || '/img/placeholder-property.jpg';
+        ? `https://pineleaflaravel.sunmence.com.ng/public${srcImage}`
+        : '/img/placeholder-property.jpg';
 
-  const displayTitle = name || title || 'Property';
+  const displayTitle = name || estate_name || title || 'Property';
   const numericPrice = typeof price === 'number' ? price : parseFloat(price);
   const displayPrice = isNaN(numericPrice) ? 'N/A' : numericPrice.toLocaleString();
-  const displayLocation = location || 'Location not specified';
+  
+  // Handle location display - API returns location as "1", need to map or use landmark
+  const displayLocation = landmark && landmark.length > 0 
+    ? landmark[0] // Use first landmark as location
+    : location || 'Location not specified';
+
+    console.log(id);
+    
 
   const additionalDetails = [
-    size || dryLand || '464 SQM',
+    size || '464 SQM',
     land_condition || dryLand || '100% Dry Land',
-    instantLocation || property_features?.[0] || 'Instant Location',
-    type || purpose || 'Buy & Build'
+    property_features?.[0] || instantLocation || 'Instant Allocation',
+    `${type || 'Land'} - ${purpose || 'Residential'}`
   ];
 
   return (
@@ -66,22 +82,32 @@ const EstateCard: React.FC<EstateCardProps> = ({
           fill 
           className="object-cover h-full w-full" 
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          onError={(e) => {
+            e.currentTarget.src = '/img/placeholder-property.jpg';
+          }}
         />
       </div>
 
       {/* Content */}
-      <div className="p-2">
+      <div className="p-4">
         <div className="flex items-center text-gray-500 text-sm mb-2">
           <MapPin className="w-4 h-4 mr-1" />
-          {displayLocation}
+          <span className="truncate">{displayLocation}</span>
         </div>
 
-        <div className="flex items-center justify-between">
-          <h3 className="font-semibold text-lg text-gray-800">{displayTitle}</h3>
-          <span className="font-bold text-gray-800">₦{displayPrice}</span>
+        <div className="flex items-center justify-between mb-2">
+          <h3 className="font-semibold text-lg text-gray-800 truncate mr-2">{displayTitle}</h3>
+          <span className="font-bold text-green-600 whitespace-nowrap">₦{displayPrice}</span>
         </div>
 
-        <div className="flex gap-1 !text-xs text-gray-600 my-3 border-t border-b py-2">
+        {/* Description snippet */}
+        {description && (
+          <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+            {description.length > 100 ? `${description.substring(0, 100)}...` : description}
+          </p>
+        )}
+
+        <div className="flex flex-wrap gap-1 text-xs text-gray-600 my-3 border-t border-b py-2">
           {additionalDetails.map((detail, index) => (
             <React.Fragment key={index}>
               {index > 0 && <span className="px-1">|</span>}
@@ -90,14 +116,18 @@ const EstateCard: React.FC<EstateCardProps> = ({
           ))}
         </div>
 
+        {/* Navigation Link */}
         {id ? (
-          <Link href={`/property/${id}`} passHref>
-            <span className="text-green-700 text-sm font-semibold mt-2 hover:underline block">
-              More Details →
-            </span>
+          <Link 
+            href={`/property/${id}`} 
+            className="text-green-700 text-sm font-semibold hover:underline block cursor-pointer transition-colors hover:text-green-800"
+          >
+            View Details →
           </Link>
         ) : (
-          <span className="text-green-700 text-sm font-semibold mt-2">More Details →</span>
+          <span className="text-gray-400 text-sm font-semibold cursor-not-allowed">
+            View Details →
+          </span>
         )}
       </div>
     </div>

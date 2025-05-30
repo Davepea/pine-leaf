@@ -10,6 +10,7 @@ import InvestmentTable from './InvestmentTable'
 import { FaCheck } from 'react-icons/fa'
 import TestimonialCarousel from './TestimonialCarousel'
 import PropertyListing from '@/components/PropertyListing'
+import FAQSection from './FAQs'
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger)
@@ -466,31 +467,8 @@ const Hero = () => {
       </div>
     </section>
 
-    <section 
-      ref={faqRef}
-      className="px-[6.1458vw] py-[100px]"
-    >
-      <h1 className="semi-header text-center mb-10">Frequently Asked Questions</h1>
-      <div className="space-y-4 mx-auto">
-        {[
-          "Is Pineleaf Estates registered and trusted?",
-          "How do I join the PRRM?",
-          "What documents are included during purchase?",
-          "Can I pay for lands in installments?",
-          "Where are your estates located?"
-        ].map((faq, idx) => (
-          <details key={idx} className="border-2 border-[#2F531833] rounded-lg p-4 md:py-9 py-7 md:px-5 px-4 h-full cursor-pointer group md:text-[20px] text-[16px]">
-            <summary className="font-semibold flex justify-between items-center list-none">
-              {faq}
-              <ChevronDown className="h-4 w-5 transition-transform group-open:rotate-180" />
-            </summary>
-            <p className="text-gray-600 pt-4 pl-4">
-              Answer to &quot;{faq}&quot; goes here.
-            </p>
-          </details>
-        ))}
-      </div>
-    </section>
+    <FAQSection/>
+
     </>
   )
 }

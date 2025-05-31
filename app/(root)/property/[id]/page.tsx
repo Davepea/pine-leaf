@@ -11,6 +11,7 @@ import { FaSignsPost } from 'react-icons/fa6';
 import { MdOutlineFlag, MdStoreMallDirectory } from 'react-icons/md';
 import { propertyService } from '@/services/PropertyService';
 import PropertyListing from '@/components/PropertyListing';
+import { toast } from 'sonner';
 
 type PropertyDetail = {
   id: number;
@@ -40,6 +41,7 @@ type PropertyDetail = {
     drive_to_cbn?: string;
     drive_to_ukwu?: string;
   };
+  flyer?: string;
 };
 
 const PropertyDetailPage: React.FC = () => {
@@ -52,14 +54,7 @@ const PropertyDetailPage: React.FC = () => {
  
 
 
-    const handleDownload = () => {
-    const link = document.createElement('a');
-      link.href = '/img/invest-plan.jpg'; 
-      link.download = 'investment-brochure.jpg';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    };
+   
 
 
   useEffect(() => {
@@ -116,6 +111,22 @@ const PropertyDetailPage: React.FC = () => {
     ? [`https://pineleaflaravel.sunmence.com.ng/public${property.srcImage}`]
     : ['/img/placeholder-property.jpg'];
 
+
+     const downloadFlyer = () => {
+      if (!property.flyer) {
+        toast.error("Property flyer not available");
+        return;
+      }
+
+      const link = document.createElement('a');
+      link.href = `https://pineleaflaravel.sunmence.com.ng/public/${property.flyer}`;
+      link.download = 'property-flyer.jpg';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
+    console.log(property.flyer);
+    
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -292,7 +303,7 @@ const PropertyDetailPage: React.FC = () => {
                   </button>
                 </Link>
                 
-                  <button className=" border-2 border-[#2F5318] text-[#2F5318] py-3 px-4 rounded-lg hover:bg-green-50 transition-colors font-semibold text-sm"  onClick={handleDownload}>
+                  <button className=" border-2 border-[#2F5318] text-[#2F5318] py-3 px-4 rounded-lg hover:bg-green-50 transition-colors font-semibold text-sm"  onClick={downloadFlyer}>
                     Download Flyer
                   </button>
                 </div>

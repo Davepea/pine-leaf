@@ -62,7 +62,7 @@ export default function Footer() {
           <p>Built by sunmence</p>
         </Link>
         </div>
-        <Link href="/privacy-policy" className="font-bold md:order-2 order-1 md:text-end text-center">Privacy Policy</Link>
+        <Link href="/privacy" className="font-bold md:order-2 order-1 md:text-end text-center">Privacy Policy</Link>
       </div>
     </footer>
   );

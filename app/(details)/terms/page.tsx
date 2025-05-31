@@ -204,9 +204,9 @@ const page = () => {
             
             <p className=''>
 Preservation of Immunities</p>
-            <p>Nothing here limits our legal rights or privileges. <hr />
+            <p>Nothing here limits our legal rights or privileges.
 Waiver Failure to enforce any part does not waive our rights.
-Entire Agreement <hr /> These Terms are the complete agreement between you and Pineleaf</p>
+Entire Agreement  These Terms are the complete agreement between you and Pineleaf</p>
           </div>
         </div>
 

@@ -430,12 +430,12 @@ const Hero = () => {
 
               <div className="flex gap-8">
                 <Link href='/pprm'>
-                  <button className="bg-[#2F5318] border text-white px-6 py-3 rounded-lg text-[20px] hover:bg-[#1e3610] transition font-[700] ">
+                  <button className="bg-[#2F5318] border text-white px-6 py-3 rounded-lg md:text-[20px] text-[16px] hover:bg-[#1e3610] transition font-[700] ">
                   Get more Info
                 </button>
                 </Link>
                 <Link href='/register'>
-                <button className="bg-white border border-[#2F5318] text-[#2F5318] px-6 py-3 rounded-lg text-[20px] hover:bg-gray-100 transition font-[700]">
+                <button className="bg-white border border-[#2F5318] text-[#2F5318] px-6 py-3 rounded-lg md:text-[20px] text-[16px] hover:bg-gray-100 transition font-[700]">
                   Register Now
                 </button>
                 </Link>

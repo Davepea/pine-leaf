@@ -102,22 +102,25 @@ export default function GalleryPage() {
 
       <div className='px-[6.1458vw]'>
         {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-4 py-6 px-4">
-          {filters.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => {
-                setActiveFilter(filter);
-                setCurrentPage(1); // Reset to first page when filter changes
-              }}
-              className={`px-4 py-2 rounded-full border text-sm transition-colors ${
-                activeFilter === filter ? 'bg-[#2F5318] text-white' : 'text-gray-700 hover:bg-gray-100'
-              }`}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
+
+          {/* Filter Buttons */}
+          <div className="flex overflow-x-auto md:justify-center justify-start gap-4 py-6 px-4">
+            {filters.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => {
+                  setActiveFilter(filter);
+                  setCurrentPage(1); // Reset to first page when filter changes
+                }}
+                className={`px-4 py-2 rounded-full border text-sm transition-colors whitespace-nowrap flex-shrink-0 ${
+                  activeFilter === filter ? 'bg-[#2F5318] text-white' : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+      
 
         {/* Gallery Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-6 py-8">

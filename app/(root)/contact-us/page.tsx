@@ -2,12 +2,27 @@
 import { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-
 import { useState, FormEvent } from 'react';
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
+import { toast } from "sonner";
+
+// Types for the API request and response
+interface ContactFormData {
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+  email: string;
+  subject: string;
+}
+
+interface ApiResponse {
+  success: boolean;
+  message: string;
+  data?: unknown;
+}
 
 const ContactUs: NextPage = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ContactFormData>({
     firstName: '',
     lastName: '',
     phoneNumber: '',
@@ -15,28 +30,69 @@ const ContactUs: NextPage = () => {
     subject: ''
   });
 
+  const [isLoading, setIsLoading] = useState(false);
 
-  
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  
-  const handleSubmit = (e: FormEvent) => {
-    e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // Reset form after submission
-    setFormData({
-      firstName: '',
-      lastName: '',
-      phoneNumber: '',
-      email: '',
-      subject: ''
+
+  const submitContactForm = async (data: ContactFormData): Promise<ApiResponse> => {
+    const response = await fetch('https://pineleaflaravel.sunmence.com.ng/public/api/contacts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify({
+        first_name: data.firstName,
+        last_name: data.lastName,
+        phone_number: data.phoneNumber,
+        email: data.email,
+        subject: data.subject,
+      }),
     });
-    alert('Thank you for your message! We will get back to you soon.');
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
   };
-  
- 
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    try {
+      
+      // Show success toast
+      toast.success("Message sent successfully!", {
+        description: "Thank you for your message! We will get back to you soon.",
+        duration: 5000,
+      });
+
+      // Reset form after successful submission
+      setFormData({
+        firstName: '',
+        lastName: '',
+        phoneNumber: '',
+        email: '',
+        subject: ''
+      });
+
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      
+      // Show error toast
+      toast.error("Failed to send message", {
+        description: error instanceof Error ? error.message : "Please try again later.",
+        duration: 5000,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -46,9 +102,6 @@ const ContactUs: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-    
-      
-  
       <div className="relative h-64 md:h-80 bg-gray-300">
         <Image 
           src="/img/service.png" 
@@ -66,7 +119,6 @@ const ContactUs: NextPage = () => {
         </div>
       </div>
       
-    
       <section className="py-16 px-[6.1458vw] bg-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row gap-8">
@@ -112,6 +164,7 @@ const ContactUs: NextPage = () => {
                       required
                       value={formData.firstName}
                       onChange={handleChange}
+                      disabled={isLoading}
                     />
                   </div>
                   <div>
@@ -123,6 +176,7 @@ const ContactUs: NextPage = () => {
                       required
                       value={formData.lastName}
                       onChange={handleChange}
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
@@ -137,6 +191,7 @@ const ContactUs: NextPage = () => {
                       required
                       value={formData.phoneNumber}
                       onChange={handleChange}
+                      disabled={isLoading}
                     />
                   </div>
                   <div>
@@ -148,6 +203,7 @@ const ContactUs: NextPage = () => {
                       required
                       value={formData.email}
                       onChange={handleChange}
+                      disabled={isLoading}
                     />
                   </div>
                 </div>
@@ -160,14 +216,16 @@ const ContactUs: NextPage = () => {
                     required
                     value={formData.subject}
                     onChange={handleChange}
+                    disabled={isLoading}
                   ></textarea>
                 </div>
                 
                 <button
                   type="submit"
-                  className="bg-[#2F5318] text-white font-medium py-3 px-6 rounded hover:bg-[#2F5318] transition"
+                  disabled={isLoading}
+                  className="bg-[#2F5318] text-white font-medium py-3 px-6 rounded hover:bg-[#2F5318] transition disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Submit
+                  {isLoading ? 'Submitting...' : 'Submit'}
                 </button>
               </form>
             </div>
@@ -175,9 +233,7 @@ const ContactUs: NextPage = () => {
         </div>
       </section>
       
-  
       <section className="h-96 w-full">
-      {/* neeed to add the right link  */}
         <iframe 
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.5214371193426!2d6.783305999999999!3d6.178295999999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1043f3982d882ccb%3A0xc8bbfefb518a346!2s39%20Awka%20Rd%2C%20Onitsha%2C%20Nigeria!5e0!3m2!1sen!2sus!4v1650456789012!5m2!1sen!2sus" 
           width="100%" 
@@ -188,8 +244,6 @@ const ContactUs: NextPage = () => {
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </section>
-      
-     
     </>
   );
 };

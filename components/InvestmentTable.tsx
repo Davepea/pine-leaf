@@ -117,13 +117,13 @@ const InvestmentTable: React.FC = () => {
           
         </div>
         
-        <div className="flex flex-col md:flex-row justify-center gap-4">
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4">
           <Link href='/book-consultation'>
-             <button className=" text-[#2F5318] border border-[#2F5318] text-[20px] font-[700] hover:bg-green-100 py-3 px-6 rounded-[10px] transition-colors duration-300">
+             <button className=" text-[#2F5318] border border-[#2F5318] md:text-[20px] text-[16px] font-[700] hover:bg-green-100 py-3 px-6 rounded-[10px] transition-colors duration-300">
             Request Consultation
           </button>
           </Link>
-          <button className="bg-[#2F5318] text-white hover:bg-[#2F5318] text-[20px] font-[700] py-3 px-8 rounded-[10px] flex items-center justify-center gap-2 transition-colors duration-300"
+          <button className="bg-[#2F5318] text-white hover:bg-[#2F5318] md:text-[20px] text-[16px] font-[700] py-3 md:px-8 px-6 rounded-[10px] flex items-center justify-center gap-2 transition-colors duration-300"
           onClick={handleDownload}
           >
             Download Investment Brochure

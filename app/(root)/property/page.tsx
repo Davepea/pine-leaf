@@ -22,6 +22,7 @@ export default function PropertiesPage() {
     estate_name: '',
     property_type: ''
   });
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const fetchProperties = async () => {
     setIsLoading(true);
@@ -59,6 +60,17 @@ export default function PropertiesPage() {
     }));
   };
 
+  const clearFilters = () => {
+    setSearchParams({
+      page: 1,
+      query: '',
+      location: '',
+      estate_name: '',
+      property_type: ''
+    });
+    setShowMobileFilters(false);
+  };
+
   return (
     <section className="bg-white">
       {/* Hero Section */}
@@ -79,45 +91,141 @@ export default function PropertiesPage() {
         </div>
       </div>
 
-      <div className='px-[6.1458vw] pb-[6.2vw]'>
+      <div className='px-[6.1458vw] pb-[6.2vw] py-20'>
         {/* Search Filters */}
-        <div className="flex flex-wrap justify-center gap-4 px-6 py-8">
-          <select 
-            className="border rounded px-4 py-2 min-w-[200px]"
-            value={searchParams.location}
-            onChange={(e) => updateFilter('location', e.target.value)}
-          >
-            <option value="">Location (State, City)</option>
-            <option value="Enugu State">Enugu State</option>
-            <option value="Anambra State">Anambra State</option>
-          </select>
+        <div className="px-[20] py-[20] md:border rounded-[10px] mb-10 md:border-[#2F5318]">
+          {/* Desktop Filter Bar */}
+          <div className="hidden md:grid md:grid-cols-4 flex-wrap gap-4">
+            <select 
+              className="border w-full shadow-2xl border-gray-300 rounded-lg px-4 py-3 min-w-[200px] text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#2F5318] focus:border-transparent"
+              value={searchParams.location}
+              onChange={(e) => updateFilter('location', e.target.value)}
+            >
+              <option value="">Location (State, City)</option>
+              <option value="Enugu State">Enugu State</option>
+              <option value="Anambra State">Anambra State</option>
+            </select>
 
-          <select 
-            className="border rounded px-4 py-2 min-w-[200px]"
-            value={searchParams.estate_name}
-            onChange={(e) => updateFilter('estate_name', e.target.value)}
-          >
-            <option value="">Estate Name</option>
-            <option value="Oganiru Pineleaf Estate">Oganiru Pineleaf Estate</option>
-          </select>
+            <select 
+              className="border shadow-2xl border-gray-300 rounded-lg px-4 py-3 min-w-[200px] text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#2F5318] focus:border-transparent"
+              value={searchParams.estate_name}
+              onChange={(e) => updateFilter('estate_name', e.target.value)}
+            >
+              <option value="">Estate Name</option>
+              <option value="Oganiru Pineleaf Estate">Oganiru Pineleaf Estate</option>
+            </select>
 
-          <select 
-            className="border rounded px-4 py-2 min-w-[200px]"
-            value={searchParams.property_type}
-            onChange={(e) => updateFilter('property_type', e.target.value)}
-          >
-            <option value="">Property Type</option>
-            <option value="land">Land</option>
-            <option value="residential">Residential</option>
-          </select>
+            <select 
+              className="border shadow-2xl border-gray-300 rounded-lg px-4 py-3 min-w-[200px] text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#2F5318] focus:border-transparent"
+              value={searchParams.property_type}
+              onChange={(e) => updateFilter('property_type', e.target.value)}
+            >
+              <option value="">Property Type</option>
+              <option value="land">Land</option>
+              <option value="residential">Residential</option>
+            </select>
 
-          <button 
-            className="bg-[#2F5318] text-white px-6 py-2 rounded"
-            onClick={() => fetchProperties()}
-            disabled={isLoading}
-          >
-            {isLoading ? 'Searching...' : 'Search'}
-          </button>
+            <button 
+              className="bg-[#2F5318] shadow-2xl text-white px-8 py-3 rounded-lg font-medium hover:bg-[#3F6328] transition-colors"
+              onClick={() => fetchProperties()}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Searching...' : 'Search'}
+            </button>
+          </div>
+
+          {/* Mobile Filter Bar */}
+          <div className="md:hidden shadow-2xl border border-gray-300 rounded-md">
+            <div className="flex gap-3">
+              <button
+                className="flex-1  rounded-lg px-4 py-3 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#2F5318] focus:border-transparent flex items-center justify-between"
+                onClick={() => setShowMobileFilters(!showMobileFilters)}
+              >
+                <span>Filter</span>
+                <svg 
+                  className={`w-5 h-5 transition-transform ${showMobileFilters ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <button 
+                className="bg-[#2F5318] text-white px-8 py-3 rounded-lg font-medium hover:bg-[#3F6328] transition-colors"
+                onClick={() => fetchProperties()}
+                disabled={isLoading}
+              >
+                {isLoading ? 'Searching...' : 'Search'}
+              </button>
+            </div>
+
+            {/* Mobile Filter Dropdown */}
+            {showMobileFilters && (
+              <div className="mt-4 p-4 bg-white border border-gray-200 rounded-lg shadow-lg">
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Location (State, City)
+                    </label>
+                    <select 
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#2F5318] focus:border-transparent"
+                      value={searchParams.location}
+                      onChange={(e) => updateFilter('location', e.target.value)}
+                    >
+                      <option value="">All Locations</option>
+                      <option value="Enugu State">Enugu State</option>
+                      <option value="Anambra State">Anambra State</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Estate Name
+                    </label>
+                    <select 
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#2F5318] focus:border-transparent"
+                      value={searchParams.estate_name}
+                      onChange={(e) => updateFilter('estate_name', e.target.value)}
+                    >
+                      <option value="">All Estates</option>
+                      <option value="Oganiru Pineleaf Estate">Oganiru Pineleaf Estate</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Property Type
+                    </label>
+                    <select 
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-[#2F5318] focus:border-transparent"
+                      value={searchParams.property_type}
+                      onChange={(e) => updateFilter('property_type', e.target.value)}
+                    >
+                      <option value="">All Types</option>
+                      <option value="land">Land</option>
+                      <option value="residential">Residential</option>
+                    </select>
+                  </div>
+
+                  <div className="flex gap-3 pt-2">
+                    <button
+                      className="flex-1 border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                      onClick={clearFilters}
+                    >
+                      Clear All
+                    </button>
+                    <button
+                      className="flex-1 bg-[#2F5318] text-white px-4 py-2 rounded-lg hover:bg-[#3F6328] transition-colors"
+                      onClick={() => setShowMobileFilters(false)}
+                    >
+                      Apply
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Error Display */}
@@ -138,11 +246,10 @@ export default function PropertiesPage() {
         )}
 
         {/* Properties Grid */}
-        <section className="px-4 sm:px-8 py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <section className=" py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties.map((property) => (
             <EstateCard key={property.id}
             id={property.id}
-
             location={property.location}
             title={property.estate_name}
             srcImage={property.images[0] || '/img/default-property.jpg'}
@@ -155,7 +262,6 @@ export default function PropertiesPage() {
             property_features={property.property_features}
             purpose={property.purpose}
             />
-            
           ))}
         </section>
         

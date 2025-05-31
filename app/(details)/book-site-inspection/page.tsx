@@ -1,5 +1,6 @@
 "use client"
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { gsap } from 'gsap';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -52,7 +53,48 @@ const BookSiteInspection: React.FC = () => {
 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
+  const heroRef = useRef<HTMLDivElement>(null);
+  const formRef = useRef<HTMLDivElement>(null);
+  const footerRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const tl = gsap.timeline();
+    
+    // Hero animation
+    tl.from(heroRef.current, {
+      opacity: 0,
+      y: 50,
+      duration: 1,
+      ease: "power3.out"
+    })
+    // Form animation
+    .from(formRef.current, {
+      opacity: 0,
+      y: 100,
+      duration: 1,
+      ease: "power3.out"
+    }, "-=0.5")
+    // Footer animation
+    .from(footerRef.current, {
+      opacity: 0,
+      y: 50,
+      duration: 0.8,
+      ease: "power3.out"
+    }, "-=0.3");
+
+    // Form field animations
+    const formFields = formRef.current?.querySelectorAll('.form-field');
+    if (formFields) {
+      gsap.from(formFields, {
+        opacity: 0,
+        x: -30,
+        duration: 0.6,
+        stagger: 0.1,
+        delay: 0.5,
+        ease: "power2.out"
+      });
+    }
+  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -139,7 +181,14 @@ const BookSiteInspection: React.FC = () => {
       // Submit to API
       await submitInspectionRequest(apiPayload);
 
-    
+      // Success animation
+      gsap.to('.submit-btn', {
+        scale: 0.95,
+        duration: 0.1,
+        yoyo: true,
+        repeat: 1,
+        ease: "power2.inOut"
+      });
 
       // Show success toast
       toast.success('Inspection request submitted successfully!', {
@@ -181,7 +230,7 @@ const BookSiteInspection: React.FC = () => {
 
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
-        <div  className="relative bg-pineleaf-green text-white">
+        <div ref={heroRef} className="relative bg-pineleaf-green text-white">
           <div className="absolute inset-0 z-0">
             <Image 
               src="/img/pine-1.png" 
@@ -202,7 +251,7 @@ const BookSiteInspection: React.FC = () => {
 
         {/* Main Content */}
         <div className="container mx-auto px-4 py-16">
-          <div  className="max-w-4xl mx-auto">
+          <div ref={formRef} className="max-w-4xl mx-auto">
             <h2 className="text-3xl font-semibold text-[#2F5318] text-center mb-12">
               Book Site Inspection
             </h2>

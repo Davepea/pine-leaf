@@ -1,17 +1,15 @@
-'use client'; 
+'use client';
 
 import React, { useState, useEffect } from 'react';
-import {  useParams } from 'next/navigation'; 
+import { useParams } from 'next/navigation'; 
 import Image from 'next/image';
-import {  MapPin as MapIcon, CarFrontIcon } from 'lucide-react';
+import { MapPin as MapIcon, CarFrontIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import { CiSignpostDuo1 } from 'react-icons/ci';
 import { FaSignsPost } from 'react-icons/fa6';
 import { MdOutlineFlag, MdStoreMallDirectory } from 'react-icons/md';
-import { propertyService } from '@/services/PropertyService';
 import PropertyListing from '@/components/PropertyListing';
-import { toast } from 'sonner';
 
 type PropertyDetail = {
   id: number;
@@ -41,7 +39,6 @@ type PropertyDetail = {
     drive_to_cbn?: string;
     drive_to_ukwu?: string;
   };
-  flyer?: string;
 };
 
 const PropertyDetailPage: React.FC = () => {
@@ -49,25 +46,31 @@ const PropertyDetailPage: React.FC = () => {
   const id = params.id;
 
   const [property, setProperty] = useState<PropertyDetail | null>(null);
-
   const [loading, setLoading] = useState(true);
- 
 
-
-   
-
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = '/img/invest-plan.jpg'; 
+    link.download = 'investment-brochure.jpg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   useEffect(() => {
     if (id) {
       fetchPropertyDetail(id as string);
- 
     }
   }, [id]);
 
   const fetchPropertyDetail = async (propertyId: string) => {
     try {
       setLoading(true);
-      const data = await propertyService.searchProperties({ id: propertyId });
+      const response = await fetch(`https://pineleaflaravel.sunmence.com.ng/public/api/properties/search?id=${propertyId}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch property');
+      }
+      const data = await response.json();
       setProperty(data);
     } catch (error) {
       console.error('Error fetching property:', error);
@@ -76,8 +79,6 @@ const PropertyDetailPage: React.FC = () => {
       setLoading(false);
     }
   };
-
-  
 
   // Loading state
   if (loading) {
@@ -111,22 +112,6 @@ const PropertyDetailPage: React.FC = () => {
     ? [`https://pineleaflaravel.sunmence.com.ng/public${property.srcImage}`]
     : ['/img/placeholder-property.jpg'];
 
-
-     const downloadFlyer = () => {
-      if (!property.flyer) {
-        toast.error("Property flyer not available");
-        return;
-      }
-
-      const link = document.createElement('a');
-      link.href = `https://pineleaflaravel.sunmence.com.ng/public/${property.flyer}`;
-      link.download = 'property-flyer.jpg';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    };
-    console.log(property.flyer);
-    
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -136,31 +121,22 @@ const PropertyDetailPage: React.FC = () => {
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${allImages[0]})`
         }}
       >
-        
-
-            <div className="absolute inset-0 flex flex-col justify-center items-center text-white h-80">
-            <div className="absolute inset-0">
-              <Image
-                src="/img/pprm-hero.png"
-                alt="Team of realtors"
-                layout="fill"
-                objectFit="cover"
-                priority
-              />
-              <div className="absolute inset-0 b bg-opacity-40"></div>
-            </div>
-            <div className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center text-center">
-                  <h1 className="text-5xl font-bold mb-6 text-center !text-white">{displayTitle}</h1>
-
-            
-              
-            </div>
+        <div className="absolute inset-0 flex flex-col justify-center items-center text-white h-80">
+          <div className="absolute inset-0">
+            <Image
+              src="/img/pprm-hero.png"
+              alt="Team of realtors"
+              layout="fill"
+              objectFit="cover"
+              priority
+            />
+            <div className="absolute inset-0 b bg-opacity-40"></div>
           </div>
+          <div className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center text-center">
+            <h1 className="text-5xl font-bold mb-6 text-center !text-white">{displayTitle}</h1>
+          </div>
+        </div>
       </div>
-
-            
-     
-
 
       {/* Main Content */}
       <div className="max-w-6xl mx-auto px-4 py-12">
@@ -177,9 +153,7 @@ const PropertyDetailPage: React.FC = () => {
                   width={400}
                   height={400}
                   className="object-cover w-full h-full"
-                  onError={(e) => {
-                    e.currentTarget.src = '/img/placeholder-property.jpg';
-                  }}
+                  
                 />
               </div>
             </div>
@@ -195,9 +169,7 @@ const PropertyDetailPage: React.FC = () => {
                       width={200}
                       height={200}
                       className="object-cover w-full h-full hover:scale-105 transition-transform duration-300"
-                      onError={(e) => {
-                        e.currentTarget.src = '/img/placeholder-property.jpg';
-                      }}
+                      
                     />
                   </div>
                 ))}
@@ -303,7 +275,7 @@ const PropertyDetailPage: React.FC = () => {
                   </button>
                 </Link>
                 
-                  <button className=" border-2 border-[#2F5318] text-[#2F5318] py-3 px-4 rounded-lg hover:bg-green-50 transition-colors font-semibold text-sm"  onClick={downloadFlyer}>
+                  <button className=" border-2 border-[#2F5318] text-[#2F5318] py-3 px-4 rounded-lg hover:bg-green-50 transition-colors font-semibold text-sm"  onClick={handleDownload}>
                     Download Flyer
                   </button>
                 </div>

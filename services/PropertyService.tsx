@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { ApiResponse, ApiErrorResponse, PropertySearchParams } from '../types';
+import { ApiResponse, ApiErrorResponse, PropertySearchParams, PropertyDetail } from '../types';
 
 export const propertyService = {
   async searchProperties(params: PropertySearchParams = {}) {
@@ -25,4 +25,5 @@ export const propertyService = {
       throw { message: 'An unexpected error occurred' };
     }
   }
+
 };

@@ -49,10 +49,10 @@ const EstateCard: React.FC<EstateCardProps> = ({
   // Determine image source
   const imageSrc = 
     (images && images.length > 0) 
-      ? `https://pineleaflaravel.sunmence.com.ng/public${images[0]}`
+      ? `https://pineleaflaravel.sunmence.com.ng/public${images[3]}`
       : srcImage 
         ? `https://pineleaflaravel.sunmence.com.ng/public${srcImage}`
-        : '/img/placeholder-property.jpg';
+        : '';
 
   const displayTitle = name || estate_name || title || 'Property';
   const numericPrice = typeof price === 'number' ? price : parseFloat(price);
@@ -83,7 +83,7 @@ const EstateCard: React.FC<EstateCardProps> = ({
       {/* Image */}
       <div className="h-48 bg-gray-200 w-full relative overflow-hidden">
         <Image 
-          src={imageSrc} 
+          src={imageSrc || '/img/placeholder-property.jpg'} 
           alt={displayTitle} 
           fill 
           className="object-cover h-full w-full" 

@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { MdArrowBackIos, MdArrowForwardIos, MdDeleteOutline, MdOutlineModeEditOutline, MdOutlineRemoveRedEye } from 'react-icons/md'
 
-interface Users {
+export interface Users {
     id: number,
     fullName: string,
     email: string,
@@ -68,12 +68,12 @@ const UsersTable = () => {
         )
     }
     return (
-        <div className='bg-white rounded-[10px] py-6 w-full overflow-x-auto'>
+        <div className='bg-white rounded-[10px] py-6 w-full'>
             <div className="w-full mytable">
                 <div className="overflow-x-auto w-full">
                     <table className="table">
                         {/* head */}
-                        <thead className='text-lg text-[#000000]/80 font-medium'>
+                        <thead className='text-sm text-[#000000]/80 font-medium'>
                             <tr>
                                 <th></th>
                                 <th>ID</th>
@@ -87,7 +87,7 @@ const UsersTable = () => {
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody className='text-base text-[#000000]/80'>
+                        <tbody className='text-sm text-[#000000]/80'>
                             {allUsers.map((user) => {
                                 const isConfirmed = user.enabled ? 1 : 0
                                 return (
@@ -99,7 +99,11 @@ const UsersTable = () => {
                                         </th>
                                         <td>{user.id}</td>
                                         <td>{user.fullName}</td>
-                                        <td>{user.email}</td>
+                                        <td>
+                                            <span>{user.email.split('@')[0]}</span>
+                                            <br />
+                                            <span>@{user.email.split('@')[1]}</span>
+                                        </td>
                                         <td>N{user.balance}</td>
                                         <td>N{user.referral_bonus}</td>
                                         <td className='text-[#2F5318] font-bold'>Paid Online</td>
@@ -111,9 +115,9 @@ const UsersTable = () => {
                                                 {isConfirmed ? 'Confirmed' : 'Pending'}
                                             </button>
                                         </td>
-                                        <td className='text-[#2F5318] font-bold'>{user.created_at}</td>
+                                        <td className='text-[#2F5318] font-bold'>{user.created_at.split('.')[0]}</td>
                                         <td>
-                                            <div className="flex items-center gap-5 text-[#2F5318]">
+                                            <div className="flex items-center md:gap-4 gap-2 text-[#2F5318]">
                                                 <Link href={`/users/view/${user.id}`}><MdOutlineRemoveRedEye size={20} /></Link>
                                                 <Link href={`/users/edit/${user.id}`}><MdOutlineModeEditOutline size={20} /></Link>
                                                 <Link href={`/users/delete/${user.id}`}><MdDeleteOutline size={20} /></Link>

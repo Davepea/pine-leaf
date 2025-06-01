@@ -28,7 +28,7 @@ const Home: NextPage = () => {
           </div>
           <div className="relative z-10 container mx-auto px-4 py-16 text-center">
             <h1 className="text-4xl font-bold mb-6 large-header !text-white">Get Started with Pineleaf</h1>
-            <p className="text-xl mb-8">Choose how you&apos;d like to join us</p>
+            {/* <p className="text-xl mb-8">Choose how you&apos;d like to join us</p> */}
             <div className="flex justify-center space-x-4 text-sm">
               <Link href="/" className="hover:underline">Home
               </Link>

@@ -59,7 +59,7 @@ const Navbar: React.FC = () => {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-gray-800 hover:text-green-600 px-3 py-2 md:text-lg font-[400] text-xs transition duration-150 ease-in-out"
+                    className="text-gray-800 hover:text-green-600 px-3 py-2 font-[400] md:text-sm  text-xs transition duration-150 ease-in-out"
                   >
                     {item.name}
                   </Link>

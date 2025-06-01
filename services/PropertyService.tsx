@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import { ApiResponse, ApiErrorResponse, PropertySearchParams } from '../types';
+import { ApiResponse, ApiErrorResponse, PropertySearchParams, PropertyDetail } from '../types';
 
 export const propertyService = {
   async searchProperties(params: PropertySearchParams = {}) {
@@ -13,7 +13,7 @@ export const propertyService = {
           }
         }
       );
-      return response.data; // Return full pagination data, not just .data
+      return response.data; 
     } catch (error) {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<ApiErrorResponse>;
@@ -25,4 +25,5 @@ export const propertyService = {
       throw { message: 'An unexpected error occurred' };
     }
   }
+
 };

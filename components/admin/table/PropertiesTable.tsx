@@ -72,7 +72,7 @@ const PropertiesTable = () => {
                 <div className="w-full">
                     <div className="overflow-x-auto w-full mytable">
                         <table className="table">
-                            <thead className='text-lg text-[#000000]/80 font-medium'>
+                            <thead className='md:text-base text-sm text-[#000000]/80 font-medium'>
                                 <tr>
                                     <th></th>
                                     <th>Property title</th>
@@ -124,7 +124,7 @@ const PropertiesTable = () => {
             <div className="w-full">
                 <div className="overflow-x-auto w-full mytable">
                     <table className="table">
-                        <thead className='text-lg text-[#000000]/80 font-medium'>
+                        <thead className='text-sm text-[#000000]/80 font-medium'>
                             <tr>
                                 <th></th>
                                 <th>Property title</th>
@@ -136,7 +136,7 @@ const PropertiesTable = () => {
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody className='text-base text-[#000000]/80'>
+                        <tbody className='text-sm text-[#000000]/80'>
                             {properties.map((property) => {
                                 const isAvailable = property.total_units > property.unit_sold
                                 const promoStatus = property.created_at.includes('2025') ? 'Jan 2025' : 'No'
@@ -162,7 +162,7 @@ const PropertiesTable = () => {
                                         </td>
                                         <td className='text-[#2F5318] font-bold'>{promoStatus}</td>
                                         <td>
-                                            <div className="flex items-center gap-5 text-[#2F5318]">
+                                            <div className="flex items-center md:gap-4 gap-2 text-[#2F5318]">
                                                 <Link href={`/properties/view/${property.id}`}><MdOutlineRemoveRedEye size={20} /></Link>
                                                 <Link href={`/properties/edit/${property.id}`}><MdOutlineModeEditOutline size={20} /></Link>
                                                 <Link href={`/properties/delete/${property.id}`}><MdDeleteOutline size={20} /></Link>

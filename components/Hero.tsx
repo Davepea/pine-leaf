@@ -10,6 +10,7 @@ import InvestmentTable from './InvestmentTable'
 import { FaCheck } from 'react-icons/fa'
 import TestimonialCarousel from './TestimonialCarousel'
 import PropertyListing from '@/components/PropertyListing'
+import FAQSection from './FAQs'
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger)
@@ -243,19 +244,20 @@ const Hero = () => {
                   desc: 'Invest in verified, high-value lands across South-South and South-East Nigeria, with expert guidance from purchase to development.',
                   img: '/img/service-1.png',
                 },
-                
                 {
-                  title: 'Land Banking Investments',
-                  desc: 'Multiply your wealth over time by investing in fast-appreciating lands through our carefully selected land banking schemes.',
-                  img: '/img/service-3.png',
-                },
-                {
-                  title: 'Title Verification & Documentation',
-                  desc: 'We assist in verifying land titles, documentation, and ensuring all paperwork is authentic before any transaction.',
+                  title: 'Title Verification & Documentation Assistance',
+                  desc: 'We help you secure your land with title verification, survey plan assistance, and support in processing key legal documents.',
                   img: '/img/service-2.png',
                 },
+                
+                {
+                  title: 'Land Banking & Investment Consultation',
+                  desc: 'Acquire land in fast-developing areas, benefit from property appreciation, and receive expert consultation for long-term ROI.',
+                  img: '/img/service-3.png',
+                },
+                
               ].map((service, idx) => (
-                <div key={idx} className="flex flex-col gap-7 text-center border h-[413px] border-[#2F531833] p-[27px] rounded-[10px]">
+                <div key={idx} className="flex flex-col gap-7 text-center border md:h-[413px] border-[#2F531833] p-[27px] rounded-[10px]">
                   <div className='grid place-content-center'>
                     <div className='md:w-[96px] md:h-[96px] w-[50px] h-[50px]'>
                     <Image src={service.img} alt={service.title} width={96} height={96} className="rounded-lg w-full h-auto" />
@@ -266,7 +268,7 @@ const Hero = () => {
                     <p className="detail-text">{service.desc}</p>
                   </div>
                   <div className='flex justify-center'>
-                  <Link href="#">
+                  <Link href="/service">
                     <button className="flex items-center gap-[8px] text-[#2F5318] font-semibold">
                       Learn more
                       <ChevronDown size={16} />
@@ -428,12 +430,12 @@ const Hero = () => {
 
               <div className="flex gap-8">
                 <Link href='/pprm'>
-                  <button className="bg-[#2F5318] border text-white px-6 py-3 rounded-lg text-[20px] hover:bg-[#1e3610] transition font-[700] ">
+                  <button className="bg-[#2F5318] border text-white px-6 py-3 rounded-lg md:text-[20px] text-[16px] hover:bg-[#1e3610] transition font-[700] ">
                   Get more Info
                 </button>
                 </Link>
                 <Link href='/register'>
-                <button className="bg-white border border-[#2F5318] text-[#2F5318] px-6 py-3 rounded-lg text-[20px] hover:bg-gray-100 transition font-[700]">
+                <button className="bg-white border border-[#2F5318] text-[#2F5318] px-6 py-3 rounded-lg md:text-[20px] text-[16px] hover:bg-gray-100 transition font-[700]">
                   Register Now
                 </button>
                 </Link>
@@ -466,31 +468,8 @@ const Hero = () => {
       </div>
     </section>
 
-    <section 
-      ref={faqRef}
-      className="px-[6.1458vw] py-[100px]"
-    >
-      <h1 className="semi-header text-center mb-10">Frequently Asked Questions</h1>
-      <div className="space-y-4 mx-auto">
-        {[
-          "Is Pineleaf Estates registered and trusted?",
-          "How do I join the PRRM?",
-          "What documents are included during purchase?",
-          "Can I pay for lands in installments?",
-          "Where are your estates located?"
-        ].map((faq, idx) => (
-          <details key={idx} className="border-2 border-[#2F531833] rounded-lg p-4 md:py-9 py-7 md:px-5 px-4 h-[100px] cursor-pointer group md:text-[20px] text-[16px]">
-            <summary className="font-semibold flex justify-between items-center list-none">
-              {faq}
-              <ChevronDown className="h-4 w-5 transition-transform group-open:rotate-180" />
-            </summary>
-            <p className="text-gray-600 pt-4 pl-4">
-              Answer to &quot;{faq}&quot; goes here.
-            </p>
-          </details>
-        ))}
-      </div>
-    </section>
+    <FAQSection/>
+
     </>
   )
 }

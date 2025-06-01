@@ -148,16 +148,16 @@ const BalanceCard = () => {
                     <div className="w-full flex justify-between items-center">
                         <small className='md:text-base text-xs font-normal text-[#000000]/80'>{bal.title}</small>
                         <span
-                            className={`md:size-[30px] size-[15px] flex items-center justify-center rounded-full`}
+                            className={`md:size-[30px] size-[25px] flex items-center justify-center rounded-full shadow`}
                             style={{
-                                backgroundColor: `${bal.color}20`,
+                                backgroundColor: `${bal.color}/20`,
                                 color: bal.color
                             }}
                         >
                             {bal.icon}
                         </span>
                     </div>
-                    <h2 className='text-[#2F5318] font-bold md:text-[32px] text-xl'>{bal.amount}</h2>
+                    <h2 className='text-[#2F5318] font-bold md:text-[28px] text-xl'>{bal.amount}</h2>
                 </div>
             ))}
         </div>

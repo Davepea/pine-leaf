@@ -1,16 +1,85 @@
 // import Image from 'next/image'
+'use client'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useEffect, useState } from 'react'
 import { MdArrowBackIos, MdArrowForwardIos, MdDeleteOutline, MdOutlineRemoveRedEye } from 'react-icons/md'
+// import { Users } from './UsersTable'
+import { useRouter } from 'next/navigation'
+import axios from 'axios'
+import { getToken } from '@/lib/auth'
 
+interface Realtors {
+    id: number,
+    name: string,
+    email: string,
+    created_at: string
+}
 const RealtorRegTable = () => {
+    const [allRealtor, setAllRealtor] = useState<Realtors[]>([])
+    const [loading, setLoading] = useState(true)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [totalPages, setTotalPages] = useState(1)
+
+    const router = useRouter()
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const token = getToken()
+                if (!token) {
+                    router.push('/login')
+                    return
+                }
+
+                const response = await axios.get(
+                    'https://pineleaflaravel.sunmence.com.ng/public/api/admin/realtorstar',
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Accept': 'application/json'
+                        },
+                        params: {
+                            page: currentPage
+                        }
+                    }
+                )
+                // setAllRealtor(response.data.data.data)
+                // setTotalPages(response.data.data.last_page)
+
+                if (response.data?.data && Array.isArray(response.data.data)) {
+                    setAllRealtor(response.data.data)
+                    setTotalPages(response.data.last_page || 1)
+                } else {
+                    throw new Error('Invalid data structure received from API')
+                }
+            } catch (err) {
+                console.error('Error fetching properties:', err)
+                setAllRealtor([])
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchUsers()
+    }, [currentPage, router])
+
+    const handlePageChange = (page: number) => {
+        setCurrentPage(page)
+    }
+
+    if (loading) {
+        return (
+            <div className='bg-white rounded-[10px] p-6 w-full text-center'>
+                <p>Loading...</p>
+            </div>
+        )
+    }
     return (
         <div className='bg-white rounded-[10px] pb-6 w-full overflow-x-auto'>
             <div className="w-full mytable">
                 <div className="overflow-x-auto w-full py-2">
                     <table className="table">
                         {/* head */}
-                        <thead className='text-lg text-[#000000]/80 font-medium'>
+                        <thead className='text-sm text-[#000000]/80 font-medium'>
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>
@@ -20,9 +89,29 @@ const RealtorRegTable = () => {
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody className='text-base text-[#000000]/80'>
-                            {/* row 1 */}
-                            <tr>
+                        <tbody className='text-sm text-[#000000]/80'>
+                            {allRealtor.map((realtor) => (
+                                <tr key={realtor.id}>
+                                    <td>{realtor.id}</td>
+                                    <td>{realtor.name}</td>
+                                    <td>
+                                        <span>{realtor.email.split('@')[0]}</span>
+                                        <br />
+                                        <span>@{realtor.email.split('@')[1]}</span>
+                                    </td>
+                                    <td>
+                                        <Image src='/images/dashboard/profile.png' width={27} height={27} alt='logo' objectFit='cover' objectPosition='center' className='size-[27px] rounded-full border border-[#2F5318]' />
+                                    </td>
+                                    <td>N3,000,000</td>
+                                    <td>
+                                        <div className="flex items-center gap-5 text-[#2F5318]">
+                                            <Link href={`/realtor-reg/view/${realtor.id}`}><MdOutlineRemoveRedEye size={20} /></Link>
+                                            <Link href={`/realtor-reg/delete/${realtor.id}`}><MdDeleteOutline size={20} /></Link>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                            {/* <tr>
                                 <td>001</td>
                                 <td>vincent okagbue</td>
                                 <td>vincentokagbue@gmail.com</td>
@@ -32,46 +121,52 @@ const RealtorRegTable = () => {
                                 <td>N3,000,000</td>
                                 <td>
                                     <div className="flex items-center gap-5 text-[#2F5318]">
-                                        <Link href={''}><MdOutlineRemoveRedEye size={20} /></Link>
-                                        <Link href={''}><MdDeleteOutline size={20} /></Link>
+                                        <Link href={`/realtor-reg/view/${realtor.id}`}><MdOutlineRemoveRedEye size={20} /></Link>
+                                        <Link href={`/realtor-reg/delete/${realtor.id}`}><MdDeleteOutline size={20} /></Link>
                                     </div>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>001</td>
-                                <td>vincent okagbue</td>
-                                <td>vincentokagbue@gmail.com</td>
-                                <td>
-                                    <Image src='/images/dashboard/profile.png' width={27} height={27} alt='logo' objectFit='cover' objectPosition='center' className='size-[27px] rounded-full border border-[#2F5318]' />
-                                </td>
-                                <td>N3,000,000</td>
-                                <td>
-                                    <div className="flex items-center gap-5 text-[#2F5318]">
-                                        <Link href={''}><MdOutlineRemoveRedEye size={20} /></Link>
-                                        <Link href={''}><MdDeleteOutline size={20} /></Link>
-                                    </div>
-                                </td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </table>
                 </div>
-                <div className="join mt-3 w-full justify-center">
-                    <div className="size-[35px] flex items-center justify-center text-black/80">
+                <div className="join mt-5 w-full justify-center">
+                    <button
+                        className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
+                        disabled={currentPage === 1}
+                        onClick={() => handlePageChange(currentPage - 1)}
+                    >
                         <MdArrowBackIos size={16} />
-                    </div>
-                    <input
-                        className="join-item btn items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]"
-                        type="radio"
-                        name="options"
-                        aria-label="1"
-                        defaultChecked />
-                    <input className="join-item btn items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]" type="radio" name="options" aria-label="2" />
-                    <input className="join-item btn items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]" type="radio" name="options" aria-label="3" />
-                    <input className="join-item btn items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]" type="radio" name="options" aria-label="4" />
-                    <input className="join-item btn btn-disabled items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]" type="radio" name="options" aria-label="..." />
-                    <div className="size-[35px] flex items-center justify-center text-black/80">
+                    </button>
+
+                    {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
+                        const page = i + 1
+                        return (
+                            <button
+                                key={page}
+                                className={`join-item btn items-end border-none shadow shadow-white text-lg font-normal rounded-[10px] size-[35px] ${currentPage === page
+                                    ? 'bg-[#2F5318] text-white'
+                                    : 'bg-transparent text-black/80 hover:bg-gray-100'
+                                    }`}
+                                onClick={() => handlePageChange(page)}
+                            >
+                                {page}
+                            </button>
+                        )
+                    })}
+
+                    {totalPages > 3 && (
+                        <button className="join-item btn btn-disabled items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]">
+                            ...
+                        </button>
+                    )}
+
+                    <button
+                        className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
+                        disabled={currentPage === totalPages}
+                        onClick={() => handlePageChange(currentPage + 1)}
+                    >
                         <MdArrowForwardIos size={16} />
-                    </div>
+                    </button>
                 </div>
             </div>
         </div>

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Lato, Roboto } from "next/font/google";
 import "./globals.css";
 import ClientWrapper from "@/components/ClientWrapper"; // make sure this path is correct
+import { Toaster } from "@/components/ui/sonner";
 
 const lato = Lato({
   variable: "--font-lato",
@@ -28,6 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${lato.variable} ${roboto.variable} antialiased`}>
         <ClientWrapper>{children}</ClientWrapper>
+         <Toaster richColors />
       </body>
     </html>
   );

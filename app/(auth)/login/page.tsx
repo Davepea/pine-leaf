@@ -25,9 +25,9 @@ const LoginPage: React.FC = () => {
         }
       );
 
-      if (response.data?.data?.token) {
-        setToken(response.data.data.token)
-        localStorage.setItem('token', response.data.data.token);
+      if (response.data?.token) {
+        setToken(response.data.token)
+        localStorage.setItem('token', response.data.token);
       }
 
       alert('Login successful!');

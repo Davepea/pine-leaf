@@ -1,8 +1,9 @@
 'use client'
+import { fetchAllProperty, fetchSearchProperty } from '@/utils/axiosInstance'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdOutlineArrowOutward } from 'react-icons/md'
 
 const properties = [
@@ -173,6 +174,24 @@ const showInstallmentPaths = [
 const Properties = ({ isAllPropertiesPage = false, maxItems = 6 }: PropertiesProps) => {
     const pathname = usePathname()
     const [seeMore, setSeeMore] = useState(false)
+    const [properties, setProperties] = useState([])
+    useEffect(()=>{
+        const fetchProperties = async () => {
+            try {
+                // const response =  await fetchAllProperty()
+                const response =  await fetchSearchProperty()
+                console.log('====================================');
+                console.log(response.data.data.data);
+                console.log('====================================');
+                if(response.status === 200) {
+                    setProperties(response?.data?.data?.data)
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
+        fetchProperties()
+    },[])
 
     const handleSeeMore = () => {
         setSeeMore(true);
@@ -192,10 +211,10 @@ const Properties = ({ isAllPropertiesPage = false, maxItems = 6 }: PropertiesPro
         <div className='flex flex-col gap-10 bg-white rounded-[10px] p-[30px] pb-[52px]'>
             <div className="grid md:grid-cols-3 grid-cols-1 gap-[54px]">
                 {propertiesToShow.map((property) => {
-                    const paymentInfo = property.paymentType[0];
+                    const paymentInfo = property?.paymentType?.[0];
                     return (
                         <div key={property.id} className="flex flex-col bg-white border border-[#2F5318]/20 rounded-[10px]">
-                            <Image src={property.image} width={298} height={233} objectFit='cover' className='rounded-t-[10px] w-full h-[233px] object-cover' alt='property' />
+                            <Image src={property?.flyer} width={298} height={233} objectFit='cover' className='rounded-t-[10px] w-full h-[233px] object-cover' alt='property' />
                             <div className="py-[14px] px-[10px] flex flex-col gap-[7px]">
                                 <div className="flex items-center gap-1">
                                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -235,7 +254,7 @@ const Properties = ({ isAllPropertiesPage = false, maxItems = 6 }: PropertiesPro
                                         </div>
                                     </div>
                                 )}
-                                <Link href={'/'} className='flex gap-1 items-center w-max mx-auto text-[#2F5318] text-sm font-bold mt-2'>More Details <MdOutlineArrowOutward size={12} /></Link>
+                                <Link href={`/properties/${property?.id}`} className='flex gap-1 items-center w-max mx-auto text-[#2F5318] text-sm font-bold mt-2'>More Details <MdOutlineArrowOutward size={12} /></Link>
                             </div>
                         </div>
                     )

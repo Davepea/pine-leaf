@@ -15,9 +15,9 @@ const RealtorDashboard = () => {
         const fetchUserData = async () => {
             try{
                 const response = await fetchEachUser()
-                console.log('====================================');
-                console.log('User data fetched successfully:', response.data);
-                console.log('====================================');
+                // console.log('====================================');
+                // console.log('User data fetched successfully:', response.data);
+                // console.log('====================================');
                 if (response.status === 200) {
                     localStorage.setItem('user', JSON.stringify(response.data))
                     setUser(response.data.data)

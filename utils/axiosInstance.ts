@@ -22,7 +22,7 @@ export const fetchEachProperty = (user_id:number, token:string)=> API.get(`/publ
 
 export const fetchActivityLog = (user_id:number)=> API.get(`/public/api/activity-logs/user/${user_id}`,{headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}})
 export const fetchNotification = (user_id:number)=> API.get(`/public/api/notification/user/${user_id}`, {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}})
-export const updateProfile = (data:object)=> API.post(`public/api/profile/update`, data)
+export const updateProfile = (data:object)=> API.post(`public/api/profile/update`, data, {headers:{Authorization: `Bearer ${localStorage.getItem('token')}`}})
 
 export const fetchLatestProperty = ()=> API.get(`public/api/admin/latest-properties`)
 export const updateProperty = (user_id:object)=> API.put(`public/properties/${user_id}`)
@@ -63,7 +63,7 @@ export const createLocation = (data:object)=> API.post(`public/api/locations`, d
 
 export const purchase = (data:object)=> API.post(`/public/api/purchase`, data, {headers: {Authorization: `Bearer ${localStorage.getItem('token')}`}})
 export const installmentPayment = (data:object)=> API.post(`/public/api/installment`, data)
-export const withdraw = (data:object)=> API.post(`/public/api/withdraw`, data)
+export const withdraw = (data:object)=> API.post(`/public/api/withdraw`, data, {headers:{Authorization: `Bearer ${localStorage.getItem('token')}`}})
 export const withdrawConfirmation = (data:object)=> API.post(`/public/api/withdraw/confirm`, data)
 export const verifyManualRegistration = (data:object)=> API.post(`/public/api/manual/verify`, data)
 export const verifyManualLandPurchase = (data:object)=> API.post(`/public/api/manual-confirm-payment`, data)

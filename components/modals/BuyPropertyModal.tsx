@@ -11,6 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { installmentPayment, purchase } from '@/utils/axiosInstance';
+import { toast } from 'sonner';
 
 interface BuyPropertyModalProps {
   property_purchased_id: string;
@@ -39,15 +40,12 @@ const BuyPropertyModal = ({property_purchased_id, propertyAmount}: BuyPropertyMo
           ...values,
           installment_count: paymentPlan === 'part' ? (installmentPlan === 'two' ? '2' : '3') : '1',
         };
-
-        console.log('====================================');
-        console.log(payload);
-        console.log('====================================');
-
         const response = paymentPlan === 'full' ? await  purchase(payload) : await installmentPayment(payload);
-        console.log('Submitted:', response.data);
-      } catch (error) {
+        // console.log('Submitted:', response.data);
+        toast.success(response.data?.message)
+      } catch (error:any) {
         console.error('Submission error:', error);
+        toast.error(error.response?.data?.message || 'Payment failed. Please try again.')
       }
     },
   });

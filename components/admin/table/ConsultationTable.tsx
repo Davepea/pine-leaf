@@ -34,7 +34,7 @@ const ConsultationTable = () => {
                 }
 
                 const response = await axios.get(
-                    'https://pineleaflaravel.sunmence.com.ng/public/api/consultation',
+                    'https://pineleaflaravel.sunmence.com.ng/public/api/consultations',
                     {
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -67,8 +67,8 @@ const ConsultationTable = () => {
 
     if (loading) {
         return (
-            <div className='bg-white rounded-[10px] p-6 w-full text-center'>
-                <p>Loading...</p>
+            <div className="flex justify-center items-center h-full">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#2F5318]"></div>
             </div>
         )
     }

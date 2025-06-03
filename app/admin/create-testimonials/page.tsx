@@ -7,6 +7,7 @@ import { useFormik } from 'formik'
 import { useRouter } from 'next/navigation'
 import React, { useRef, useState } from 'react'
 import { MdOutlineFilterAlt, MdOutlineFormatListBulleted, MdOutlineImage, MdSearch } from 'react-icons/md'
+import { toast } from 'sonner'
 
 interface FormValues {
     name: string;
@@ -60,7 +61,8 @@ const Page = () => {
                 )
 
                 console.log('Success:', response.data.data)
-                alert('Testimonial added successfully!')
+                toast.success('Testimonial added successfully!')
+                window.location.reload()
                 formik.resetForm()
                 if (fileInputRef.current) {
                     fileInputRef.current.value = ''
@@ -87,13 +89,13 @@ const Page = () => {
         { label: 'Position', name: 'position', type: 'text' },
     ]
 
-    if (loading) {
-        return (
-            <div className='bg-white rounded-[10px] p-6 w-full text-center'>
-                <p>Loading...</p>
-            </div>
-        )
-    }
+    // if (loading) {
+    //     return (
+    //         <div className="flex justify-center items-center h-full">
+    //             <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#2F5318]"></div>
+    //         </div>
+    //     )
+    // }
 
     return (
         <div>

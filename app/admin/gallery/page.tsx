@@ -6,6 +6,7 @@ import { useFormik } from 'formik'
 import { useRouter } from 'next/navigation'
 import React, { useRef, useState } from 'react'
 import { MdOutlineFilterAlt, MdOutlineFormatListBulleted, MdOutlineImage, MdSearch } from 'react-icons/md'
+import { toast } from 'sonner'
 
 interface FormValues {
     type: string;
@@ -53,7 +54,7 @@ const Page = () => {
                 )
 
                 console.log('Success:', response.data)
-                alert('Images uploaded successfully!')
+                toast.success('Images uploaded successfully!')
                 formik.resetForm()
                 setPreviews([])
                 if (fileInputRef.current) {
@@ -62,7 +63,10 @@ const Page = () => {
             }
             catch (err) {
                 console.error("Error:", err)
-                alert('Error uploading images')
+                toast.error('Error uploading images')
+                if (err.response?.status === 401) {
+                    router.push('/login');
+                }
             }
             finally {
                 setLoading(false)
@@ -94,8 +98,8 @@ const Page = () => {
 
     if (loading) {
         return (
-            <div className='bg-white rounded-[10px] p-6 w-full text-center'>
-                <p>Loading...</p>
+            <div className="flex justify-center items-center h-full">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#2F5318]"></div>
             </div>
         )
     }

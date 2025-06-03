@@ -3,13 +3,14 @@
 import { getToken } from '@/lib/auth'
 import axios from 'axios'
 import Image from 'next/image'
-import Link from 'next/link'
+// import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { MdArrowBackIos, MdArrowForwardIos, MdDeleteOutline, MdOutlineModeEditOutline } from 'react-icons/md'
+import { MdArrowBackIos, MdArrowForwardIos, MdDeleteOutline } from 'react-icons/md'
+import { toast } from 'sonner'
 
 export interface Testimonial {
-    id: number,
+    id: string,
     name: string,
     rating: string,
     message: string,
@@ -22,6 +23,58 @@ const TestimonialTable = () => {
     const [totalPages, setTotalPages] = useState(1)
 
     const router = useRouter()
+    const handleDeleteTestimonial = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this testimonial?')) {
+            return;
+        }
+
+        try {
+            const token = getToken();
+            if (!token) {
+                router.push('/login');
+                return;
+            }
+
+            const response = await axios.delete<{
+                success: boolean;
+                message: string;
+            }>(
+                `https://pineleaflaravel.sunmence.com.ng/public/api/testimonials/${id}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json',
+                    },
+                    timeout: 10000
+                }
+            );
+
+            if (response.data.success) {
+                setAllTestimonial(prevTestimonials =>
+                    prevTestimonials.filter(testimonial => testimonial.id !== id)
+                );
+                toast.success(response.data.message || 'Testimonial deleted successfully');
+            } else {
+                throw new Error(response.data.message || 'Failed to delete testimonial');
+            }
+        } catch (err: unknown) {
+            console.error('Delete error:', err);
+            if (axios.isAxiosError(err)) {
+                if (err.response?.status === 401) {
+                    router.push('/login');
+                    toast.error('Session expired. Please login again.');
+                } else if (err.response?.data?.message) {
+                    toast.error(err.response.data.message);
+                } else {
+                    toast.error('Failed to delete testimonial. Please try again.');
+                }
+            } else if (err instanceof Error) {
+                toast.error(err.message);
+            } else {
+                toast.error('An unexpected error occurred');
+            }
+        }
+    };
     useEffect(() => {
         const fetchTestimonial = async () => {
             try {
@@ -70,8 +123,8 @@ const TestimonialTable = () => {
 
     if (loading) {
         return (
-            <div className='bg-white rounded-[10px] p-6 w-full text-center'>
-                <p>Loading users...</p>
+            <div className="flex justify-center items-center h-full">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#2F5318]"></div>
             </div>
         )
     }
@@ -111,8 +164,13 @@ const TestimonialTable = () => {
                                         </td>
                                         <td>
                                             <div className="flex items-center md:gap-4 gap-2 text-[#2F5318]">
-                                                <Link href={`/create-testimonials/edit/${testimonial.id}`}><MdOutlineModeEditOutline size={20} /></Link>
-                                                <Link href={`/create-testimonials/delete/${testimonial.id}`}><MdDeleteOutline size={20} /></Link>
+                                                {/* <Link href={`/create-testimonials/edit/${testimonial.id}`}><MdOutlineModeEditOutline size={20} /></Link> */}
+                                                <button
+                                                    onClick={() => handleDeleteTestimonial(testimonial.id)}
+                                                    className="border-none bg-transparent"
+                                                >
+                                                    <MdDeleteOutline size={20} />
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>

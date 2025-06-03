@@ -8,6 +8,7 @@ import { MdArrowBackIos, MdArrowForwardIos, MdDeleteOutline, MdOutlineRemoveRedE
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 import { getToken } from '@/lib/auth'
+import { toast } from 'sonner'
 
 interface Realtors {
     id: number,
@@ -32,7 +33,7 @@ const RealtorRegTable = () => {
                 }
 
                 const response = await axios.get(
-                    'https://pineleaflaravel.sunmence.com.ng/public/api/admin/realtorstar',
+                    'https://pineleaflaravel.sunmence.com.ng/public/api/realtor-stars',
                     {
                         headers: {
                             'Authorization': `Bearer ${token}`,
@@ -55,6 +56,20 @@ const RealtorRegTable = () => {
             } catch (err) {
                 console.error('Error fetching properties:', err)
                 setAllRealtor([])
+                if (axios.isAxiosError(err)) {
+                    if (err.response?.status === 401) {
+                        router.push('/login');
+                        toast.error('Session expired. Please login again.');
+                    } else if (err.response?.data?.message) {
+                        toast.error(err.response.data.message);
+                    } else {
+                        toast.error('Failed to delete realtor. Please try again.');
+                    }
+                } else if (err instanceof Error) {
+                    toast.error(err.message);
+                } else {
+                    toast.error('An unexpected error occurred');
+                }
             } finally {
                 setLoading(false)
             }
@@ -68,8 +83,8 @@ const RealtorRegTable = () => {
 
     if (loading) {
         return (
-            <div className='bg-white rounded-[10px] p-6 w-full text-center'>
-                <p>Loading...</p>
+            <div className="flex justify-center items-center h-full">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#2F5318]"></div>
             </div>
         )
     }
@@ -111,21 +126,6 @@ const RealtorRegTable = () => {
                                     </td>
                                 </tr>
                             ))}
-                            {/* <tr>
-                                <td>001</td>
-                                <td>vincent okagbue</td>
-                                <td>vincentokagbue@gmail.com</td>
-                                <td>
-                                    <Image src='/images/dashboard/profile.png' width={27} height={27} alt='logo' objectFit='cover' objectPosition='center' className='size-[27px] rounded-full border border-[#2F5318]' />
-                                </td>
-                                <td>N3,000,000</td>
-                                <td>
-                                    <div className="flex items-center gap-5 text-[#2F5318]">
-                                        <Link href={`/realtor-reg/view/${realtor.id}`}><MdOutlineRemoveRedEye size={20} /></Link>
-                                        <Link href={`/realtor-reg/delete/${realtor.id}`}><MdDeleteOutline size={20} /></Link>
-                                    </div>
-                                </td>
-                            </tr> */}
                         </tbody>
                     </table>
                 </div>

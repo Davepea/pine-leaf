@@ -5,14 +5,21 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md'
+import { toast } from 'sonner'
 
 export interface Inspection {
     id: number,
-    firstname: string,
-    lastname: string,
-    phone: string,
+    fullname: string,
     email: string,
-    subject: string,
+    phone: string,
+    property_id: string,
+    inspection_date: string,
+    inspection_time: string,
+    notes: string,
+    no_attendees: string,
+    status: string,
+    created_at: string,
+    updated_at: string,
 }
 const InspectionTable = () => {
     const [allInspection, setAllInspection] = useState<Inspection[]>([])
@@ -52,6 +59,20 @@ const InspectionTable = () => {
             }
             catch (err) {
                 console.error('Error fetching properties:', err)
+                if (axios.isAxiosError(err)) {
+                    if (err.response?.status === 401) {
+                        router.push('/login');
+                        toast.error('Session expired. Please login again.');
+                    } else if (err.response?.data?.message) {
+                        toast.error(err.response.data.message);
+                    } else {
+                        toast.error('Failed to delete testimonial. Please try again.');
+                    }
+                } else if (err instanceof Error) {
+                    toast.error(err.message);
+                } else {
+                    toast.error('An unexpected error occurred');
+                }
             } finally {
                 setLoading(false)
             }
@@ -64,8 +85,27 @@ const InspectionTable = () => {
 
     if (loading) {
         return (
-            <div className='bg-white rounded-[10px] p-6 w-full text-center'>
-                <p>Loading...</p>
+            <div className='bg-white rounded-[10px] py-6'>
+                <div className="w-full">
+                    <div className="overflow-x-auto w-full mytable">
+                        <table className="table">
+                            <tbody>
+                                {[...Array(4)].map((_, i) => (
+                                    <tr key={i} className="animate-pulse">
+                                        <td><div className="h-4 bg-gray-200 rounded w-4"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-8"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+                                        <td><div className="h-8 bg-gray-200 rounded w-20"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-8"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -81,7 +121,7 @@ const InspectionTable = () => {
                                 <th>Name</th>
                                 <th>Phone <br />Number</th>
                                 <th>Preferred <br />Property</th>
-                                <th>Preferred <br />DAte</th>
+                                <th>Preferred <br />Date</th>
                                 <th>Preferred <br />Time Slot</th>
                                 <th>Additional <br />Notes</th>
                                 <th>Numbers of <br />People Attending</th>
@@ -89,14 +129,17 @@ const InspectionTable = () => {
                         </thead>
                         <tbody className='text-sm text-[#000000]/80'>
                             {allInspection.map((inspection) => {
+                                const propertyType = inspection.property_id == "1"
                                 return (
                                     <tr key={inspection.id}>
                                         <td>{inspection.id}</td>
-                                        <td>{inspection.id}</td>
-                                        <td>{inspection.id}</td>
-                                        <td>{inspection.id}</td>
-                                        <td>{inspection.id}</td>
-                                        <td>{inspection.id}</td>
+                                        <td>{inspection.fullname}</td>
+                                        <td>{inspection.phone}</td>
+                                        <td>{propertyType ? "Land" : "House"}</td>
+                                        <td>{inspection.inspection_date}</td>
+                                        <td>{inspection.inspection_time}</td>
+                                        <td>{inspection.notes}</td>
+                                        <td>{inspection.no_attendees}</td>
                                     </tr>
                                 )
                             })}

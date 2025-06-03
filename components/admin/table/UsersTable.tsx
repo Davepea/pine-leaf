@@ -6,30 +6,104 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { MdArrowBackIos, MdArrowForwardIos, MdDeleteOutline, MdOutlineModeEditOutline, MdOutlineRemoveRedEye } from 'react-icons/md'
+import { toast } from 'sonner'
 
 export interface Users {
-    id: number,
+    id: string,
     fullName: string,
     email: string,
     balance: number,
-    referral_bonus: number,
+    referral_bonus: string,
     proof: string,
-    enabled: number,
+    enabled: string,
     created_at: string
 }
-const UsersTable = () => {
+
+interface UserTableProps {
+    searchTerm?: string;
+}
+const UsersTable = ({ searchTerm = '' }: UserTableProps) => {
     const [allUsers, setAllUsers] = useState<Users[]>([])
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
+    const [filteredUsers, setFilteredUsers] = useState<Users[]>([]);
 
     const router = useRouter()
+
+    useEffect(() => {
+        if (searchTerm) {
+            const filtered = allUsers.filter(user => {
+                const searchLower = searchTerm.toLowerCase();
+                const fullName = user.fullName.toLowerCase();
+                const email = user.email.toLowerCase();
+                const referralBonus = user.referral_bonus || '';
+                const proof = user.proof || '';
+                const status = user.enabled;
+                const date = user.created_at.toLowerCase();
+
+                return (
+                    fullName.includes(searchLower) ||
+                    email.includes(searchLower) ||
+                    referralBonus.includes(searchLower) ||
+                    proof.includes(searchLower) ||
+                    status.includes(searchLower) ||
+                    date.includes(searchLower)
+                );
+            });
+            setFilteredUsers(filtered);
+        } else {
+            setFilteredUsers(allUsers);
+        }
+    }, [searchTerm, allUsers]);
+
+    const handleDeleteUser = async (id: string) => {
+        if (!confirm('Are you sure you want to delete this user?')) {
+            return;
+        }
+
+        try {
+            const token = getToken();
+            if (!token) {
+                router.push('/logout'); // Redirect to login if no token
+                return;
+            }
+
+            const response = await axios.delete(
+                `https://pineleaflaravel.sunmence.com.ng/public/api/admin/users/${id}`,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Accept': 'application/json',
+                    },
+                    timeout: 10000
+                }
+            );
+
+            if (response.data.success) {
+                setAllUsers(prevUsers => prevUsers.filter(user => user.id !== id));
+                toast.success('User deleted successfully');
+            } else {
+                // throw new Error(response.data.message || 'Failed to delete user');
+            }
+        } catch (err: any) {
+            console.error('Delete error:', err);
+            toast.error(
+                'Failed to delete user'
+            );
+
+            if (err.response?.status === 401) {
+                router.push('/logout');
+            }
+        }
+    };
+
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const token = getToken()
                 if (!token) {
-                    router.push('/login')
+                    router.push('/logout')
                     return
                 }
 
@@ -49,7 +123,21 @@ const UsersTable = () => {
                 setTotalPages(response.data.data.last_page)
             }
             catch (err) {
-                console.error('Error fetching properties:', err)
+                console.error('Error fetching users:', err)
+                if (axios.isAxiosError(err)) {
+                    if (err.response?.status === 401) {
+                        router.push('/logout');
+                        toast.error('Session expired. Please login again.');
+                    } else if (err.response?.data?.message) {
+                        toast.error(err.response.data.message);
+                    } else {
+                        toast.error('Failed to show users. Please try again.');
+                    }
+                } else if (err instanceof Error) {
+                    toast.error(err.message);
+                } else {
+                    toast.error('An unexpected error occurred');
+                }
             } finally {
                 setLoading(false)
             }
@@ -62,8 +150,27 @@ const UsersTable = () => {
 
     if (loading) {
         return (
-            <div className='bg-white rounded-[10px] p-6 w-full text-center'>
-                <p>Loading users...</p>
+            <div className='bg-white rounded-[10px] py-6'>
+                <div className="w-full">
+                    <div className="overflow-x-auto w-full mytable">
+                        <table className="table">
+                            <tbody>
+                                {[...Array(5)].map((_, i) => (
+                                    <tr key={i} className="animate-pulse">
+                                        <td><div className="h-4 bg-gray-200 rounded w-4"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-8"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+                                        <td><div className="h-8 bg-gray-200 rounded w-20"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-8"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -88,7 +195,7 @@ const UsersTable = () => {
                             </tr>
                         </thead>
                         <tbody className='text-sm text-[#000000]/80'>
-                            {allUsers.map((user) => {
+                            {filteredUsers.map((user) => {
                                 const isConfirmed = user.enabled ? 1 : 0
                                 return (
                                     <tr key={user.id}>
@@ -118,9 +225,14 @@ const UsersTable = () => {
                                         <td className='text-[#2F5318] font-bold'>{user.created_at.split('.')[0]}</td>
                                         <td>
                                             <div className="flex items-center md:gap-4 gap-2 text-[#2F5318]">
-                                                <Link href={`/users/view/${user.id}`}><MdOutlineRemoveRedEye size={20} /></Link>
-                                                <Link href={`/users/edit/${user.id}`}><MdOutlineModeEditOutline size={20} /></Link>
-                                                <Link href={`/users/delete/${user.id}`}><MdDeleteOutline size={20} /></Link>
+                                                <Link href={`/admin/users/view/${user.id}`}><MdOutlineRemoveRedEye size={20} /></Link>
+                                                <Link href={`/admin/users/view/${user.id}`}><MdOutlineModeEditOutline size={20} /></Link>
+                                                <button
+                                                    onClick={() => handleDeleteUser(user.id)}
+                                                    className="border-none bg-transparent"
+                                                >
+                                                    <MdDeleteOutline size={20} />
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>

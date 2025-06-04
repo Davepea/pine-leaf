@@ -3,13 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation'; 
 import Image from 'next/image';
-import { MapPin as MapIcon, CarFrontIcon } from 'lucide-react';
+import { MapPin as  Map, Building, House } from 'lucide-react';
 import Link from 'next/link';
-
-import { CiSignpostDuo1 } from 'react-icons/ci';
 import { FaSignsPost } from 'react-icons/fa6';
-import { MdOutlineFlag, MdStoreMallDirectory } from 'react-icons/md';
+import { MdLocalTaxi, MdOutlineFlag, MdSecurity, MdStoreMallDirectory } from 'react-icons/md';
 import PropertyListing from '@/components/PropertyListing';
+import { RiTodoFill } from 'react-icons/ri';
+import { FaThLarge } from 'react-icons/fa';
 
 type PropertyDetail = {
   id: number;
@@ -233,17 +233,17 @@ const PropertyDetailPage: React.FC = () => {
                 </h4>
                 <div className="space-y-3 text-lg">
                   <div className="flex items-center text-gray-600 py-2 border-b border-[#C6CCD2]">
-                    <MapIcon className="w-4 h-4 mr-2 mt-0.5 text-[#4D794F]" />
+                    <Map className="w-4 h-4 mr-2 mt-0.5 text-[#4D794F]" />
                     <div>
                       <span className="font-[700]">Location:</span> {landmarks[0] || "Umuawulu, Awka South, Anambra State"}
                     </div>
                   </div>
                   <div className="flex items-center text-gray-600 py-2 border-b border-[#C6CCD2]">
-                    <CarFrontIcon className="w-4 h-4 mr-2 mt-0.5 text-[#4D794F]" />
+                    <MdLocalTaxi className="w-4 h-4 mr-2 mt-0.5 text-[#4D794F]" />
                     <span>{landmarks[1] || "5 mins drive from CBN Quarters and Oranwezkuiku Pineleaf Estate Awka"}</span>
                   </div>
                   <div className="flex items-center text-gray-600 py-2 border-b border-[#C6CCD2]">
-                    <CarFrontIcon className="w-4 h-4 mr-2 mt-0.5 text-[#4D794F]" />
+                    <MdLocalTaxi className="w-4 h-4 mr-2 mt-0.5 text-[#4D794F]" />
                     <span>{landmarks[2] || "3 minutes drive from ukwu oji"}</span>
                   </div>
                 </div>
@@ -274,9 +274,17 @@ const PropertyDetailPage: React.FC = () => {
                 <div className="grid grid-cols-1 gap-3">
                   {features.map((feature, index) => {
                     const getIcon = (feature: string) => {
-                      if (feature.toLowerCase().includes('security')) return <CiSignpostDuo1 className="w-4 h-4" />;
+                      if (feature.toLowerCase().includes('security')) return <MdSecurity className="w-4 h-4" />;
+                      if (feature.toLowerCase().includes('safe')) return <MdSecurity className="w-4 h-4" />;
                       if (feature.toLowerCase().includes('road')) return <FaSignsPost className="w-4 h-4" />;
+                      if (feature.toLowerCase().includes('land')) return <FaSignsPost className="w-4 h-4" />;
                       if (feature.toLowerCase().includes('play')) return <MdOutlineFlag className="w-4 h-4" />;
+                      if (feature.toLowerCase().includes('good')) return <MdOutlineFlag className="w-4 h-4" />;
+                      if (feature.toLowerCase().includes('meters')) return <MdOutlineFlag className="w-4 h-4" />;
+                      if (feature.toLowerCase().includes('wide')) return <FaThLarge className="w-4 h-4" />;
+                      if (feature.toLowerCase().includes('build')) return <Building className="w-4 h-4" />;
+                      if (feature.toLowerCase().includes('survey')) return <RiTodoFill className="w-4 h-4" />;
+                      if (feature.toLowerCase().includes('allocation')) return <House className="w-4 h-4" />;
                       if (feature.toLowerCase().includes('shop')) return <MdStoreMallDirectory className="w-4 h-4" />;
                       return <div className="w-2 h-2 bg-[#2F5318] rounded-full" />;
                     };

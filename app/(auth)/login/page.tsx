@@ -78,7 +78,7 @@ const LoginPage: React.FC = () => {
               <span>←</span>
               <Link href="/register"><span className="hover:underline cursor-pointer">Register</span></Link>
               <span>←</span>
-              <span className="font-medium">Login</span>
+              <span className="font-medium text-[#FBBF00]">Login</span>
             </div>
           </div>
         </div>

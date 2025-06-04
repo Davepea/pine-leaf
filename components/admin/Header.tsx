@@ -13,6 +13,7 @@ import { RiKakaoTalkLine } from "react-icons/ri";
 import { RxImage } from "react-icons/rx";
 import { TbDeviceImacSearch } from "react-icons/tb";
 import { MdMessage, MdOutlineContactEmergency, MdOutlineUnsubscribe, MdNotificationsNone, MdOutlineAccountBalanceWallet, MdOutlineAllInbox, MdOutlineConnectWithoutContact, MdOutlineDashboard, MdOutlineGroupWork, MdOutlinePeopleAlt, MdSearch, MdVerified } from 'react-icons/md'
+import LogoutBtn from './LogoutBtn'
 // import { VscListFlat } from 'react-icons/vsc'
 
 const contents = [
@@ -370,7 +371,7 @@ const Header = () => {
         setSidebar(false)
     }
     const getPageTitle = () => {
-        return pageTitles[pathname] || 'Overview'
+        return pageTitles[pathname] || 'View/Edit'
     }
     const isActive = (path: string) => {
         return pathname.startsWith(path)
@@ -421,24 +422,17 @@ const Header = () => {
                                             <IoIosArrowDown size={20} />
                                         </div>
                                     </div>
-                                    <ul tabIndex={0} className="dropdown-content menu rounded-[10px] z-1 w-max py-2 shadow-sm bg-[#ffffff]">
-                                        <li className='hover:bg-[#2F5318F6] hover:text-white rounded-[5px] border-b'>
+                                    <div tabIndex={0} className="dropdown-content menu rounded-[10px] z-1 w-max py-2 shadow-sm bg-[#ffffff]">
+                                        {/* <li className='hover:bg-[#2F5318F6] hover:text-white rounded-[5px] border-b'>
                                             <Link href={'/'} className='flex items-center gap-2 text-sm px-2 py-2'>
                                                 <svg className='w-[24px] h-[20px] flex items-center' width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M15.4839 8.33324H15.4703C15.3324 8.33099 15.1992 8.29559 15.09 8.23224C14.9809 8.16889 14.9016 8.08092 14.8639 7.98125L12.8194 2.60718L11.571 5.109C11.525 5.20142 11.4427 5.2811 11.3349 5.33741C11.2271 5.39372 11.099 5.42398 10.9677 5.42415H8.3871V4.45446H10.5206L12.2994 0.890336C12.347 0.794773 12.4335 0.712939 12.5466 0.656486C12.6597 0.600034 12.7937 0.571842 12.9293 0.575925C13.065 0.580008 13.1955 0.616157 13.3023 0.679226C13.409 0.742294 13.4866 0.829066 13.5239 0.927184L15.531 6.20815L16.8077 3.33155C16.8505 3.23504 16.9326 3.15109 17.0424 3.09157C17.1521 3.03205 17.284 2.99999 17.4194 2.99991H20V3.96961H17.8839L16.0955 8.00161C16.0527 8.09811 15.9706 8.18207 15.8609 8.24158C15.7511 8.3011 15.6192 8.33317 15.4839 8.33324ZM9.03226 11.7272H7.74194V8.33324C7.74142 7.94759 7.53734 7.57785 7.17448 7.30515C6.81162 7.03245 6.31962 6.87908 5.80645 6.8787H3.22581C2.71264 6.87908 2.22064 7.03245 1.85778 7.30515C1.49492 7.57785 1.29083 7.94759 1.29032 8.33324V11.7272H0V8.33324C0.00102442 7.69053 0.341214 7.07436 0.945948 6.6199C1.55068 6.16543 2.37058 5.90977 3.22581 5.909H5.80645C6.66167 5.90977 7.48158 6.16543 8.08631 6.6199C8.69104 7.07436 9.03123 7.69053 9.03226 8.33324V11.7272ZM4.51613 1.06052C4.89893 1.06052 5.27314 1.14583 5.59143 1.30565C5.90971 1.46548 6.15779 1.69265 6.30428 1.95843C6.45078 2.22422 6.4891 2.51668 6.41442 2.79883C6.33974 3.08098 6.15541 3.34016 5.88472 3.54358C5.61404 3.747 5.26917 3.88554 4.89372 3.94166C4.51828 3.99778 4.12911 3.96898 3.77545 3.85889C3.42179 3.7488 3.11951 3.56236 2.90683 3.32317C2.69416 3.08397 2.58065 2.80274 2.58065 2.51506C2.58065 2.12929 2.78456 1.75932 3.14754 1.48654C3.51051 1.21376 4.00281 1.06052 4.51613 1.06052ZM4.51613 0.0908203C3.87812 0.0908203 3.25445 0.233 2.72397 0.499379C2.19349 0.765758 1.78003 1.14437 1.53587 1.58735C1.29172 2.03032 1.22784 2.51775 1.35231 2.98801C1.47677 3.45827 1.784 3.89022 2.23514 4.22926C2.68628 4.5683 3.26106 4.79918 3.88681 4.89272C4.51255 4.98626 5.16115 4.93826 5.75059 4.75477C6.34003 4.57129 6.84383 4.26056 7.19829 3.8619C7.55274 3.46324 7.74194 2.99453 7.74194 2.51506C7.74194 1.87211 7.40207 1.2555 6.79712 0.800865C6.19216 0.346231 5.37167 0.0908203 4.51613 0.0908203Z" fill="black" fillOpacity="0.8" />
                                                 </svg>
                                                 <span>Activities</span>
                                             </Link>
-                                        </li>
-                                        <li className='hover:bg-[#2F5318F6] hover:text-white rounded-[5px]'>
-                                            <Link href={'/'} className='flex items-center gap-2 text-sm px-2 py-2'>
-                                                <svg className='w-[24px] h-[20px] flex items-center' width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M10.75 4L9.6925 5.0575L10.8775 6.25H4.75V7.75H10.8775L9.6925 8.935L10.75 10L13.75 7L10.75 4ZM1.75 1.75H7V0.25H1.75C0.925 0.25 0.25 0.925 0.25 1.75V12.25C0.25 13.075 0.925 13.75 1.75 13.75H7V12.25H1.75V1.75Z" fill="black" fillOpacity="0.8" />
-                                                </svg>
-                                                <span>Logout</span>
-                                            </Link>
-                                        </li>
-                                    </ul>
+                                        </li> */}
+                                        <LogoutBtn />
+                                    </div>
                                 </div>
                             </div>
                         )

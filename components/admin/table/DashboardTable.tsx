@@ -1,12 +1,13 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
+// import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md'
+import { MdArrowBackIos, MdArrowForwardIos, MdDeleteOutline } from 'react-icons/md'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { getToken } from '@/lib/auth'
+import { toast } from 'sonner'
 
 interface User {
     id: string
@@ -52,49 +53,56 @@ const DashboardTable = () => {
     const [error, setError] = useState('')
     const router = useRouter()
 
-    const handleDeleteUser = async (userId: number) => {
+    const handleDeleteUser = async (id: string) => {
         if (!confirm('Are you sure you want to delete this user?')) {
-            return
+            return;
         }
 
         try {
-            const token = getToken()
+            const token = getToken();
             if (!token) {
-                router.push('/dashboard')
-                return
+                router.push('/login'); // Redirect to login if no token
+                return;
             }
 
-            await axios.delete(
-                `https://pineleaflaravel.sunmence.com.ng/public/api/admin/deleteuser/${userId}`,
+            const response = await axios.delete(
+                `https://pineleaflaravel.sunmence.com.ng/public/api/admin/users/${id}`,
                 {
                     headers: {
                         'Authorization': `Bearer ${token}`,
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
                     },
                     timeout: 10000
                 }
-            )
+            );
 
-            // Refresh the user list after deletion
-            setUsers(users.filter(user => user.id !== userId))
-
+            if (response.data.success) {
+                setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
+                toast.success('User deleted successfully');
+                window.location.reload()
+            } else {
+                // throw new Error(response.data.message || 'Failed to delete user');
+            }
         } catch (err: any) {
-            console.error('Error deleting user:', err)
-            alert(err.response?.data?.message || 'Failed to delete user')
+            console.error('Delete error:', err);
+            toast.error(
+                err.response?.data?.message ||
+                err.message ||
+                'Failed to delete user'
+            );
 
             if (err.response?.status === 401) {
-                router.push('/login')
+                router.push('/login');
             }
         }
-    }
-
+    };
     useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const token = getToken()
 
                 if (!token) {
-                    router.push('/dashboard')
+                    router.push('login')
                     return
                 }
 
@@ -122,10 +130,20 @@ const DashboardTable = () => {
             } catch (err: any) {
                 console.error('Error fetching users:', err)
                 setError(err.response?.data?.message || 'Failed to load users')
-
-                // If unauthorized, redirect to login
-                if (err.response?.status === 401) {
-                    router.push('/login')
+                router.push('/logout')
+                if (axios.isAxiosError(err)) {
+                    if (err.response?.status === 401) {
+                        router.push('/login');
+                        toast.error('Session expired. Please login again.');
+                    } else if (err.response?.data?.message) {
+                        toast.error(err.response.data.message);
+                    } else {
+                        toast.error('Error fetching details');
+                    }
+                } else if (err instanceof Error) {
+                    toast.error(err.message);
+                } else {
+                    toast.error('An unexpected error occurred');
                 }
             } finally {
                 setLoading(false)
@@ -141,8 +159,27 @@ const DashboardTable = () => {
 
     if (loading) {
         return (
-            <div className='bg-white rounded-[10px] p-6 w-full text-center'>
-                <p>Loading users...</p>
+            <div className='bg-white rounded-[10px] py-6'>
+                <div className="w-full">
+                    <div className="overflow-x-auto w-full mytable">
+                        <table className="table">
+                            <tbody>
+                                {[...Array(5)].map((_, i) => (
+                                    <tr key={i} className="animate-pulse">
+                                        <td><div className="h-4 bg-gray-200 rounded w-4"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-8"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+                                        <td><div className="h-8 bg-gray-200 rounded w-20"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-8"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -215,12 +252,12 @@ const DashboardTable = () => {
                                             {user.enabled ? 'Active' : 'Inactive'}
                                         </button>
                                     </td>
-                                    <td className="flex gap-2">
+                                    <td>
                                         <button
                                             onClick={() => handleDeleteUser(user.id)}
                                             className="border-none bg-transparent"
                                         >
-                                            Delete
+                                            <MdDeleteOutline size={20} />
                                         </button>
                                     </td>
                                 </tr>

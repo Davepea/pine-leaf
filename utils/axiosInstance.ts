@@ -15,7 +15,7 @@ export const fetchSearchUser = ()=> API.get(`public/api/admin/users/search?enabl
 export const createUser = (data:object)=> API.post(`/public/api/realtor/register`, data)
 export const loginUSer = (data:object)=> API.post(`/public/api/realtor/login`, data)
 export const logoutUser = (data:object)=> API.post(`public/api/realtor/logout`, data)
-export const deleteUser = (user_id:number)=> API.delete(`public/api/admin/deleteuser/${user_id}`)
+export const deleteUser = (id:string)=> API.delete(`public/api/admin/deleteuser/${id}`)
 
 export const fetchSearchProperty = ()=>API.get(`/public/api/properties/search`)
 export const fetchEachProperty = (user_id:number, token:string)=> API.get(`/public/api/properties/${user_id}`, {headers: {Authorization: `Bearer ${token}`}})

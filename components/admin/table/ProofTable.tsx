@@ -2,10 +2,10 @@
 'use client'
 import { getToken } from '@/lib/auth'
 import axios from 'axios'
-import Link from 'next/link'
+// import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { MdArrowBackIos, MdArrowForwardIos, MdDeleteOutline, MdOutlineRemoveRedEye } from 'react-icons/md'
+import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md'
 
 interface Transaction {
     id: number
@@ -28,16 +28,49 @@ interface Property {
     name: string
 }
 
-const ProofTable = () => {
+interface TransactionsTableProps {
+    searchTerm?: string;
+}
+
+const ProofTable = ({ searchTerm = '' }: TransactionsTableProps) => {
     const [allTransaction, setAllTransaction] = useState<Transaction[]>([])
     const [users, setUsers] = useState<User[]>([])
     const [properties, setProperties] = useState<Property[]>([])
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
+    const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>([]);
 
     const router = useRouter()
 
+    useEffect(() => {
+        if (searchTerm) {
+            const filtered = allTransaction.filter(transaction => {
+                const searchLower = searchTerm.toLowerCase();
+                const email = getUserEmail(transaction.user_id).toLowerCase();
+                const amount = transaction.amount.toLowerCase();
+                const propertyPurchasedId = getPropertyName(transaction.property_purchased_id)?.toLowerCase() || '';
+                const paymentProof = transaction.proof_of_payment?.toLowerCase() || '';
+                const unit = transaction.unit?.toLowerCase() || '';
+                const status = transaction.status.toLowerCase();
+                const date = transaction.created_at.toLowerCase();
+
+                return (
+                    email.includes(searchLower) ||
+                    amount.includes(searchLower) ||
+                    propertyPurchasedId.includes(searchLower) ||
+                    paymentProof.includes(searchLower) ||
+                    unit.includes(searchLower) ||
+                    status.includes(searchLower) ||
+                    date.includes(searchLower) ||
+                    transaction.id.toString().includes(searchLower)
+                );
+            });
+            setFilteredTransactions(filtered);
+        } else {
+            setFilteredTransactions(allTransaction);
+        }
+    }, [searchTerm, allTransaction, users]);
     const fetchAllUsers = async (token: string) => {
         let allUsers: User[] = [];
         let currentPage = 1;
@@ -164,8 +197,27 @@ const ProofTable = () => {
 
     if (loading) {
         return (
-            <div className='bg-white rounded-[10px] p-6 w-full text-center'>
-                <p>Loading...</p>
+            <div className='bg-white rounded-[10px] py-6'>
+                <div className="w-full">
+                    <div className="overflow-x-auto w-full mytable">
+                        <table className="table">
+                            <tbody>
+                                {[...Array(4)].map((_, i) => (
+                                    <tr key={i} className="animate-pulse">
+                                        <td><div className="h-4 bg-gray-200 rounded w-4"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-8"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+                                        <td><div className="h-8 bg-gray-200 rounded w-20"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-8"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         )
     }
@@ -185,11 +237,11 @@ const ProofTable = () => {
                                 <th>Proof of <br />Payment</th>
                                 <th>Status</th>
                                 <th>Date</th>
-                                <th>Actions</th>
+                                {/* <th>Actions</th> */}
                             </tr>
                         </thead>
                         <tbody className='text-sm text-[#000000]/80 w-full'>
-                            {allTransaction.map((proof) => {
+                            {filteredTransactions.map((proof) => {
                                 const isSuccessful = proof.status == 'success';
                                 const email = getUserEmail(proof.user_id);
                                 const [username, domain] = email.includes('@') ? email.split('@') : ['', email];
@@ -222,12 +274,12 @@ const ProofTable = () => {
                                             </button>
                                         </td>
                                         <td className='text-[#2F5318] font-bold'>{proof.created_at.split('.')[0]}</td>
-                                        <td>
+                                        {/* <td>
                                             <div className="flex items-center gap-5 text-[#2F5318]">
                                                 <Link href={''}><MdOutlineRemoveRedEye size={20} /></Link>
                                                 <Link href={''}><MdDeleteOutline size={20} /></Link>
                                             </div>
-                                        </td>
+                                        </td> */}
                                     </tr>
                                 )
                             })}

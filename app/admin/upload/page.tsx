@@ -8,6 +8,7 @@ import { MdOutlineImage, MdAdd, MdClose } from 'react-icons/md'
 import { useFormik } from 'formik'
 import Image from 'next/image'
 import axios from 'axios'
+import { toast } from 'sonner'
 
 const Page = () => {
     const [loading, setLoading] = useState(false)
@@ -71,15 +72,15 @@ const Page = () => {
                 )
                 // console.log(response.data)
                 console.log('Success:', response.data)
-                alert('Property created successfully!')
+                toast.success('Property created successfully!')
             }
             catch (error) {
                 console.error('Full error:', error)
                 if (error.response) {
                     const errorMessage = error.response.data.message || 'Server error occurred'
-                    alert(`Error: ${errorMessage}`) 
+                    toast.error(`Error: ${errorMessage}`)
                 } else {
-                    alert('Network error occurred. Please try again.')
+                    toast.error('Network error occurred. Please try again.')
                 }
             } finally {
                 setLoading(false)
@@ -162,7 +163,7 @@ const Page = () => {
     const fields = [
         { label: 'Property Name', name: 'name', type: 'text' },
         { label: 'Estate Name', name: 'estate_name', type: 'text' },
-        { label: 'Location', name: 'location', type: 'text' },
+        // { label: 'Location', name: 'location', type: 'text' },
         { label: 'Price', name: 'price', type: 'number' },
         { label: 'Total Plots', name: 'total_units', type: 'number' },
         // { label: 'Driving duration', name: 'duration', type: 'text' },
@@ -174,7 +175,7 @@ const Page = () => {
     if (loading) {
         return (
             <div className='bg-white rounded-[10px] p-6 w-full text-center'>
-                <p>Loading...</p>
+                <p></p>
             </div>
         )
     }
@@ -189,7 +190,7 @@ const Page = () => {
                             <div className="flex flex-col gap-8">
                                 <h3 className='text-2xl text-black/80 font-bold'>Property Details</h3>
                                 <div className='flex flex-col gap-[15px]'>
-                                    {fields.slice(0, 4).map(({ label, name, type }) => (
+                                    {fields.slice(0, 3).map(({ label, name, type }) => (
                                         <label key={name} className='md:text-base text-sm text-black/80 font-normal flex flex-col gap-1'>
                                             {label}
                                             <input
@@ -202,6 +203,17 @@ const Page = () => {
                                             />
                                         </label>
                                     ))}
+                                    <label className='md:text-base text-sm text-black/80 font-normal flex flex-col gap-1'>
+                                        Location
+                                        <input
+                                            type="text"  // Keep as text input
+                                            name="location"
+                                            onChange={formik.handleChange}
+                                            value={formik.values.location}
+                                            className='input bg-transparent max-w-full w-full h-[50px] px-4 border border-[#2F5318]/80 rounded-[10px] outline-none'
+                                            required
+                                        />
+                                    </label>
 
                                     <label className='md:text-base text-sm text-black/80 font-normal flex flex-col gap-1'>
                                         Type
@@ -231,7 +243,7 @@ const Page = () => {
                                         </select>
                                     </label>
 
-                                    {fields.slice(4).map(({ label, name, type }) => (
+                                    {fields.slice(3).map(({ label, name, type }) => (
                                         <label key={name} className='md:text-base text-sm text-black/80 font-normal flex flex-col gap-1'>
                                             {label}
                                             <input

@@ -1,7 +1,18 @@
 // import Image from 'next/image'
+import { fetchTransaction } from '@/utils/axiosInstance'
+import { useEffect } from 'react'
 import { MdArrowBackIos, MdArrowForwardIos } from 'react-icons/md'
 
 const HistoryTabTable = () => {
+    useEffect(()=>{
+        const fetchHistoryData = async ()=>{
+            const response = await fetchTransaction()
+            console.log('====================================');
+            console.log(response.data);
+            console.log('====================================');
+        }
+        fetchHistoryData()
+    }, [])
     return (
         <div className='bg-white rounded-[10px] py-6 w-full overflow-x-auto'>
             <div className="w-full mytable">

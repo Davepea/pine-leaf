@@ -60,7 +60,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             </button>
           </div>
           <div className="flex justify-end mt-2">
-            <Link href="/forgot-password">
+            <Link href="/password-resset">
               <span className="text-sm text-[#2F5318] hover:underline cursor-pointer">
                 Forgot Password?
               </span>

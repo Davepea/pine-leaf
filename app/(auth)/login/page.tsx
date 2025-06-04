@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
       );
 
       const token = response.data?.data?.token
-      const role = response.data?.user?.role;
+      const role = response.data?.data?.user?.role;
 
       console.log('Role:', role);
 
@@ -39,18 +39,18 @@ const LoginPage: React.FC = () => {
 
       toast.success('Login successful!');
 
-      if(role === "admin"){
-      router.push('/admin/dashboard');
-      console.log(role);
-      
+      if (role === "admin") {
+        router.push('/admin/dashboard');
+        console.log(role);
+
 
       }
-      else if(role === "user"){
-      router.push('/dashboard');
+      else if (role === "user") {
+        router.push('/dashboard');
 
       }
     } catch (error) {
-     
+
       toast.error(error.response?.data?.message || 'Login failed. Please try again.')
     }
   };

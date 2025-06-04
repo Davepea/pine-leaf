@@ -173,7 +173,7 @@ const Page = () => {
             <div className="md:px-10 px-6 w-full h-screen overflow-y-scroll overflow-x-hidden flex flex-col gap-5">
                 <Header />
                 <div className='bg-white flex flex-col gap-7 p-[30px] rounded-[10px] text-black/80'>
-                    <h3 className='font-bold text-2xl'>Profile</h3>
+                    <h3 className='font-bold text-2xl'>User {id} profile details</h3>
                     <form onSubmit={formik.handleSubmit} className='grid md:grid-cols-2 gap-x-9 gap-y-5'>
                         {fields.map(({ name, type, label }) => (
                             <label key={name} className='font-normal text-base flex items-center justify-between w-full border border-[#2F5318]/80 rounded-[10px] p-1'>

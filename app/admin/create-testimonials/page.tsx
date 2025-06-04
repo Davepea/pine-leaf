@@ -21,6 +21,7 @@ const Page = () => {
     const [loading, setLoading] = useState(false)
     const router = useRouter()
     const fileInputRef = useRef<HTMLInputElement>(null)
+    const [searchTerm, setSearchTerm] = useState('');
 
     const formik = useFormik<FormValues>({
         initialValues: {
@@ -102,9 +103,9 @@ const Page = () => {
             <div className="md:px-10 px-6 w-full h-screen overflow-y-scroll overflow-x-hidden flex flex-col gap-5">
                 <Header />
                 <div className="flex justify-between items-center">
-                    <form className='h-[40px] md:w-[386px] w-[185px]'>
+                    <form onSubmit={(e) => e.preventDefault()} className='h-[40px] md:w-[386px] w-[185px]'>
                         <label htmlFor="search" className='md:px-5 px-3 border border-[#2F5318]/20 h-full w-full rounded-[10px] flex items-center text-[#000000]/40'>
-                            <input type="text" name="search" id="search" placeholder='Search Testimonials' className='h-[40px] w-full outline-none border-none placeholder:text-[#000000]/80' />
+                            <input type="text" name="search" id="search" placeholder='Search Testimonials' value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} className='h-[40px] w-full outline-none border-none placeholder:text-[#000000]/80' />
                             <MdSearch size={20} />
                         </label>
                     </form>
@@ -188,7 +189,7 @@ const Page = () => {
                             {loading ? 'Uploading...' : 'Upload'}
                         </button>
                     </form>
-                    <TestimonialTable />
+                    <TestimonialTable searchTerm={searchTerm} />
                 </div>
             </div>
         </div>

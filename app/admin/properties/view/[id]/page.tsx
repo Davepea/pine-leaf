@@ -72,7 +72,7 @@ const PropertyPage = () => {
                 setProperty(propertyData)
 
                 // Parse stringified arrays
-                // const images = parseArrayField(propertyData.images)
+                const images = parseArrayField(propertyData.images)
                 const landmarks = parseArrayField(propertyData.landmark)
                 const features = parseArrayField(propertyData.property_features)
 
@@ -200,7 +200,7 @@ const PropertyPage = () => {
     }
 
     // Parse images and other array fields
-    // const images = parseArrayField(property.images)
+    const images = parseArrayField(property.images)
     // const landmarks = parseArrayField(property.landmark)
     // const features = parseArrayField(property.property_features)
 
@@ -212,46 +212,44 @@ const PropertyPage = () => {
                     <h3 className='font-bold text-2xl'>Property ({id}) Details</h3>
 
                     {/* Image Gallery - View Only */}
-                    {/* <div className='mb-6'>
+                    <div className='mb-6'>
                         <h4 className='font-semibold text-lg mb-3'>Property Images</h4>
-                        <div className='grid grid-cols-3 gap-4'>
+                        <div className='flex flex-wrap md:gap-10 gap-4'>
                             {images.map((image, index) => (
-                                <div key={index} className='relative h-48 rounded-lg overflow-hidden'>
+                                <div key={index} className='relative rounded-lg overflow-hidden'>
                                     <Image
-                                        width={50} height={50}
+                                        width={150} height={150}
                                         src={image.startsWith('/storage') ?
-                                            `https://pineleaflaravel.sunmence.com.ng/${image}` :
+                                            `https://pineleaflaravel.sunmence.com.ng/public${image}` :
                                             image}
                                         alt={`Property image ${image}`}
-                                        fill
-                                        className='object-cover'
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                        className='object-cover md:size-[150px] size-[85px]'
                                     />
                                 </div>
                             ))}
                         </div>
-                    </div> */}
+                    </div>
 
                     {/* Flyer Image */}
-                    {/* {property.flyer && (
+                    {property.flyer && (
                         <div className='mb-6'>
                             <h4 className='font-semibold text-lg mb-3'>Property Flyer</h4>
                             <div className='relative h-96 w-full rounded-lg overflow-hidden'>
                                 <Image
+                                    width={300}
+                                    height={300}
                                     src={property.flyer.startsWith('/storage') ?
                                         `https://pineleaflaravel.sunmence.com.ng/${property.flyer}` :
                                         property.flyer}
                                     alt="Property flyer"
-                                    fill
-                                    className='object-contain'
-                                    sizes="100vw"
+                                    className='object-cover md:size-[300px] size-[150px]'
                                 />
                             </div>
                         </div>
-                    )} */}
+                    )}
 
                     {/* Editable Form Fields */}
-                    <form onSubmit={formik.handleSubmit} className='grid grid-cols-2 gap-x-9 gap-y-5'>
+                    <form onSubmit={formik.handleSubmit} className='grid md:grid-cols-2 gap-x-9 gap-y-5'>
                         {fields.map(({ name, type, label }) => (
                             <label key={name} className='font-normal text-base flex items-center justify-between w-full border border-[#2F5318]/80 rounded-[10px] p-1'>
                                 <span className="w-full pl-2">{label}</span>

@@ -283,45 +283,47 @@ const TransactionsTable = ({ searchTerm = '' }: TransactionsTableProps) => {
                         </tbody>
                     </table>
                 </div>
-                <div className="join mt-5 w-full justify-center">
-                    <button
-                        className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
-                        disabled={currentPage === 1}
-                        onClick={() => handlePageChange(currentPage - 1)}
-                    >
-                        <MdArrowBackIos size={16} />
-                    </button>
-
-                    {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
-                        const page = i + 1
-                        return (
-                            <button
-                                key={page}
-                                className={`join-item btn items-end border-none shadow shadow-white text-lg font-normal rounded-[10px] size-[35px] ${currentPage === page
-                                    ? 'bg-[#2F5318] text-white'
-                                    : 'bg-transparent text-black/80 hover:bg-gray-100'
-                                    }`}
-                                onClick={() => handlePageChange(page)}
-                            >
-                                {page}
-                            </button>
-                        )
-                    })}
-
-                    {totalPages > 3 && (
-                        <button className="join-item btn btn-disabled items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]">
-                            ...
+                {totalPages > 1 && (
+                    <div className="join mt-5 w-full justify-center">
+                        <button
+                            className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
+                            disabled={currentPage === 1}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                        >
+                            <MdArrowBackIos size={16} />
                         </button>
-                    )}
 
-                    <button
-                        className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
-                        disabled={currentPage === totalPages}
-                        onClick={() => handlePageChange(currentPage + 1)}
-                    >
-                        <MdArrowForwardIos size={16} />
-                    </button>
-                </div>
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                            const page = i + 1;
+                            return (
+                                <button
+                                    key={page}
+                                    className={`join-item btn items-end border-none shadow shadow-white text-lg font-normal rounded-[10px] size-[35px] ${currentPage === page
+                                        ? 'bg-[#2F5318] text-white'
+                                        : 'bg-transparent text-black/80 hover:bg-gray-100'
+                                        }`}
+                                    onClick={() => handlePageChange(page)}
+                                >
+                                    {page}
+                                </button>
+                            );
+                        })}
+
+                        {totalPages > 5 && (
+                            <button className="join-item btn btn-disabled items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]">
+                                ...
+                            </button>
+                        )}
+
+                        <button
+                            className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
+                            disabled={currentPage === totalPages}
+                            onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                            <MdArrowForwardIos size={16} />
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     )

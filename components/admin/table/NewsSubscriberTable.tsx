@@ -13,13 +13,37 @@ export interface Subscriber {
     email: string,
     created_at: string,
 }
-const NewsSubscriberTable = () => {
+
+interface SubscriberTableProps {
+    searchTerm?: string;
+}
+const NewsSubscriberTable = ({ searchTerm = '' }: SubscriberTableProps) => {
     const [allSubscriber, setAllSubscriber] = useState<Subscriber[]>([])
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
+    const [filteredSubscriber, setFilteredSubscriber] = useState<Subscriber[]>([]);
 
     const router = useRouter()
+
+    useEffect(() => {
+        if (searchTerm) {
+            const filtered = allSubscriber.filter(subscriber => {
+                const searchLower = searchTerm.toLowerCase();
+                const email = subscriber.email.toLowerCase();
+                const date = subscriber.created_at.toLowerCase() || '';
+
+                return (
+                    email.includes(searchLower) ||
+                    date.includes(searchLower)
+                );
+            });
+            setFilteredSubscriber(filtered);
+        } else {
+            setFilteredSubscriber(allSubscriber);
+        }
+    }, [searchTerm, allSubscriber]);
+
     const handleDeleteTestimonial = async (id: string) => {
         if (!confirm('Are you sure you want to delete this subscriber?')) {
             return;
@@ -119,11 +143,31 @@ const NewsSubscriberTable = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-full">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#2F5318]"></div>
+            <div className='bg-white rounded-[10px] py-6'>
+                <div className="w-full">
+                    <div className="overflow-x-auto w-full mytable">
+                        <table className="table">
+                            <tbody>
+                                {[...Array(5)].map((_, i) => (
+                                    <tr key={i} className="animate-pulse">
+                                        <td><div className="h-4 bg-gray-200 rounded w-4"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-8"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+                                        <td><div className="h-8 bg-gray-200 rounded w-20"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-8"></div></td>
+                                        <td><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         )
     }
+
     return (
         <div className='bg-white rounded-[10px] py-6 w-full'>
             <div className="w-full mytable">
@@ -139,7 +183,7 @@ const NewsSubscriberTable = () => {
                             </tr>
                         </thead>
                         <tbody className='text-sm text-[#000000]/80'>
-                            {allSubscriber.map((subscriber) => {
+                            {filteredSubscriber.map((subscriber) => {
                                 return (
                                     <tr key={subscriber.id}>
                                         <td>{subscriber.id}</td>
@@ -162,45 +206,47 @@ const NewsSubscriberTable = () => {
                         </tbody>
                     </table>
                 </div>
-                <div className="join mt-5 w-full justify-center">
-                    <button
-                        className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
-                        disabled={currentPage === 1}
-                        onClick={() => handlePageChange(currentPage - 1)}
-                    >
-                        <MdArrowBackIos size={16} />
-                    </button>
-
-                    {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
-                        const page = i + 1
-                        return (
-                            <button
-                                key={page}
-                                className={`join-item btn items-end border-none shadow shadow-white text-lg font-normal rounded-[10px] size-[35px] ${currentPage === page
-                                    ? 'bg-[#2F5318] text-white'
-                                    : 'bg-transparent text-black/80 hover:bg-gray-100'
-                                    }`}
-                                onClick={() => handlePageChange(page)}
-                            >
-                                {page}
-                            </button>
-                        )
-                    })}
-
-                    {totalPages > 3 && (
-                        <button className="join-item btn btn-disabled items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]">
-                            ...
+                {totalPages > 1 && (
+                    <div className="join mt-5 w-full justify-center">
+                        <button
+                            className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
+                            disabled={currentPage === 1}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                        >
+                            <MdArrowBackIos size={16} />
                         </button>
-                    )}
 
-                    <button
-                        className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
-                        disabled={currentPage === totalPages}
-                        onClick={() => handlePageChange(currentPage + 1)}
-                    >
-                        <MdArrowForwardIos size={16} />
-                    </button>
-                </div>
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                            const page = i + 1;
+                            return (
+                                <button
+                                    key={page}
+                                    className={`join-item btn items-end border-none shadow shadow-white text-lg font-normal rounded-[10px] size-[35px] ${currentPage === page
+                                        ? 'bg-[#2F5318] text-white'
+                                        : 'bg-transparent text-black/80 hover:bg-gray-100'
+                                        }`}
+                                    onClick={() => handlePageChange(page)}
+                                >
+                                    {page}
+                                </button>
+                            );
+                        })}
+
+                        {totalPages > 5 && (
+                            <button className="join-item btn btn-disabled items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]">
+                                ...
+                            </button>
+                        )}
+
+                        <button
+                            className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
+                            disabled={currentPage === totalPages}
+                            onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                            <MdArrowForwardIos size={16} />
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     )

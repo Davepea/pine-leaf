@@ -14,13 +14,37 @@ export interface LandVerification {
     email: string,
     document_path: string,
 }
-const LandVerificationTable = () => {
+
+interface LandVerificationTableProps {
+    searchTerm?: string;
+}
+const LandVerificationTable = ({ searchTerm = '' }: LandVerificationTableProps) => {
     const [allLandVerification, setAllLandVerification] = useState<LandVerification[]>([])
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
+    const [filteredLandVerification, setFilteredLandVerification] = useState<LandVerification[]>([]);
 
     const router = useRouter()
+
+    useEffect(() => {
+        if (searchTerm) {
+            const filtered = allLandVerification.filter(inspect => {
+                const searchLower = searchTerm.toLowerCase();
+                const name = inspect.name?.toLowerCase() || '';
+                const email = inspect.email?.toLowerCase();
+
+                return (
+                    name.includes(searchLower) ||
+                    email.includes(searchLower)
+                );
+            });
+            setFilteredLandVerification(filtered);
+        } else {
+            setFilteredLandVerification(allLandVerification);
+        }
+    }, [searchTerm, allLandVerification]);
+
     useEffect(() => {
         const fetchVerification = async () => {
             try {
@@ -117,68 +141,77 @@ const LandVerificationTable = () => {
                             </tr>
                         </thead>
                         <tbody className='text-sm text-[#000000]/80'>
-                            {allLandVerification.map((land) => {
-                                return (
-                                    <tr key={land.id}>
-                                        <td>{land.id}</td>
-                                        <td>{land.name}</td>
-                                        <td>{land.email}</td>
-                                        <td>
-                                            <Image
-                                                src={land.document_path.startsWith('/storage') ?
-                                                    `https://pineleaflaravel.sunmence.com.ng/public${land.document_path}` :
-                                                    land.document_path}
-                                                alt="Property flyer"
-                                                width={100}
-                                                height={100}
-                                                className='object-cover size-[100px]'
-                                            />
-                                        </td>
-                                    </tr>
-                                )
-                            })}
+                            {filteredLandVerification.length > 0 ? (
+                                filteredLandVerification.map((land) => {
+                                    return (
+                                        <tr key={land.id}>
+                                            <td>{land.id}</td>
+                                            <td>{land.name}</td>
+                                            <td>{land.email}</td>
+                                            <td>
+                                                <Image
+                                                    src={land.document_path.startsWith('/storage') ?
+                                                        `https://pineleaflaravel.sunmence.com.ng/public${land.document_path}` :
+                                                        land.document_path}
+                                                    alt="Property flyer"
+                                                    width={100}
+                                                    height={100}
+                                                    className='object-cover size-[100px]'
+                                                />
+                                            </td>
+                                        </tr>
+                                    )
+                                })) : (
+                                <tr>
+                                    <td colSpan={4} className="text-center py-4">
+                                        No land found
+                                    </td>
+                                </tr>
+                            )}
                         </tbody>
                     </table>
                 </div>
-                <div className="join mt-5 w-full justify-center">
-                    <button
-                        className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
-                        disabled={currentPage === 1}
-                        onClick={() => handlePageChange(currentPage - 1)}
-                    >
-                        <MdArrowBackIos size={16} />
-                    </button>
-
-                    {Array.from({ length: Math.min(3, totalPages) }, (_, i) => {
-                        const page = i + 1
-                        return (
-                            <button
-                                key={page}
-                                className={`join-item btn items-end border-none shadow shadow-white text-lg font-normal rounded-[10px] size-[35px] ${currentPage === page
-                                    ? 'bg-[#2F5318] text-white'
-                                    : 'bg-transparent text-black/80 hover:bg-gray-100'
-                                    }`}
-                                onClick={() => handlePageChange(page)}
-                            >
-                                {page}
-                            </button>
-                        )
-                    })}
-
-                    {totalPages > 3 && (
-                        <button className="join-item btn btn-disabled items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]">
-                            ...
+                {totalPages > 1 && (
+                    <div className="join mt-5 w-full justify-center">
+                        <button
+                            className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
+                            disabled={currentPage === 1}
+                            onClick={() => handlePageChange(currentPage - 1)}
+                        >
+                            <MdArrowBackIos size={16} />
                         </button>
-                    )}
 
-                    <button
-                        className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
-                        disabled={currentPage === totalPages}
-                        onClick={() => handlePageChange(currentPage + 1)}
-                    >
-                        <MdArrowForwardIos size={16} />
-                    </button>
-                </div>
+                        {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                            const page = i + 1;
+                            return (
+                                <button
+                                    key={page}
+                                    className={`join-item btn items-end border-none shadow shadow-white text-lg font-normal rounded-[10px] size-[35px] ${currentPage === page
+                                        ? 'bg-[#2F5318] text-white'
+                                        : 'bg-transparent text-black/80 hover:bg-gray-100'
+                                        }`}
+                                    onClick={() => handlePageChange(page)}
+                                >
+                                    {page}
+                                </button>
+                            );
+                        })}
+
+                        {totalPages > 5 && (
+                            <button className="join-item btn btn-disabled items-end bg-transparent border-none shadow shadow-white text-lg font-normal text-black/80 rounded-[10px] size-[35px]">
+                                ...
+                            </button>
+                        )}
+
+                        <button
+                            className="size-[35px] flex items-center justify-center text-black/80 disabled:text-black/30"
+                            disabled={currentPage === totalPages}
+                            onClick={() => handlePageChange(currentPage + 1)}
+                        >
+                            <MdArrowForwardIos size={16} />
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     )

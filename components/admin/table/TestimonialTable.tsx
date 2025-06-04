@@ -16,13 +16,40 @@ export interface Testimonial {
     message: string,
     image: string,
 }
-const TestimonialTable = () => {
+
+interface TestimonialTableProps {
+    searchTerm?: string;
+}
+
+const TestimonialTable = ({ searchTerm = '' }: TestimonialTableProps) => {
     const [allTestimonial, setAllTestimonial] = useState<Testimonial[]>([])
     const [loading, setLoading] = useState(true)
     const [currentPage, setCurrentPage] = useState(1)
     const [totalPages, setTotalPages] = useState(1)
+    const [filteredTestimonial, setFilteredTestimonial] = useState<Testimonial[]>([]);
 
     const router = useRouter()
+
+    useEffect(() => {
+        if (searchTerm) {
+            const filtered = allTestimonial.filter(testimonial => {
+                const searchLower = searchTerm.toLowerCase();
+                const name = testimonial.name.toLowerCase();
+                const rating = testimonial.rating.toLowerCase() || '';
+                const message = testimonial.message.toLowerCase() || '';
+
+                return (
+                    name.includes(searchLower) ||
+                    rating.includes(searchLower) ||
+                    message.includes(searchLower)
+                );
+            });
+            setFilteredTestimonial(filtered);
+        } else {
+            setFilteredTestimonial(allTestimonial);
+        }
+    }, [searchTerm, allTestimonial]);
+
     const handleDeleteTestimonial = async (id: string) => {
         if (!confirm('Are you sure you want to delete this testimonial?')) {
             return;
@@ -145,7 +172,7 @@ const TestimonialTable = () => {
                             </tr>
                         </thead>
                         <tbody className='text-sm text-[#000000]/80'>
-                            {allTestimonial.map((testimonial) => {
+                            {filteredTestimonial.map((testimonial) => {
                                 return (
                                     <tr key={testimonial.id}>
                                         <td>{testimonial.id}</td>

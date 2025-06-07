@@ -6,7 +6,7 @@ import NewsletterSubscription from '@/components/NewsLetter';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#2F5318] px-[] text-white px-[6.2vw]">
+    <footer className="bg-[#2F5318]  text-white md:px-[120px] px-[25px]">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 sm:text-center gap-8 md:text-start text-center">
         {/* Left Section */}
         <div className=' md:col-span-2 '>

@@ -74,7 +74,7 @@ export default function PropertiesPage() {
   return (
     <section className="bg-white">
       {/* Hero Section */}
-      <div className="relative h-64">
+      <div className="relative h-[464px]">
         <div className="absolute inset-0">
           <Image
             src="/img/properties-hero.png"
@@ -86,7 +86,7 @@ export default function PropertiesPage() {
           <div className="absolute inset-0 bg-opacity-50"></div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center">
-          <h1 className="text-4xl font-bold text-white sm:text-5xl">Properties</h1>
+          <h1 className="head-1 text-white ">Properties</h1>
           <p className="small-texts mt-2 !text-white">Explore our available properties</p>
         </div>
       </div>

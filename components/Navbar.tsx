@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation"; // Add this import
 
 interface NavItem {
   name: string;
@@ -11,6 +12,7 @@ interface NavItem {
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [, setIsMobile] = useState<boolean>(false);
+  const pathname = usePathname(); // Get current pathname
 
   const navItems: NavItem[] = [
     { name: "Home", href: "/" },
@@ -21,6 +23,14 @@ const Navbar: React.FC = () => {
     { name: "Contact Us", href: "/contact-us" },
     { name: "Investment Plan", href: "https://investment.pineleafestates.com/" },
   ];
+
+  // Function to check if a nav item is active
+  const isActive = (href: string) => {
+    if (href === "/") {
+      return pathname === "/";
+    }
+    return pathname.startsWith(href);
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,8 +60,6 @@ const Navbar: React.FC = () => {
                     className="h-[78px] w-auto"
                   />
                 </Link>
-              
-
               </div>
 
               <div className="hidden md:flex md:items-center md:space-x-6">
@@ -59,14 +67,22 @@ const Navbar: React.FC = () => {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-gray-800 hover:text-green-600 px-3 py-2 font-[400] md:text-sm  text-xs transition duration-150 ease-in-out"
+                    className={`px-3 py-2 font-[400] md:text-sm text-xs transition duration-150 ease-in-out ${
+                      isActive(item.href)
+                        ? "text-[#2F5318] font-[700]" // Active styles
+                        : "text-gray-800 hover:text-[#2F5318]" // Default styles
+                    }`}
                   >
                     {item.name}
                   </Link>
                 ))}
                 <Link
                   href="/login"
-                  className="ml-4 px-4 py-2 border border-transparent md:text-lg text-sm  font-medium rounded-md text-white bg-[#000000CC]  hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex items-center"
+                  className={`ml-4 px-4 py-2 border border-transparent md:text-lg text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex items-center transition duration-150 ease-in-out ${
+                    isActive("/login")
+                      ? "bg-gray-900 hover:bg-gray-800" // Active login button
+                      : "bg-[#000000CC] hover:bg-gray-700" // Default login button
+                  }`}
                 >
                   Register/Login
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -74,7 +90,6 @@ const Navbar: React.FC = () => {
                   </svg>
                 </Link>
               </div>
-
 
               <div className="md:hidden flex items-center">
                 <button
@@ -121,7 +136,6 @@ const Navbar: React.FC = () => {
             </div>
           </div>
 
-
           {isOpen && (
             <div className="md:hidden ">
               <div className="flex justify-center pt-4 pb-3">
@@ -140,7 +154,11 @@ const Navbar: React.FC = () => {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-gray-800 hover:text-green-600 block px-3 py-2 text-base font-medium text-center"
+                    className={`block px-3 py-2 text-base font-medium text-center transition duration-150 ease-in-out ${
+                      isActive(item.href)
+                        ? "text-green-600 bg-green-50 border-l-4 border-green-600 font-semibold" // Active mobile styles
+                        : "text-gray-800 hover:text-green-600" // Default mobile styles
+                    }`}
                     onClick={() => setIsOpen(false)}
                   >
                     {item.name}
@@ -149,7 +167,11 @@ const Navbar: React.FC = () => {
                 <div className="flex justify-center mt-4">
                   <Link
                     href="/login"
-                    className="w-3/4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white  bg-[#000000CC] hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex justify-center items-center"
+                    className={`w-3/4 px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 flex justify-center items-center transition duration-150 ease-in-out ${
+                      isActive("/login")
+                        ? "bg-gray-900 hover:bg-gray-800" // Active mobile login
+                        : "bg-[#000000CC] hover:bg-gray-700" // Default mobile login
+                    }`}
                     onClick={() => setIsOpen(false)}
                   >
                     Register/Login

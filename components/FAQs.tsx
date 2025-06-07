@@ -53,8 +53,10 @@ const FAQSection = () => {
   ];
 
   return (
-    <section className="px-[6.1458vw] py-[100px]">
-      <h1 className="semi-header text-center mb-10">Frequently Asked Questions</h1>
+    <section className="pb-[100px]">
+      <div className="header">
+        <h1 className="head-2 text-center">What Our Clients & Realtors Are Saying</h1>
+      </div>
       <div className="space-y-4 mx-auto">
         {faqs.map((faq, idx) => (
           <div

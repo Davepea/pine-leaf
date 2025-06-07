@@ -40,7 +40,7 @@ const Home: NextPage = () => {
               <Link href="/" className="text-white para-4  hover:text-green-100">
                 Home
               </Link>
-              <GoArrowLeft size={16} className='text-white' />
+              <GoArrowLeft size={24} className='text-white' />
 
               <Link href="/pprm" className="text-[#FBBF00] font-[700] para-4 hover:text-green-100">
                 PRRM

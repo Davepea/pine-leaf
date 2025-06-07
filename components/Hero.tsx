@@ -482,7 +482,7 @@ const Hero = () => {
       </div>
     </section>
 
-    <section className='section'>
+    <section className='section pb-[100px]'>
       <FAQSection/>
     </section>
 

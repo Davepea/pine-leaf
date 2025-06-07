@@ -354,13 +354,12 @@ const RegisterForm = () => {
             </div>
           </div>
 
-          {/* Agree to Terms */}
+          {/* Agree to Terms - FIXED */}
           <div className="flex items-center space-x-2">
             <Checkbox 
               id="agreeTerms" 
-              name="agreeTerms"
               checked={formData.agreeTerms}
-              onChange={handleCheckboxChange}
+              onCheckedChange={handleCheckboxChange}
             />
             <Label htmlFor="agreeTerms" className="text-sm">
               I agree to the{" "}

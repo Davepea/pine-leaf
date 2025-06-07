@@ -25,7 +25,7 @@ const management = [
 
 export default function About() {
   return (
-    <div className="bg-white text-gray-900">
+    <div className="bg-white text-gray-900 pb-[100px]">
       <div className="relative h-[464px] w-full">
         <Image src="/img/about.png" alt="About Us" layout="fill" objectFit="cover" />
         <div className="absolute inset-0  bg-opacity-50 flex items-center justify-center">

@@ -47,7 +47,7 @@ const Services: NextPage = () => {
       </div>
 
       {/* Services Sections */}
-      <div className="">
+      <div className=" pb-[100px]">
         {/* Property Development Section */}
         <div className="grid md:grid-cols-2 gap-[93px]  section">
           <div className="rounded-lg overflow-hidden">

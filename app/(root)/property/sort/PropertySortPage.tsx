@@ -78,7 +78,7 @@ export default function PropertiesSortPage() {
     };
 
     return (
-        <section className="bg-white">
+        <section className="bg-white pb-[100px]">
             <div className="relative h-[464px]">
                 <div className="absolute inset-0">
                     <Image

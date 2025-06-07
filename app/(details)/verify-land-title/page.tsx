@@ -1,9 +1,10 @@
 'use client';
 import React, { useState } from 'react';
-import { ArrowLeft, ImageIcon, Loader2 } from 'lucide-react';
+import {  ImageIcon, Loader2 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { GoArrowLeft } from 'react-icons/go';
 
 // Types
 interface FormData {
@@ -132,7 +133,7 @@ const LandTitleVerification = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header Section */}
-      <div className="relative bg-pineleaf-green text-white">
+      <div className="relative bg-pineleaf-green text-white h-[320px]">
         <div className="absolute inset-0 z-0">
           <Image 
             src="/img/pine-1.png" 
@@ -141,12 +142,12 @@ const LandTitleVerification = () => {
             objectFit="cover"
           />
         </div>
-        <div className="relative z-10 container mx-auto px-4 py-16 text-center">
-          <h1 className="text-4xl font-bold mb-6 large-header !text-white">Verify Your Land Title</h1>
-          <div className="flex justify-center space-x-4 text-sm">
-            <Link href="/" className="hover:underline">Home</Link>
-            <span><ArrowLeft/></span>
-            <Link href="/register" className="hover:underline text-[#FFCC00]">Book</Link>
+        <div className="relative z-10 mx-auto px-4 py-16 text-center flex flex-col items-center h-full">
+          <h1 className="head-1 mb-6  !text-white">Verify Your Land Title</h1>
+          <div className="flex justify-center gap-[14px] text-sm">
+            <Link href="/" className="hover:underline para-3">Home</Link>
+            <GoArrowLeft size={24} className='text-white font-bold' />
+            <Link href="/register" className="hover:underline text-[#FFCC00] para-3">Book</Link>
           </div>
         </div>
       </div>

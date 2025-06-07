@@ -72,7 +72,7 @@ export default function PropertiesPage() {
   };
 
   return (
-    <section className="bg-white">
+    <section className="bg-white pb-[100px]">
       {/* Hero Section */}
       <div className="relative h-[464px]">
         <div className="absolute inset-0">

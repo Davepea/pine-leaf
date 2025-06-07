@@ -82,7 +82,7 @@ export default function GalleryPage() {
   };
 
   return (
-    <section className="bg-white">
+    <section className="bg-white pb-[100px]">
       {/* Hero Section */}
       <div className="relative h-[467px] w-full">
         <Image

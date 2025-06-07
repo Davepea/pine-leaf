@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
+import { GoArrowLeft } from 'react-icons/go';
 
 interface FormData {
   fullName: string;
@@ -187,7 +188,7 @@ const BookConsultation: React.FC = () => {
 
       <div className="min-h-screen bg-gray-50">
         {/* Hero Section */}
-        <div ref={heroRef} className="relative bg-pineleaf-green text-white">
+        <div ref={heroRef} className="relative bg-pineleaf-green text-white h-[320px]">
           <div className="absolute inset-0 z-0">
             <Image 
               src="/img/pine-1.png" 
@@ -196,12 +197,12 @@ const BookConsultation: React.FC = () => {
               objectFit="cover"
             />
           </div>
-          <div className="relative z-10 container mx-auto px-4 py-16 text-center">
-            <h1 className="text-4xl font-bold mb-6 large-header !text-white">Book Consultation</h1>
-            <div className="flex justify-center space-x-4 text-sm">
-              <Link href="/" className="hover:underline">Home</Link>
-              <span><ArrowLeft/></span>
-              <Link href="/register" className="hover:underline text-[#FFCC00]">Book</Link>
+          <div className="h-full relative z-10 container mx-auto  text-center flex flex-col justify-center items-center">
+            <h1 className="mb-6 head-1 !text-white">Book Consultation</h1>
+            <div className="flex justify-center gap-[14px] text-sm items-center">
+              <Link href="/" className="hover:underline para-3">Home</Link>
+              <GoArrowLeft size={24} className='text-white font-bold' />
+              <Link href="/register" className="hover:underline para-3 text-[#FBBF00] !font-[700]">Book</Link>
             </div>
           </div>
         </div>

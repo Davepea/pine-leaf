@@ -64,7 +64,7 @@ const LoginPage: React.FC = () => {
       </Head>
 
       <div className="relative">
-        <div className="w-full h-64 relative">
+        <div className="w-full h-[320px] relative">
           <Image
             src="/img/pine-1.png"
             alt="Pineleaf team"
@@ -74,12 +74,12 @@ const LoginPage: React.FC = () => {
           />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-white\ bg-opacity-30">
             <h1 className="text-4xl font-bold mb-6 large-header !text-white">Welcome back</h1>
-            <div className="flex items-center space-x-4 text-white">
+            <div className="flex items-center gap-[14px] text-white">
               <Link href="/"><span className="hover:underline cursor-pointer">Home</span></Link>
-                            <GoArrowLeft size={16} className='text-white' />
+                            <GoArrowLeft size={24} className='text-white' />
               
               <Link href="/register"><span className="hover:underline cursor-pointer">Register</span></Link>
-                            <GoArrowLeft size={16} className='text-white' />
+                            <GoArrowLeft size={24} className='text-white' />
               
               <span className="font-medium text-[#FBBF00]">Login</span>
             </div>

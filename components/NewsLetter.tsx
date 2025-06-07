@@ -63,13 +63,13 @@ export default function NewsletterSubscription() {
             placeholder="Email Address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="p-3 flex-1 !h-[42px] md:bg-none bg-[#4b6b4c] rounded-l-md text-black"
+            className="p-3 flex-1 !h-[50px] md:bg-none bg-[#4b6b4c] md:rounded-r-[0px] rounded-xl text-black"
             disabled={loading}
           />
          <div>
              <button
             onClick={handleSubscribe}
-            className="bg-[#E6FFF6] p-3 px-6 text-green-900 font-bold px-4 md:rounded-none md:rounded-r-md rounded-md"
+            className="bg-[#E6FFF6] p-3 px-6 h-[50px] text-green-900 font-bold md:rounded-none md:rounded-r-md rounded-md"
             disabled={loading}
           >
             {loading ? 'Subscribing...' : 'Subscribe'}

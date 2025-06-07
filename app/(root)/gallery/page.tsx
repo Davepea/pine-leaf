@@ -84,7 +84,7 @@ export default function GalleryPage() {
   return (
     <section className="bg-white">
       {/* Hero Section */}
-      <div className="relative h-96 w-full">
+      <div className="relative h-[467px] w-full">
         <Image
           src="/img/gallery/gallery-hero.png"
           alt="Gallery Hero"
@@ -93,18 +93,18 @@ export default function GalleryPage() {
           priority
         />
         <div className="absolute inset-0 bg-opacity-50 flex flex-col justify-center items-center text-white text-center">
-          <h1 className="text-4xl font-bold">Gallery</h1>
-          <p className="text-sm mt-2 max-w-xl">
+          <h1 className="head-1">Gallery</h1>
+          <p className="para-2 leading-[25.2px]">
             A glimpse into our events, estate launches, client experiences, and realtor celebrations.
           </p>
         </div>
       </div>
 
-      <div className='px-[6.1458vw]'>
+      <div className='section'>
         {/* Filter Buttons */}
 
           {/* Filter Buttons */}
-          <div className="flex overflow-x-auto md:justify-center justify-start gap-4 py-6 px-4">
+          <div className="flex pb-[60px] overflow-x-auto md:justify-center justify-start gap-[24px] ">
             {filters.map((filter) => (
               <button
                 key={filter}
@@ -112,8 +112,8 @@ export default function GalleryPage() {
                   setActiveFilter(filter);
                   setCurrentPage(1); // Reset to first page when filter changes
                 }}
-                className={`px-4 py-2 rounded-full border text-sm transition-colors whitespace-nowrap flex-shrink-0 ${
-                  activeFilter === filter ? 'bg-[#2F5318] text-white' : 'text-gray-700 hover:bg-gray-100'
+                className={`px-8 py-4 border-b-2 border-[#2F53180F] para-2 !leading-[25.2px]  transition-colors whitespace-nowrap flex-shrink-0 ${
+                  activeFilter === filter ? 'border-b-2 border-[#4D794F]' : 'text-gray-700 hover:bg-gray-100'
                 }`}
               >
                 {filter}
@@ -123,7 +123,7 @@ export default function GalleryPage() {
       
 
         {/* Gallery Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 px-6 py-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6  pb-[53px]">
           {currentImages.map((src, index) => (
             <div key={startIndex + index} className="relative w-full h-72 rounded overflow-hidden shadow-md hover:shadow-lg transition-shadow">
               <Image 
@@ -137,7 +137,7 @@ export default function GalleryPage() {
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-center items-center space-x-3 pb-10 text-sm">
+        <div className="flex justify-center items-center space-x-3 text-sm">
           {/* Previous Button */}
           <button
             onClick={() => handlePageChange(currentPage - 1)}
@@ -183,10 +183,7 @@ export default function GalleryPage() {
           </button>
         </div>
 
-        {/* Page Info */}
-        <div className="text-center text-gray-600 text-sm pb-6">
-          Showing {startIndex + 1}-{Math.min(startIndex + IMAGES_PER_PAGE, galleryImages.length)} of {galleryImages.length} images
-        </div>
+      
       </div>
     </section>
   );

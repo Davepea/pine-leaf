@@ -3,6 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import RegisterForm from '@/components/RegisterForm'
+import { GoArrowLeft } from 'react-icons/go';
 
 
 const Home: NextPage = () => {
@@ -32,10 +33,12 @@ const Home: NextPage = () => {
             <div className="flex justify-center space-x-4 text-sm">
               <Link href="/" className="hover:underline">Home
               </Link>
-              <span>→</span>
+                            <GoArrowLeft size={16} className='text-white' />
+              
               <Link href="/register" className="hover:underline">Register
               </Link>
-              <span>→</span>
+                            <GoArrowLeft size={16} className='text-white' />
+
               <Link href="/login" className="hover:underline">Login
               </Link>
             </div>

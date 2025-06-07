@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Lato, Roboto } from "next/font/google";
+import { Lato, Montserrat, Roboto } from "next/font/google";
 import "./globals.css";
 import ClientWrapper from "@/components/ClientWrapper"; // make sure this path is correct
 import { Toaster } from "@/components/ui/sonner";
@@ -10,6 +10,10 @@ const lato = Lato({
   weight: "700",
 });
 
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+});
 const roboto = Roboto({
   variable: "--font-roboto",
   subsets: ["latin"],
@@ -27,7 +31,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${lato.variable} ${roboto.variable} antialiased`}>
+      <body className={`${lato.variable} ${montserrat.variable} ${roboto.variable} antialiased`}>
         <ClientWrapper>{children}</ClientWrapper>
          <Toaster richColors />
       </body>

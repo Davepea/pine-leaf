@@ -1,8 +1,11 @@
+import StatsMarquee from '@/components/PprmMarque';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaUsers, FaTree, FaChartLine, FaWallet, FaCheck } from 'react-icons/fa';
+import { FaUsers, FaTree, FaChartLine, FaWallet, FaCheck, FaHandshake } from 'react-icons/fa';
+import { GoArrowLeft } from "react-icons/go";
+
 
 const Home: NextPage = () => {
   return (
@@ -26,19 +29,20 @@ const Home: NextPage = () => {
           <div className="absolute inset-0 b bg-opacity-40"></div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center text-center">
-          <h1 className="text-4xl font-bold text-white sm:text-5xl md:text-6xl">
+          <h1 className="head-1 text-white ">
             Pineleaf Realtor Reward Mechanism (PRRM)
           </h1>
-          <p className="mt-3 max-w-3xl text-xl text-white">
+          <p className="mt-3 max-w-3xl para-2 !leading-[25.2px]  text-white">
             A structured system designed to empower realtors, recognize leadership, and create wealth through both active and passive income opportunities.
           </p>
           <div className="mt-8">
-            <nav className="flex space-x-4">
-              <Link href="/" className="text-white font-medium hover:text-green-100">
+            <nav className="flex items-center gap-[14px]">
+              <Link href="/" className="text-white para-4  hover:text-green-100">
                 Home
               </Link>
-              <span className="text-white">&rarr;</span>
-              <Link href="/pprm" className="text-white font-medium hover:text-green-100">
+              <GoArrowLeft size={16} className='text-white' />
+
+              <Link href="/pprm" className="text-[#FBBF00] font-[700] para-4 hover:text-green-100">
                 PRRM
               </Link>
             </nav>
@@ -47,20 +51,23 @@ const Home: NextPage = () => {
       </div>
 
       {/* How PRRM Works Section */}
-      <section className="py-16 px-[6.2vw] max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">How PRRM Works: The Commission Plan</h2>
-          <p className="max-w-2xl mx-auto text-gray-600">
+      <section className="section max-w-7xl mx-auto">
+        <div className="text-center pb-[68px]">
+          <h2 className="head-2 text-gray-800 mb-[12px]">How PRRM Works: The Commission Plan</h2>
+          <p className="max-w-3xl mx-auto para-3 text-gray-600">
             Pineleaf&apos;s PRRM is a Unilevel Compensation Plan designed to help every realtor earn more as they grow their network. Whether you&apos;re closing direct deals or mentoring a team, every effort counts.
           </p>
         </div>
 
-        <h3 className="text-2xl font-semibold text-gray-800 mb-8 text-center">Commission Breakdown</h3>
+        <div className="header">
+        <h3 className="head-4 text-gray-800  text-center">Commission Breakdown</h3>
+
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="border border-gray-200 rounded-lg p-8 text-center">
             <div className="flex justify-center mb-4">
               <div className="p-3 bg-green-50 rounded-full">
-                <FaWallet className="h-8 w-8 text-[#2F5318]" />
+                <FaHandshake className="h-8 w-8 text-[#2F5318]" />
               </div>
             </div>
             <h4 className="font-semibold text-lg mb-2">Direct Sales Commission</h4>
@@ -109,30 +116,12 @@ const Home: NextPage = () => {
         </div>
       </section>
 
-    {/* Stats Bar */}
-<section className="bg-green-50 py-10">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-2">
-    <div className="flex overflow-x-auto scrollbar-hide justify-between" style={{ WebkitOverflowScrolling: 'touch' }}>
-      <div className="flex-shrink-0 px-6 min-w-[200px]  flex items-center gap-1">
-        <p className="small-header font-bold !text-[#2F5318] !text-[18px]">₦2 Billion+</p>
-        <p className="text-gray-600">in Realtor Rewards Paid</p>
-      </div>
-      <div className="flex-shrink-0 px-6 min-w-[200px] flex items-center gap-1">
-        <p className="small-header font-bold !text-[#2F5318] !text-[18px]">1,819+ Properties</p>
-        <p className="text-gray-600">Successfully Allocated</p>
-      </div>
-      <div className="flex-shrink-0 px-6 min-w-[200px] flex items-center gap-1">
-        <p className="small-header font-bold !text-[#2F5318] !text-[18px]">50+</p>
-        <p className="text-gray-600">Active Estates Across Nigeria</p>
-      </div>
-      <div className="flex-shrink-0 px-6 min-w-[200px] flex items-center gap-1">
-        <p className="small-header font-bold !text-[#2F5318] !text-[18px]">1,819+</p>
-        <p className="text-gray-600">Happy Landowners</p>
-      </div>
-    </div>
-  </div>
-</section>
 
+
+    <div className='mt-[100px]'>
+<StatsMarquee/>
+
+    </div>
       {/* Ranks & Rewards */}
       <section className="py-16 px-[6.2vw] max-w-7xl mx-auto">
         <div className="text-center mb-12">

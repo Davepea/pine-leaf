@@ -86,7 +86,7 @@ const PropertyListing: React.FC = () => {
       {/* Error State */}
       {error && (
         <div
-          className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-6"
+          className="bg-red-100 border border-red-400 text-red-700  rounded relative "
           role="alert"
         >
           <span className="block sm:inline">{error}</span>
@@ -116,30 +116,32 @@ const PropertyListing: React.FC = () => {
 
       {/* Pagination */}
       {properties.length > 0 && (
-        <div className="flex justify-between items-center mt-8 space-x-4">
+        <div className="flex justify-between items-center mt-[30px] space-x-4">
           <div className="flex gap-6 items-center">
             <button
               onClick={() => handlePageChange(pagination.currentPage - 1)}
               disabled={pagination.currentPage === 1}
-              className="text-2xl disabled:opacity-30"
+              className="text-3xl disabled:opacity-30"
             >
-              <MdOutlineArrowBackIos />
+              <MdOutlineArrowBackIos className='text-[#2F5318]'/>
             </button>
-            <span className="text-sm text-gray-600">
+            {/* <span className="text-sm text-gray-600">
               Page {pagination.currentPage} of {pagination.lastPage}
-            </span>
+            </span> */}
             <button
               onClick={() => handlePageChange(pagination.currentPage + 1)}
               disabled={pagination.currentPage === pagination.lastPage}
-              className="text-2xl disabled:opacity-30"
+              className="text-3xl disabled:opacity-30"
             >
-              <MdOutlineArrowForwardIos />
+              <MdOutlineArrowForwardIos className='text-[#2F5318]' />
             </button>
           </div>
           <div>
             <Link href="/property">
               <button className="flex items-center gap-2">
+                <p className='bold-para-1 text-[#2F5318]' >
                 Explore All
+                </p>
                 <MdArrowOutward />
               </button>
             </Link>

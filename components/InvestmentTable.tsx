@@ -60,7 +60,7 @@ const InvestmentTable: React.FC = () => {
         
         
         
-        <h2 className="medium-header text-center pb-[20px]">
+        <h2 className="head-5 mb-[20px] text-center">
           Our Investment Tiers
         </h2>
 

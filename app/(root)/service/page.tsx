@@ -3,7 +3,8 @@ import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
-import { FaCheck} from 'react-icons/fa';
+import { IoMdCheckmark } from 'react-icons/io'
+
 
 const Services: NextPage = () => {
     const handleDownload = () => {
@@ -26,7 +27,7 @@ const Services: NextPage = () => {
      
 
       {/* Hero Section */}
-      <div className="relative h-64">
+      <div className="relative h-[464px]">
         <div className="absolute inset-0">
           <Image
             src="/img/service.png"
@@ -39,16 +40,16 @@ const Services: NextPage = () => {
           <div className="absolute inset-0 bg-opacity-50"></div>
         </div>
         <div className="relative max-w-7xl mx-auto px-4 py-24 sm:px-6 lg:px-8 h-full flex flex-col justify-center items-center">
-          <h1 className="text-4xl font-bold text-white sm:text-5xl">
+          <h1 className="head-1 text-white">
             Our Services
           </h1>
         </div>
       </div>
 
       {/* Services Sections */}
-      <div className="py-12  max-w-7xl mx-auto px-[6.2vw]">
+      <div className="">
         {/* Property Development Section */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16 items-center">
+        <div className="grid md:grid-cols-2 gap-[93px]  section">
           <div className="rounded-lg overflow-hidden">
             <Image
               src="/img/serv-1.png"
@@ -58,38 +59,38 @@ const Services: NextPage = () => {
               className="rounded-lg"
             />
           </div>
-          <div className="bg-green-50 p-8 rounded-lg">
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Property Development & Sales</h2>
-            <p className="text-gray-600 mb-4">
+          <div className=" rounded-lg">
+            <h2 className="bold-para-1 text-gray-800 mb-[2px]">Property Development & Sales</h2>
+            <p className="para-4 text-[#2F5318B2] mb-[20px] ">
               Whether you&apos;re building a dream home, commercial project, or developing land for sale, we provide:
             </p>
-            <ul className="space-y-3 mb-6">
+            <ul className="space-y-[10px] mb-5">
               <li className="flex items-start">
-                <FaCheck className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
-                <span>Custom property development based on your needs.</span>
+              <IoMdCheckmark size={24} className=" text-[#2F5318] mr-2 flex-shrink-0" />
+                <span className='para-3 text-[#000000CC]'>Custom property development based on your needs.</span>
               </li>
               <li className="flex items-start">
-                <FaCheck className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
-                <span>Expert project management from start to finish.</span>
+              <IoMdCheckmark size={24} className=" text-[#2F5318] mr-2 flex-shrink-0" />
+                <span className='para-3 text-[#000000CC]'>Expert project management from start to finish.</span>
               </li>
               <li className="flex items-start">
-                <FaCheck className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
-                <span>Secure documentation to ensure legal safety.</span>
+              <IoMdCheckmark size={24} className=" text-[#2F5318] mr-2 flex-shrink-0" />
+                <span className='para-3 text-[#000000CC]'>Secure documentation to ensure legal safety.</span>
               </li>
             </ul>
-            <h3 className="text-lg font-semibold mb-3">Why Choose Us?</h3>
-            <ul className="space-y-2 mb-6">
+            <h3 className="bold-para-2 leading-[25.2px] mb-3">Why Choose Us?</h3>
+            <ul className="space-y-2 mb-[30px]">
               <li className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-800 mr-3"></div>
-                <span>20+ years of real estate excellence</span>
+                <div className="w-[14px] h-[14px] rounded-full bg-gray-800 mr-3"></div>
+                <span className='para-3 text-[#000000CC]'>20+ years of real estate excellence</span>
               </li>
               <li className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-800 mr-3"></div>
-                <span>High-quality construction standards</span>
+                <div className="w-[14px] h-[14px] rounded-full bg-gray-800 mr-3"></div>
+                <span className='para-3 text-[#000000CC]'>High-quality construction standards</span>
               </li>
               <li className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-800 mr-3"></div>
-                <span>Transparent & professional service</span>
+                <div className="w-[14px] h-[14px] rounded-full bg-gray-800 mr-3"></div>
+                <span className='para-3 text-[#000000CC]'>Transparent & professional service</span>
               </li>
             </ul>
             <Link href="/book-consultation">
@@ -101,39 +102,39 @@ const Services: NextPage = () => {
         </div>
 
         {/* Land Banking Section */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16 items-center">
-          <div className="order-2 md:order-1 bg-green-50 p-8 rounded-lg">
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Real Estate Investment & Land Banking</h2>
-            <p className="text-gray-600 mb-4">
+        <div className="grid md:grid-cols-2 gap-8 items-center md:px-[120px] px-[25px] pt-[60px] ">
+          <div className="order-2 md:order-1  p-8 rounded-lg">
+            <h2 className="bold-para-1 text-gray-800 mb-[2px]">Real Estate Investment & Land Banking</h2>
+            <p className="para-4 text-[#2F5318B2] mb-[20px]">
               Investing in real estate is one of the smartest ways to build wealth. We offer:
             </p>
-            <ul className="space-y-3 mb-6">
+            <ul className="space-y-[10px] mb-6">
               <li className="flex items-start">
-                <FaCheck className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
-                <span>Land banking opportunities with high appreciation value.</span>
+              <IoMdCheckmark size={24} className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
+                <span className='para-3 text-[#000000CC]'>Land banking opportunities with high appreciation value.</span>
               </li>
               <li className="flex items-start">
-                <FaCheck className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
-                <span>Secure investments with flexible payment options.</span>
+              <IoMdCheckmark size={24} className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
+                <span className='para-3 text-[#000000CC]'>Secure investments with flexible payment options.</span>
               </li>
               <li className="flex items-start">
-                <FaCheck className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
-                <span>Strategic advisory to help you maximize returns.</span>
+              <IoMdCheckmark size={24} className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
+                <span className='para-3 text-[#000000CC]'>Strategic advisory to help you maximize returns.</span>
               </li>
             </ul>
-            <h3 className="text-lg font-semibold mb-3">Why Choose Us?</h3>
-            <ul className="space-y-2 mb-6">
+            <h3 className="bold-para-2 leading-[25.2px] mb-3">Why Choose Us?</h3>
+            <ul className="space-y-[10px] mb-[30px]">
               <li className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-800 mr-3"></div>
-                <span>We select prime locations in South-South & South-East Nigeria.</span>
+                <div className="w-[14px] h-[14px] rounded-full bg-gray-800 mr-3"></div>
+                <span className='para-3 text-[#000000CC]'>We select prime locations in South-South & South-East Nigeria.</span>
               </li>
               <li className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-800 mr-3"></div>
-                <span>Secure & legally verified investment options.</span>
+                <div className="w-[14px] h-[14px] rounded-full bg-gray-800 mr-3"></div>
+                <span className='para-3 text-[#000000CC]'>Secure & legally verified investment options.</span>
               </li>
               <li className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-800 mr-3"></div>
-                <span>Guidance from expert real estate consultants.</span>
+                <div className="w-[14px] h-[14px] rounded-full bg-gray-800 mr-3"></div>
+                <span className='para-3 text-[#000000CC]'>Guidance from expert real estate consultants.</span>
               </li>
             </ul>
             
@@ -156,7 +157,7 @@ const Services: NextPage = () => {
         </div>
 
         {/* Land Surveying Section */}
-        <div className="grid md:grid-cols-2 gap-8 mb-16 items-center">
+        <div className="grid md:grid-cols-2 gap-8 items-center md:px-[120px] px-[25px] pt-[60px]">
           <div className="rounded-lg overflow-hidden">
             <Image
               src="/img/serv-3.png"
@@ -166,38 +167,38 @@ const Services: NextPage = () => {
               className="rounded-lg"
             />
           </div>
-          <div className="bg-green-50 p-8 rounded-lg">
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Land Surveying & Title Verification</h2>
-            <p className="text-gray-600 mb-4">
+          <div className=" p-8 rounded-lg">
+            <h2 className="bold-para-1 text-gray-800 mb-[2px]">Land Surveying & Title Verification</h2>
+            <p className="para-4 text-[#2F5318B2] mb-[20px]">
               Ensure your land ownership is legally secured with our expert documentation services:
             </p>
-            <ul className="space-y-3 mb-6">
+            <ul className="space-y-[10px] mb-6">
               <li className="flex items-start">
-                <FaCheck className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
-                <span>Title Verification – Confirm land authenticity & ownership.</span>
+              <IoMdCheckmark size={24} className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
+                <span className='para-3 text-[#000000CC]'>Title Verification – Confirm land authenticity & ownership.</span>
               </li>
               <li className="flex items-start">
-                <FaCheck className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
-                <span>Survey Plan Assistance – Proper land boundary mapping.</span>
+              <IoMdCheckmark size={24} className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
+                <span className='para-3 text-[#000000CC]'>Survey Plan Assistance – Proper land boundary mapping.</span>
               </li>
               <li className="flex items-start">
-                <FaCheck className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
-                <span>Certificate of Occupancy (C of O) & Governor&apos;s Consent Processing.</span>
+              <IoMdCheckmark size={24} className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
+                <span className='para-3 text-[#000000CC]'>Certificate of Occupancy (C of O) & Governor&apos;s Consent Processing.</span>
               </li>
             </ul>
-            <h3 className="text-lg font-semibold mb-3">Why Choose Us?</h3>
-            <ul className="space-y-2 mb-6">
+            <h3 className="bold-para-2 leading-[25.2px] mb-3">Why Choose Us?</h3>
+            <ul className="space-y-[10px] mb-[30px]">
               <li className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-800 mr-3"></div>
-                <span>We prevent fraudulent land purchases.</span>
+                <div className="w-[14px] h-[14px] rounded-full bg-gray-800 mr-3"></div>
+                <span className='para-3 text-[#000000CC]'>We prevent fraudulent land purchases.</span>
               </li>
               <li className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-800 mr-3"></div>
-                <span>We help secure all necessary legal documents.</span>
+                <div className="w-[14px] h-[14px] rounded-full bg-gray-800 mr-3"></div>
+                <span className='para-3 text-[#000000CC]'>We help secure all necessary legal documents.</span>
               </li>
               <li className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-800 mr-3"></div>
-                <span>Your investment remains protected for the future.</span>
+                <div className="w-[14px] h-[14px] rounded-full bg-gray-800 mr-3"></div>
+                <span className='para-3 text-[#000000CC]'>Your investment remains protected for the future.</span>
               </li>
             </ul>
             <Link href="/verify-land-title">
@@ -209,39 +210,39 @@ const Services: NextPage = () => {
         </div>
 
         {/* Consultancy Section */}
-        <div className="grid md:grid-cols-2 gap-8 items-center">
-          <div className="order-2 md:order-1 bg-green-50 p-8 rounded-lg">
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Real Estate Consultancy & Training</h2>
-            <p className="text-gray-600 mb-4">
+        <div className="grid md:grid-cols-2 gap-8 items-center md:px-[120px] px-[25px] pt-[60px]">
+          <div className="order-2 md:order-1 p-8 rounded-lg">
+            <h2 className="bold-para-1 text-gray-800 mb-[2px]">Real Estate Consultancy & Training</h2>
+            <p className="para-4 text-[#2F5318B2] mb-[20px]">
               We empower individuals & professionals with real estate education and expert advice. Services include:
             </p>
-            <ul className="space-y-3 mb-6">
+            <ul className="space-y-[10px] mb-6">
               <li className="flex items-start">
-                <FaCheck className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
-                <span>One-on-one real estate consultations.</span>
+              <IoMdCheckmark size={24} className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
+                <span className='para-3 text-[#000000CC]'>One-on-one real estate consultations.</span>
               </li>
               <li className="flex items-start">
-                <FaCheck className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
-                <span>Realtor training through Pineleaf Realtors Reward Mechanism (PRRM).</span>
+              <IoMdCheckmark size={24} className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
+                <span className='para-3 text-[#000000CC]'>Realtor training through Pineleaf Realtors Reward Mechanism (PRRM).</span>
               </li>
               <li className="flex items-start">
-                <FaCheck className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
-                <span>Workshops & investment strategy planning.</span>
+              <IoMdCheckmark size={24} className="mt-1 text-[#2F5318] mr-3 flex-shrink-0" />
+                <span className='para-3 text-[#000000CC]'>Workshops & investment strategy planning.</span>
               </li>
             </ul>
-            <h3 className="text-lg font-semibold mb-3">Why Choose Us?</h3>
-            <ul className="space-y-2 mb-6">
+            <h3 className="bold-para-2 leading-[25.2px] mb-3">Why Choose Us?</h3>
+            <ul className="space-y-[10px] mb-[30px]">
               <li className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-800 mr-3"></div>
-                <span>Access to market insights & investment forecasts.</span>
+                <div className="w-[14px] h-[14px] rounded-full bg-gray-800 mr-3"></div>
+                <span className='para-3 text-[#000000CC]'>Access to market insights & investment forecasts.</span>
               </li>
               <li className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-800 mr-3"></div>
-                <span>Comprehensive training to become a successful realtor.</span>
+                <div className="w-[14px] h-[14px] rounded-full bg-gray-800 mr-3"></div>
+                <span className='para-3 text-[#000000CC]'>Comprehensive training to become a successful realtor.</span>
               </li>
               <li className="flex items-center">
-                <div className="w-2 h-2 rounded-full bg-gray-800 mr-3"></div>
-                <span>Earn up to 10% commission through our PRRM program.</span>
+                <div className="w-[14px] h-[14px] rounded-full bg-gray-800 mr-3"></div>
+                <span className='para-3 text-[#000000CC]'>Earn up to 10% commission through our PRRM program.</span>
               </li>
             </ul>
             <Link href="/book-consultation">

@@ -47,9 +47,7 @@
       transform: translateY(0);
     }
 
-  body {
-    @apply font-roboto font-[400]
-  }
+  
   input{
     @apply h-[55px]
   }
@@ -58,8 +56,10 @@
   }
   @theme inline {
     --font-lato: var(--font-lato) ;
-    
+
     --font-roboto: var(--font-roboto) ;
+    
+    --font-montserrat: var(--font-montserrat) ;
 
     --radius-sm: calc(var(--radius) - 4px);
 
@@ -277,23 +277,58 @@
     
   }
   @layer utilities{
-    .small-texts{
-      @apply text-[14px] font-roboto font-[400] text-[#00000086]
+    .head-1{
+      @apply md:text-[56px] text-[40px] leading-[61.6px] font-[700];
     }
-    .detail-text{
-      @apply text-[16px] font-roboto font-[400] text-[#000000af]
+    .head-2{
+      @apply md:text-[48px] text-[32px] md:leading-[52.8px] leading-[35.2px] font-[700] text-[#000000CC];
     }
-    .large-header{
-      @apply md:text-[56px] text-[30px] text-[#2F5318] font-lato font-semibold
+    .head-3{
+      @apply text-[40px] leading-[44px] font-[700];
     }
-    .semi-header{
-      @apply md:text-[48px] text-[32px] text-[#000000CC] font-lato font-semibold
+    .head-4{
+      @apply text-[32px] leading-[35.2px] font-[700];
     }
-    .small-header{
-      @apply text-[20px] font-roboto font-semibold text-[#000000CC]
+    .head-5{
+      @apply text-[24px] leading-[26.4px] font-[700];
     }
-    .medium-header{
-      @apply text-[32px] font-roboto font-semibold text-[#000000CC]
+    .head-6{
+      @apply text-[20px] leading-[22px] font-[700];
+    }
+
+    .bold-para-1{
+      @apply text-xl leading-[28px] font-[700] font-roboto;
+    }
+     .bold-para-2{
+      @apply text-[18px] leading-[29.2px] font-[700] font-roboto;
+    }
+      .bold-para-3{
+      @apply text-[16px] leading-[22.4px] font-[700] font-roboto;
+    }
+    .para-1{
+      @apply text-xl leading-[28px] font-[400] font-roboto text-[#000000CC];
+    }
+    .para-2{
+      @apply text-[18px] leading-[29.2px] font-[400] font-roboto;
+    }
+    .para-2-3{
+      @apply text-[16px] leading-[29.2px] font-[400] font-roboto;
+    }
+    .para-3{
+      @apply text-[16px] leading-[22.4px] font-[400] font-roboto;
+    }
+    .para-4{
+      @apply text-[14px] leading-[19.6px] font-[400] font-roboto;
+    }
+
+    .section{
+      @apply pt-[100px] md:px-[120px] px-[25px] ;
+    }
+    .section-with-bg{
+      @apply mt-[100px]  md:px-[120px] px-[25px] py-[60px];
+    }
+    .header{
+      @apply pb-[60px]
     }
   }
 

@@ -30,37 +30,6 @@ const RegisterForm = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
 
-  // Modal state and payment URL
-  const [paymentUrl, setPaymentUrl] = useState<string | null>(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  // Track if user has copied the link (required to close modal)
-  const [hasCopied, setHasCopied] = useState(false);
-
-  // On mount, check if modal open state + payment URL saved in localStorage
-  useEffect(() => {
-    const savedUrl = localStorage.getItem("paymentUrl");
-    const modalOpen = localStorage.getItem("isModalOpen") === "true";
-    const copied = localStorage.getItem("hasCopied") === "true";
-    if (modalOpen && savedUrl) {
-      setPaymentUrl(savedUrl);
-      setIsModalOpen(true);
-      setHasCopied(copied);
-    }
-  }, []);
-
-  // When modal opens or paymentUrl changes, save to localStorage
-  useEffect(() => {
-    if (isModalOpen && paymentUrl) {
-      localStorage.setItem("paymentUrl", paymentUrl);
-      localStorage.setItem("isModalOpen", "true");
-      localStorage.setItem("hasCopied", hasCopied ? "true" : "false");
-    } else {
-      localStorage.removeItem("paymentUrl");
-      localStorage.removeItem("isModalOpen");
-      localStorage.removeItem("hasCopied");
-    }
-  }, [isModalOpen, paymentUrl, hasCopied]);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData((prev) => ({
@@ -76,10 +45,13 @@ const RegisterForm = () => {
     }
   };
 
-  const handleCheckboxChange = (checked: boolean) => {
+  const handleCheckboxChange = (checked: boolean | string) => {
+    // Ensure checked is always a boolean
+    const isChecked = typeof checked === 'string' ? checked === 'true' : checked;
+    
     setFormData((prev) => ({
       ...prev,
-      agreeTerms: checked,
+      agreeTerms: isChecked,
     }));
     
     if (errors.agreeTerms) {
@@ -128,30 +100,6 @@ const RegisterForm = () => {
     );
   };
 
-  const handleCopy = () => {
-    if (!paymentUrl) return;
-    navigator.clipboard.writeText(paymentUrl).then(() => {
-      setHasCopied(true);
-      localStorage.setItem("hasCopied", "true");
-      toast.success("Link copied! You can now close the modal.");
-    }).catch(() => {
-      toast.error("Unable to copy link to clipboard. Please select and copy manually.");
-    });
-  };
-
-  const handleCloseModal = () => {
-    if (!hasCopied) {
-      toast.error("Please copy the payment link before closing this window.");
-      return;
-    }
-    setIsModalOpen(false);
-    setPaymentUrl(null);
-    setHasCopied(false);
-    localStorage.removeItem("paymentUrl");
-    localStorage.removeItem("isModalOpen");
-    localStorage.removeItem("hasCopied");
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -178,12 +126,14 @@ const RegisterForm = () => {
         result.status === "pending_payment" &&
         typeof result.payment_url === "string"
       ) {
-        // Show modal with payment link instead of redirect
-        setPaymentUrl(result.payment_url);
-        setIsModalOpen(true);
-        setHasCopied(false);
+        // Show success message and redirect to Paystack
+        toast.success("Registration submitted! Redirecting to payment...");
         
-        toast.success("Registration submitted! Please complete your payment to finish registration.");
+        // Small delay to show the toast, then redirect
+        setTimeout(() => {
+          window.location.href = result.payment_url;
+        }, 1500);
+        
       } else if (result.success) {
         toast.success("Registration successful! Redirecting to login...");
         
@@ -203,235 +153,192 @@ const RegisterForm = () => {
   };
 
   return (
-    <>
-      <div className="max-w-[996px] mx-auto bg-white rounded-2xl shadow-lg p-8">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Full Name */}
-            <div className="space-y-2">
-              <Label htmlFor="fullName">
-                Full Name <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="fullName"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
-                className={errors.fullName ? "border-red-500" : ""}
-              />
-              {errors.fullName && (
-                <p className="text-sm text-red-500">{errors.fullName}</p>
-              )}
-            </div>
-
-            {/* Email */}
-            <div className="space-y-2">
-              <Label htmlFor="email">
-                Email Address <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                className={errors.email ? "border-red-500" : ""}
-              />
-              {errors.email && (
-                <p className="text-sm text-red-500">{errors.email}</p>
-              )}
-            </div>
-
-            {/* Phone */}
-            <div className="space-y-2">
-              <Label htmlFor="phone">
-                Phone Number <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="phone"
-                name="phone"
-                type="tel"
-                placeholder="+234"
-                value={formData.phone}
-                onChange={handleChange}
-                className={errors.phone ? "border-red-500" : ""}
-              />
-              {errors.phone && (
-                <p className="text-sm text-red-500">{errors.phone}</p>
-              )}
-            </div>
-
-            {/* Referral Code */}
-            <div className="space-y-2">
-              <Label htmlFor="referralCode">
-                Referral Code <span className="text-gray-400">(optional)</span>
-              </Label>
-              <Input
-                id="referralCode"
-                name="referralCode"
-                value={formData.referralCode}
-                onChange={handleChange}
-              />
-            </div>
-
-            {/* Username */}
-            <div className="space-y-2 md:col-span-2">
-              <Label htmlFor="username">
-                Username <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                className={errors.username ? "border-red-500" : ""}
-              />
-              {errors.username && (
-                <p className="text-sm text-red-500">{errors.username}</p>
-              )}
-            </div>
-
-            {/* Password */}
-            <div className="space-y-2">
-              <Label htmlFor="password">
-                Password <span className="text-red-500">*</span>
-              </Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  value={formData.password}
-                  onChange={handleChange}
-                  className={errors.password ? "border-red-500" : ""}
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <EyeOff className="w-5 h-5 text-gray-400 hover:text-gray-600" />
-                  ) : (
-                    <Eye className="w-5 h-5 text-gray-400 hover:text-gray-600" />
-                  )}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-sm text-red-500">{errors.password}</p>
-              )}
-            </div>
-
-            {/* Confirm Password */}
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">
-                Confirm Password <span className="text-red-500">*</span>
-              </Label>
-              <div className="relative">
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  className={errors.confirmPassword ? "border-red-500" : ""}
-                />
-                <button
-                  type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                >
-                  {showConfirmPassword ? (
-                    <EyeOff className="w-5 h-5 text-gray-400 hover:text-gray-600" />
-                  ) : (
-                    <Eye className="w-5 h-5 text-gray-400 hover:text-gray-600" />
-                  )}
-                </button>
-              </div>
-              {errors.confirmPassword && (
-                <p className="text-sm text-red-500">{errors.confirmPassword}</p>
-              )}
-            </div>
-          </div>
-
-          {/* Agree to Terms - FIXED */}
-          <div className="flex items-center space-x-2">
-            <Checkbox 
-              id="agreeTerms" 
-              checked={formData.agreeTerms}
-              onCheckedChange={handleCheckboxChange}
-            />
-            <Label htmlFor="agreeTerms" className="text-sm">
-              I agree to the{" "}
-              <Link href="/terms" target="_blank" className="underline text-primary">
-                terms and conditions
-              </Link>
-              .
+    <div className="max-w-[996px] mx-auto bg-white rounded-2xl shadow-lg p-8">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Full Name */}
+          <div className="space-y-2">
+            <Label htmlFor="fullName">
+              Full Name <span className="text-red-500">*</span>
             </Label>
+            <Input
+              id="fullName"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              className={errors.fullName ? "border-red-500" : ""}
+            />
+            {errors.fullName && (
+              <p className="text-sm text-red-500">{errors.fullName}</p>
+            )}
           </div>
-          {errors.agreeTerms && (
-            <p className="text-sm text-red-500">{errors.agreeTerms}</p>
-          )}
 
-          {/* Register Button */}
-          <Button
-            type="submit"
-            // disabled={!isFormValid() || isLoading}
-            className="w-full py-4 h-[50px] bg-[#2F5318]"
-          >
-            {isLoading ? "Registering..." : "Register"}
-          </Button>
-        </form>
+          {/* Email */}
+          <div className="space-y-2">
+            <Label htmlFor="email">
+              Email Address <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              id="email"
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              className={errors.email ? "border-red-500" : ""}
+            />
+            {errors.email && (
+              <p className="text-sm text-red-500">{errors.email}</p>
+            )}
+          </div>
 
-        <div className="mt-6 text-start text-gray-600">
-          Already a member?{" "}
-          <Link href="/login" className="text-[#2F5318] underline">
-            Login
-          </Link>
+          {/* Phone */}
+          <div className="space-y-2">
+            <Label htmlFor="phone">
+              Phone Number <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              id="phone"
+              name="phone"
+              type="tel"
+              placeholder="+234"
+              value={formData.phone}
+              onChange={handleChange}
+              className={errors.phone ? "border-red-500" : ""}
+            />
+            {errors.phone && (
+              <p className="text-sm text-red-500">{errors.phone}</p>
+            )}
+          </div>
+
+          {/* Referral Code */}
+          <div className="space-y-2">
+            <Label htmlFor="referralCode">
+              Referral Code <span className="text-gray-400">(optional)</span>
+            </Label>
+            <Input
+              id="referralCode"
+              name="referralCode"
+              value={formData.referralCode}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* Username */}
+          <div className="space-y-2 md:col-span-2">
+            <Label htmlFor="username">
+              Username <span className="text-red-500">*</span>
+            </Label>
+            <Input
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              className={errors.username ? "border-red-500" : ""}
+            />
+            {errors.username && (
+              <p className="text-sm text-red-500">{errors.username}</p>
+            )}
+          </div>
+
+          {/* Password */}
+          <div className="space-y-2">
+            <Label htmlFor="password">
+              Password <span className="text-red-500">*</span>
+            </Label>
+            <div className="relative">
+              <Input
+                id="password"
+                name="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={handleChange}
+                className={errors.password ? "border-red-500" : ""}
+              />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="w-5 h-5 text-gray-400 hover:text-gray-600" />
+                ) : (
+                  <Eye className="w-5 h-5 text-gray-400 hover:text-gray-600" />
+                )}
+              </button>
+            </div>
+            {errors.password && (
+              <p className="text-sm text-red-500">{errors.password}</p>
+            )}
+          </div>
+
+          {/* Confirm Password */}
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword">
+              Confirm Password <span className="text-red-500">*</span>
+            </Label>
+            <div className="relative">
+              <Input
+                id="confirmPassword"
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className={errors.confirmPassword ? "border-red-500" : ""}
+              />
+              <button
+                type="button"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                {showConfirmPassword ? (
+                  <EyeOff className="w-5 h-5 text-gray-400 hover:text-gray-600" />
+                ) : (
+                  <Eye className="w-5 h-5 text-gray-400 hover:text-gray-600" />
+                )}
+              </button>
+            </div>
+            {errors.confirmPassword && (
+              <p className="text-sm text-red-500">{errors.confirmPassword}</p>
+            )}
+          </div>
         </div>
 
-        {/* Modal for payment link */}
-        {isModalOpen && paymentUrl && (
-          <div
-            className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
-            // Prevent closing modal by clicking backdrop
-            onClick={() => {
-              toast.error("Please copy the payment link before closing this window.");
-            }}
-          >
-            <div
-              className="bg-white p-6 rounded-lg max-w-md w-full"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h2 className="text-lg font-bold mb-4">Complete Payment</h2>
-              <p className="mb-4">
-                Please complete your payment by visiting the link below:
-              </p>
-              <input
-                type="text"
-                readOnly
-                value={paymentUrl}
-                className="w-full p-2 border border-gray-300 rounded mb-4 select-all"
-                onClick={(e) => (e.currentTarget as HTMLInputElement).select()}
-              />
-              <div className="flex space-x-4">
-                <Button onClick={handleCopy} className="flex-1">
-                  {hasCopied ? "Copied!" : "Copy Link"}
-                </Button>
-                <Button
-                  onClick={handleCloseModal}
-                  disabled={!hasCopied}
-                  variant="secondary"
-                  className="flex-1"
-                >
-                  Close
-                </Button>
-              </div>
-            </div>
-          </div>
+        {/* Agree to Terms */}
+        <div className="flex items-center space-x-2">
+          <Checkbox 
+            id="agreeTerms" 
+            checked={formData.agreeTerms}
+            onCheckedChange={handleCheckboxChange}
+          />
+          <Label htmlFor="agreeTerms" className="text-sm">
+            I agree to the{" "}
+            <Link href="/terms" target="_blank" className="underline text-primary">
+              terms and conditions
+            </Link>
+            .
+          </Label>
+        </div>
+        {errors.agreeTerms && (
+          <p className="text-sm text-red-500">{errors.agreeTerms}</p>
         )}
+
+        {/* Register Button */}
+        <Button
+          type="submit"
+          disabled={!isFormValid() || isLoading}
+          className="w-full py-4 h-[50px] bg-[#2F5318]"
+        >
+          {isLoading ? "Registering..." : "Register"}
+        </Button>
+      </form>
+
+      <div className="mt-6 text-start text-gray-600">
+        Already a member?{" "}
+        <Link href="/login" className="text-[#2F5318] underline">
+          Login
+        </Link>
       </div>
-    </>
+    </div>
   );
 };
 

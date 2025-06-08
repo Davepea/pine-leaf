@@ -216,35 +216,35 @@ const PropertyDetailPage: React.FC = () => {
             <div className="bg-white">
               {/* Property Header */}
               <div className="mb-8">
-                <h2 className="text-[40px] font-bold text-[#2F5318CC] mb-1">Pineleaf</h2>
-                <h3 className="text-[32px] text-gray-700 mb-4">{property.name}</h3>
+                <h2 className="head-3 text-[#2F5318CC] ">Pineleaf</h2>
+                <h3 className="head-4 text-gray-700 mb-[32px]">{property.name}</h3>
                 <p className="text-xl text-black opacity-90">{formatPrice(property.price)}</p>
 
                 
-                <p className="text-gray-600 leading-relaxed text-[16px]">
+                <p className="text-gray-600 para-2-3">
                   {property.description}
                 </p>
               </div>
 
               {/* Landmarks Section */}
               <div className="mb-8">
-                <h4 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
+                <h4 className="head-6 text-gray-900 mb-4 flex items-center">
                   Landmarks
                 </h4>
                 <div className="space-y-3 text-lg">
                   <div className="flex items-center text-gray-600 py-2 border-b border-[#C6CCD2]">
                     <Map className="w-4 h-4 mr-2 mt-0.5 text-[#4D794F]" />
-                    <div>
+                    <div className='para-2 leading-[25.2px]'>
                       <span className="font-[700]">Location:</span> {landmarks[0] || "Umuawulu, Awka South, Anambra State"}
                     </div>
                   </div>
                   <div className="flex items-center text-gray-600 py-2 border-b border-[#C6CCD2]">
                     <MdLocalTaxi className="w-4 h-4 mr-2 mt-0.5 text-[#4D794F]" />
-                    <span>{landmarks[1] || "5 mins drive from CBN Quarters and Oranwezkuiku Pineleaf Estate Awka"}</span>
+                    <span  className='para-2 leading-[25.2px]'>{landmarks[1] || "5 mins drive from CBN Quarters and Oranwezkuiku Pineleaf Estate Awka"}</span>
                   </div>
                   <div className="flex items-center text-gray-600 py-2 border-b border-[#C6CCD2]">
                     <MdLocalTaxi className="w-4 h-4 mr-2 mt-0.5 text-[#4D794F]" />
-                    <span>{landmarks[2] || "3 minutes drive from ukwu oji"}</span>
+                    <span className='para-2 leading-[25.2px]'>{landmarks[2] || "3 minutes drive from ukwu oji"}</span>
                   </div>
                 </div>
               </div>

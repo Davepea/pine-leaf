@@ -284,7 +284,7 @@
       @apply md:text-[48px] text-[32px] md:leading-[52.8px] leading-[35.2px] font-[700] text-[#000000CC];
     }
     .head-3{
-      @apply text-[40px] leading-[44px] font-[700];
+      @apply md:text-[40px] text-[32px] leading-[44px] font-[700];
     }
     .head-4{
       @apply text-[32px] leading-[35.2px] font-[700];

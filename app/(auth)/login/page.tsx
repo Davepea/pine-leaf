@@ -9,7 +9,7 @@ import LoginForm from '@/components/LoginForm';
 import axios from 'axios';
 import { setToken } from '@/lib/auth'
 import { toast } from 'sonner';
-import { GoArrowLeft } from 'react-icons/go';
+import { LiaArrowLeftSolid } from 'react-icons/lia';
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
@@ -76,10 +76,10 @@ const LoginPage: React.FC = () => {
             <h1 className="text-4xl font-bold mb-6 large-header !text-white">Welcome back</h1>
             <div className="flex items-center gap-[14px] text-white">
               <Link href="/"><span className="hover:underline cursor-pointer">Home</span></Link>
-                            <GoArrowLeft size={24} className='text-white' />
+                             <LiaArrowLeftSolid strokeWidth={1.5} size={24} className='text-white' />
               
               <Link href="/register"><span className="hover:underline cursor-pointer">Register</span></Link>
-                            <GoArrowLeft size={24} className='text-white' />
+                             <LiaArrowLeftSolid strokeWidth={1.5} size={24} className='text-white' />
               
               <span className="font-medium text-[#FBBF00]">Login</span>
             </div>

@@ -5,9 +5,9 @@ import { gsap } from 'gsap';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
-import { GoArrowLeft } from 'react-icons/go';
+import { LiaArrowLeftSolid } from 'react-icons/lia';
+import { Loader2 } from 'lucide-react';
 
 interface FormData {
   fullName: string;
@@ -201,7 +201,7 @@ const BookConsultation: React.FC = () => {
             <h1 className="mb-6 head-1 !text-white">Book Consultation</h1>
             <div className="flex justify-center gap-[14px] text-sm items-center">
               <Link href="/" className="hover:underline para-3">Home</Link>
-              <GoArrowLeft size={24} className='text-white font-bold' />
+               <LiaArrowLeftSolid strokeWidth={1.5} size={24} className='text-white' />
               <Link href="/register" className="hover:underline para-3 text-[#FBBF00] !font-[700]">Book</Link>
             </div>
           </div>

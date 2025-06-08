@@ -3,7 +3,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import RegisterForm from '@/components/RegisterForm'
-import { GoArrowLeft } from 'react-icons/go';
+import { LiaArrowLeftSolid } from 'react-icons/lia';
 
 
 const Home: NextPage = () => {
@@ -31,11 +31,12 @@ const Home: NextPage = () => {
              <div className="flex justify-center items-center gap-[14px]">
               <Link href="/" className="hover:underline para-3 text-white">Home
               </Link>
-              <GoArrowLeft size={24} className='text-white' />
+
+              <LiaArrowLeftSolid strokeWidth={1.5} size={24} className='text-white' />
               
               <Link href="/register" className="hover:underline para-3 text-[#FBBF00] !font-[700]">Register
               </Link>
-              <GoArrowLeft size={24} className='text-white' />
+               <LiaArrowLeftSolid strokeWidth={1.5} size={24} className='text-white' />
 
               <Link href="/login" className="hover:underline para-3 text-white">Login
               </Link>

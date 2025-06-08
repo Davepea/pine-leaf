@@ -4,7 +4,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FaUsers, FaTree, FaChartLine, FaWallet, FaCheck, FaHandshake } from 'react-icons/fa';
-import { GoArrowLeft } from "react-icons/go";
+import { LiaArrowLeftSolid } from 'react-icons/lia';
 
 
 const Home: NextPage = () => {
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
               <Link href="/" className="text-white para-4  hover:text-green-100">
                 Home
               </Link>
-              <GoArrowLeft size={24} className='text-white' />
+               <LiaArrowLeftSolid strokeWidth={1.5} size={24} className='text-white' />
 
               <Link href="/pprm" className="text-[#FBBF00] font-[700] para-4 hover:text-green-100">
                 PRRM

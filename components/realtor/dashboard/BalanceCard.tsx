@@ -102,7 +102,7 @@ const balance = [
 						</div>
 					</div>
 					<h2 className="text-[#2F5318] font-bold md:text-[32px] text-xl">
-						{bal.amount}
+						N	{bal.amount}
 					</h2>
 				</div>
 			))}

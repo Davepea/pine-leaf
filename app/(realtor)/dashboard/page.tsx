@@ -18,7 +18,7 @@ const RealtorDashboard = () => {
             try{
                 const response = await fetchEachUser()
                 if (response.status === 200) {
-                    setProfile(response.data.user)
+                    setProfile(response.data?.data.user)
                 } else {
                     console.error('Failed to fetch user data:', response.data.message)
                 }

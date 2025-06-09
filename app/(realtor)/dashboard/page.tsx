@@ -19,14 +19,14 @@ const RealtorDashboard = () => {
                 // console.log('User data fetched successfully:', response.data);
                 // console.log('====================================');
                 if (response.status === 200) {
-                    localStorage.setItem('user', JSON.stringify(response.data))
+                    window.localStorage.setItem('user', JSON.stringify(response.data))
                     setUser(response.data.data)
                 } else {
                     console.error('Failed to fetch user data:', response.data.message)
                 }
             } catch (error: any) {
                 if(error.status.toString() === '401') {
-                    localStorage.removeItem('user')
+                    window.localStorage.removeItem('user')
                     router.push('/login')
                 }
                 console.error('Error fetching user data:', error)

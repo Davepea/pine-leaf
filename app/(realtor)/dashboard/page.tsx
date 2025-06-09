@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect} from 'react'
 import { useRouter } from 'next/navigation'
+import { useLocalStorage } from '@/hooks/useLocalStorage'
 import BalanceCard from '@/components/realtor/dashboard/BalanceCard'
 import Properties from '@/components/realtor/Properties'
 import Header from '@/components/realtor/Header'
@@ -9,28 +10,25 @@ import DashboardTable from '@/components/realtor/table/DashboardTable'
 import { fetchEachUser } from '@/utils/axiosInstance'
 
 const RealtorDashboard = () => {
-  const [user, setUser] = useState<any>(null)
+  const [user, setUser, removeUser, isClient] = useLocalStorage('user', null)
   const router = useRouter()
 
   useEffect(() => {
+    if (!isClient) return
+
     const fetchUserData = async () => {
       try {
         const response = await fetchEachUser()
 
         if (response.status === 200) {
           const userData = response.data.data
-          if (typeof window !== 'undefined') {
-            localStorage.setItem('user', JSON.stringify(userData))
-          }
           setUser(userData)
         } else {
           console.error('Failed to fetch user data:', response.data.message)
         }
       } catch (error: any) {
         if (error?.status?.toString() === '401') {
-          if (typeof window !== 'undefined') {
-            localStorage.removeItem('user')
-          }
+          removeUser()
           router.push('/login')
         }
         console.error('Error fetching user data:', error)
@@ -38,7 +36,17 @@ const RealtorDashboard = () => {
     }
 
     fetchUserData()
-  }, [router])
+  }, [router, isClient, setUser, removeUser])
+
+  if (!isClient) {
+    return (
+      <div className="md:px-10 px-6 w-full h-screen overflow-y-scroll">
+        <div className="flex items-center justify-center h-full">
+          <div className="text-lg">Loading...</div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="md:px-10 px-6 w-full h-screen overflow-y-scroll">

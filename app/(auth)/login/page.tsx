@@ -27,32 +27,63 @@ const LoginPage: React.FC = () => {
         }
       );
 
-      const token = response.data?.data?.token
-      const role = response.data?.data?.user?.role;
+      const token = response.data?.token;
+      const role = response.data?.user?.role;
+      const userData = response.data?.user;
 
+      // Enhanced debugging
+      console.log('Full API Response:', response.data);
+      console.log('Token:', token);
       console.log('Role:', role);
-
+      console.log('Role type:', typeof role);
+      console.log('User data:', userData);
 
       if (token) {
-        setToken(response.data.data.token)
-        localStorage.setItem('token', response.data.data.token);
+        // Store token using both methods
+        setToken(token);
+        localStorage.setItem('token', token);
+        
+        // Store user data in localStorage
+        localStorage.setItem('user', JSON.stringify(userData));
+        
+        // Verify token was stored
+        console.log('Token stored:', localStorage.getItem('token'));
       }
 
       toast.success('Login successful!');
 
-      if (role === "admin") {
-        router.push('/admin/dashboard');
-        console.log(role);
-
-
+      // Clean the role to handle any whitespace issues
+      const cleanRole = role?.toString().trim().toLowerCase();
+      
+      if (cleanRole === "admin") {
+        console.log('Redirecting to admin dashboard');
+        // Use setTimeout to ensure token is stored before navigation
+        setTimeout(() => {
+          router.push('/admin/dashboard');
+        }, 100);
+      } else if (cleanRole === "user") {
+        console.log('Redirecting to user dashboard');
+        console.log('Current pathname before redirect:', window.location.pathname);
+        
+        // Use setTimeout to ensure token is stored before navigation
+        setTimeout(() => {
+          router.push('/dashboard');
+          console.log('Navigation to dashboard initiated');
+        }, 100);
+      } else {
+        console.log('Unknown role:', cleanRole);
+        toast.error('Invalid user role. Please contact support.');
       }
-      else if (role === "user") {
-        router.push('/dashboard');
 
-      }
-    } catch (error) {
-
-      toast.error(error.response?.data?.message || 'Login failed. Please try again.')
+    } catch (error: any) {
+      console.error('Login error:', error);
+      
+      // Enhanced error handling
+      const errorMessage = error.response?.data?.message || 
+                          error.response?.data?.error || 
+                          'Login failed. Please try again.';
+      
+      toast.error(errorMessage);
     }
   };
 
@@ -72,14 +103,18 @@ const LoginPage: React.FC = () => {
             objectFit="cover"
             priority
           />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white\ bg-opacity-30">
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-30">
             <h1 className="text-4xl font-bold mb-6 large-header !text-white">Welcome back</h1>
             <div className="flex items-center gap-[14px] text-white">
-              <Link href="/"><span className="hover:underline cursor-pointer">Home</span></Link>
-                             <LiaArrowLeftSolid strokeWidth={1.5} size={24} className='text-white' />
+              <Link href="/">
+                <span className="hover:underline cursor-pointer">Home</span>
+              </Link>
+              <LiaArrowLeftSolid strokeWidth={1.5} size={24} className='text-white' />
               
-              <Link href="/register"><span className="hover:underline cursor-pointer">Register</span></Link>
-                             <LiaArrowLeftSolid strokeWidth={1.5} size={24} className='text-white' />
+              <Link href="/register">
+                <span className="hover:underline cursor-pointer">Register</span>
+              </Link>
+              <LiaArrowLeftSolid strokeWidth={1.5} size={24} className='text-white' />
               
               <span className="font-medium text-[#FBBF00]">Login</span>
             </div>

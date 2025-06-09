@@ -1,4 +1,5 @@
 // lib/auth.ts
+"use client"
 interface User {
 	id: number;
 	account_name: string;

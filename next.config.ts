@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
   images: {
     domains: ['pineleaflaravel.sunmence.com.ng'],
   },
-
+  
   eslint: {
     ignoreDuringBuilds: true, // Skip ESLint during `next build`
   },

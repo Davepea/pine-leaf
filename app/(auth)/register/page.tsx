@@ -27,7 +27,7 @@ const Home: NextPage = () => {
             priority
           />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-white\ bg-opacity-30">
-            <h1 className="text-4xl font-bold mb-6 large-header !text-white">Get Started with Pineleaf</h1>
+            <h1 className="text-4xl font-bold mb-6 large-header !text-white text-center">Get Started with Pineleaf</h1>
              <div className="flex justify-center items-center gap-[14px]">
               <Link href="/" className="hover:underline para-3 text-white">Home
               </Link>

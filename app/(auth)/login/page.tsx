@@ -10,9 +10,11 @@ import axios from 'axios';
 import { setToken } from '@/lib/auth'
 import { toast } from 'sonner';
 import { LiaArrowLeftSolid } from 'react-icons/lia';
+import { useAuth } from '@/app/context/AuthContext';
 
 const LoginPage: React.FC = () => {
   const router = useRouter();
+  const { login} = useAuth()
 
   const handleLoginSubmit = async (emailOrPhone: string, password: string) => {
     try {
@@ -31,17 +33,21 @@ const LoginPage: React.FC = () => {
       const role = response.data?.user?.role;
       const userData = response.data?.user;
 
-      // Enhanced debugging
-      console.log('Full API Response:', response.data);
-      console.log('Token:', token);
-      console.log('Role:', role);
-      console.log('Role type:', typeof role);
-      console.log('User data:', userData);
+      
 
-      if (token) {
+      // Enhanced debugging
+      // console.log('Full API Response:', response.data);
+      // console.log('Token:', token);
+      // console.log('Role:', role);
+      // console.log('Role type:', typeof role);
+      // console.log('User data:', userData);
+
+      if (userData && token) {
         // Store token using both methods
         setToken(token);
         localStorage.setItem('token', token);
+
+        login(userData, token);
         
         // Store user data in localStorage
         localStorage.setItem('user', JSON.stringify(userData));

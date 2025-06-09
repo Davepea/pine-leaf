@@ -7,26 +7,23 @@ import DashboardTable from '@/components/realtor/table/DashboardTable'
 import React, { useEffect } from 'react'
 import { fetchEachUser } from '@/utils/axiosInstance'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '@/app/context/AuthContext'
 
 const RealtorDashboard = () => {
-    const [user, setUser] = React.useState(null)
+    // const [user, setUser] = React.useState(null)
+    const {setProfile} = useAuth()
     const router = useRouter()
     useEffect(()=>{
         const fetchUserData = async () => {
             try{
                 const response = await fetchEachUser()
-                // console.log('====================================');
-                // console.log('User data fetched successfully:', response.data);
-                // console.log('====================================');
                 if (response.status === 200) {
-                    localStorage.setItem('user', JSON.stringify(response.data))
-                    setUser(response.data.data)
+                    setProfile(response.data.user)
                 } else {
                     console.error('Failed to fetch user data:', response.data.message)
                 }
             } catch (error: any) {
                 if(error.status.toString() === '401') {
-                    localStorage.removeItem('user')
                     router.push('/login')
                 }
                 console.error('Error fetching user data:', error)

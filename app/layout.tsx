@@ -3,6 +3,7 @@ import { Lato, Montserrat, Roboto } from "next/font/google";
 import "./globals.css";
 import ClientWrapper from "@/components/ClientWrapper"; // make sure this path is correct
 import { Toaster } from "@/components/ui/sonner";
+import { AuthProvider } from "./context/AuthContext";
 
 const lato = Lato({
   variable: "--font-lato",
@@ -32,8 +33,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${lato.variable} ${montserrat.variable} ${roboto.variable} antialiased`}>
-        <ClientWrapper>{children}</ClientWrapper>
+      <AuthProvider>
+           <ClientWrapper>{children}</ClientWrapper>
          <Toaster richColors />
+      </AuthProvider>
       </body>
     </html>
   );

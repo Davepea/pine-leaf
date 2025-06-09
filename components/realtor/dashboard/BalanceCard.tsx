@@ -1,7 +1,11 @@
-import { getUser } from '@/lib/auth';
+import { useAuth } from '@/app/context/AuthContext';
 import React from 'react';
 
-const user = getUser();
+
+
+const BalanceCard = () => {
+const {user } = useAuth()
+
 const balance = [
 	{
 		id: 1,
@@ -32,7 +36,7 @@ const balance = [
 				</defs>
 			</svg>
 		),
-		amount: user.balance,
+		amount: user?.balance,
 	},
 	{
 		id: 2,
@@ -58,7 +62,7 @@ const balance = [
 				/>
 			</svg>
 		),
-		amount: user.referral_bonus,
+		amount: user?.referral_bonus,
 	},
 	{
 		id: 3,
@@ -78,10 +82,10 @@ const balance = [
 				/>
 			</svg>
 		),
-		amount: user.total_withdraw,
+		amount: user?.total_withdraw,
 	},
 ];
-const BalanceCard = () => {
+
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
 			{balance.map((bal) => (

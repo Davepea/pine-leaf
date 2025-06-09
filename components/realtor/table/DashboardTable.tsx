@@ -1,3 +1,4 @@
+import { useAuth } from '@/app/context/AuthContext';
 import { getUser } from '@/lib/auth';
 import { fetchNotification } from '@/utils/axiosInstance';
 import Link from 'next/link';
@@ -5,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { MdOutlineArrowOutward } from 'react-icons/md';
 
 const DashboardTable = () => {
-	const user = getUser();
+	const {user} = useAuth()
 	const [notifications, setNotifications] = useState([]);
 	useEffect(() => {
 		const fetchData = async () => {

@@ -109,7 +109,7 @@ const LoginPage: React.FC = () => {
             objectFit="cover"
             priority
           />
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-black bg-opacity-30">
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-white bg-opacity-30">
             <h1 className="text-4xl font-bold mb-6 large-header !text-white">Welcome back</h1>
             <div className="flex items-center gap-[14px] text-white">
               <Link href="/">

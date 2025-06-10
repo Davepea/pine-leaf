@@ -87,11 +87,11 @@ const BalanceCard = () => {
 	];
 
 	return (
-		<div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 md:gap-3 gap-2">
+		<div className="md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-3 flex overflow-x-auto scrollbar-hide gap-2 pb-2">
 			{balance.map((bal) => (
 				<div
 					key={bal.id}
-					className="w-full flex flex-col gap-4 md:p-4 px-3 py-4 bg-white rounded-[10px]"
+					className="w-full md:w-auto flex-shrink-0 min-w-[280px] md:min-w-0 flex flex-col gap-4 md:p-4 px-3 py-4 bg-white rounded-[10px]"
 				>
 					<div className="w-full flex justify-between items-center">
 						<small className="md:text-base text-xs font-normal text-[#000000]/80">

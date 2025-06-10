@@ -5,7 +5,7 @@ import { withdraw } from '@/utils/axiosInstance';
 import { useAuth } from '@/app/context/AuthContext';
 
 const WithdrawForm = () => {
-	const {user }= useAuth()
+	const { user } = useAuth()
 
 	const formik = useFormik({
 		initialValues: {
